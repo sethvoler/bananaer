@@ -1,0 +1,43 @@
+{
+  "name": "banannerApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "bundle-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.ios.jsbundle --assets-dest ./ios/bundle"
+  },
+  "dependencies": {
+    "mobx": "^5.9.0",
+    "mobx-react": "^5.4.3",
+    "react": "16.8.3",
+    "react-native": "0.59.1",
+    "react-native-gesture-handler": "^1.0.17",
+    "react-native-linear-gradient": "^2.5.4",
+    "react-native-page-scrollview": "^1.0.1",
+    "react-native-shadow": "^1.2.2",
+    "react-native-svg": "^9.3.5",
+    "react-native-swiper": "^1.5.14",
+    "react-native-vector-icons": "^6.4.1",
+    "react-navigation": "^3.4.1",
+    "react-navigation-redux-helpers": "^3.0.0",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-actions": "^2.6.5",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
+    "babel-jest": "^24.5.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "jest": "^24.5.0",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-test-renderer": "16.8.3",
+    "redux-devtools": "^3.5.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
