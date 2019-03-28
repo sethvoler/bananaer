@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, BVLinearGradient, Image} from 'react-native';
+import {StyleSheet, Text, View, BVLinearGradient, Image, Button} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
 import LinearGradient from 'react-native-linear-gradient';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
@@ -17,9 +17,9 @@ export default class WelcomePage extends Component<Props> {
   componentDidMount () {
     let _ = this;
     this.timer = setTimeout(() => {
-      NavigationUtil.resetToHomePage({
+      NavigationUtil.goToPage({
         navigation: this.props.navigation
-      });
+      }, 'FetchDemoPage');
     }, 7000);
     this.timer1 = setTimeout(() => {
       _.setState({

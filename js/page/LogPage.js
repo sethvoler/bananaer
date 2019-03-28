@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import {TextInput, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
+import {TextInput, AsyncStorage, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
 import actions from '../action';
+import Api from '../expand/api';
 
 type Props = {};
-export default class LogPage extends Component<Props> {
+const TOKEN = 'token';
+class LogPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,8 +19,28 @@ export default class LogPage extends Component<Props> {
   static navigationOptions = {
     header: null,
   }
+  loginApi (user) {
+    let _ = this;
+    Api.login(user, function(json) {
+      NavigationUtil.goToPage({navigation: _.props.navigation}, 'IndexPage');
+      _.props.logIn(1);
+      _.props.getPhone(user);
+      console.log('我是token:',json.data.token);
+      AsyncStorage.setItem(TOKEN, json.data.token, error => {
+        error && console.log(error.toString());
+      })
+      AsyncStorage.getItem(TOKEN, (error, value) => {
+        error && console.log(error.toString());
+        console.log('我是token:',value);
+      })
+      console.log('我的登录信息：',json);
+    })
+  }
   _success () {
-    NavigationUtil.goToPage({navigation: this.props.navigation}, 'IndexPage');
+    this.loginApi({
+      mobile: this.state.phone,
+      pwd: this.state.psw,
+    })
   }
   _phoneChange (data) {
     this.setState({
@@ -26,7 +48,6 @@ export default class LogPage extends Component<Props> {
     })
   }
   componentDidUpdate () {
-    this.props.logIn(1);
   }
   _pswChange (data) {
     this.setState({
@@ -52,6 +73,7 @@ export default class LogPage extends Component<Props> {
               maxLength={11} 
               placeholder={'请输入手机号'}
               onChangeText={(text) => {this._phoneChange(text)}}
+              autoCapitalize="none"
               style={styles.tel}/>
             <Image source={require('../res/image/ld.png')} style={styles.ld}></Image>
           </View>
@@ -61,6 +83,7 @@ export default class LogPage extends Component<Props> {
             placeholder={'请输入密码'} 
             password={true}
             onChangeText={(text) => {this._pswChange(text)}}
+            autoCapitalize="none"
             style={styles.psw}/>
           <Image source={require('../res/image/look.png')} style={styles.ldl}></Image>
         </View>
@@ -90,11 +113,14 @@ export default class LogPage extends Component<Props> {
   }
 };
 
-// const mapStateToProps = state => ({});
-// const mapDispatchToProps = dispatch => ({
-//   logIn: status => dispatch(actions.logIn(status))
-// });
-// export default connect(mapStateToProps, mapDispatchToProps)(LogPage);
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+const mapDispatchToProps = dispatch => ({
+  logIn: status => dispatch(actions.logIn(status)),
+  getPhone: user => dispatch(actions.getPhone(user))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(LogPage);
 
 const styles = StyleSheet.create({
   wrap: {

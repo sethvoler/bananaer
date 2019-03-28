@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import theme from './theme';
 import status from './login';
+import user from './user';
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 
 const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
@@ -14,6 +15,7 @@ const index = combineReducers({
   nav: navReducer,
   theme: theme,
   status: status,
+  user: user,
 });
 
 export default index;

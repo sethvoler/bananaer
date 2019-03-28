@@ -1,9 +1,11 @@
 
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, Alert, ScrollView} from 'react-native';
+import {Image, StyleSheet, Text, View, Alert, ScrollView, Button} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil'; 
 import MySwiper from '../common/MySwiper';
 import Video from '../common/Video';
+
+import NavigationUtil from '../navigator/NavigationUtil';
 
 type Props = {};
 export default class HomePage extends Component<Props> {
@@ -14,6 +16,19 @@ export default class HomePage extends Component<Props> {
   render () {
     return (
       <View style={styles.container}>
+      
+      {/* <Button title={'fetch'} style={{height: 600}} onPress={() => {
+          NavigationUtil.goToPage({
+            navigation: this.props.navigation
+          }, 'FetchDemoPage');}} />
+      <Button title={'AsyncStoragePage'} style={{height: 600}} onPress={() => {
+          NavigationUtil.goToPage({
+            navigation: this.props.navigation
+          }, 'AsyncStoragePage');}} />
+          <Button title={'离线缓存'} style={{height: 600}} onPress={() => {
+          NavigationUtil.goToPage({
+            navigation: this.props.navigation
+          }, 'DataStoreDemoPage');}} /> */}
         <ScrollView style={styles.wrap}>
           <View style={styles.box}>
             <MySwiper />
@@ -22,11 +37,13 @@ export default class HomePage extends Component<Props> {
           <Video
             isHeader={true}
             title={'最新片源'}
+            key={'最新片源'}
             num1={3}
             num2={2} />
           <Video
             isHeader={true}
             title={'重磅热播'}
+            key={'重磅热播'}
             num1={2}
             num2={2} />
           <View style={styles.change}>
@@ -40,11 +57,13 @@ export default class HomePage extends Component<Props> {
           <Video
             isHeader={true}
             title={'国产大剧'}
+            key={'国产大剧'}
             num1={3}
             num2={2} />
           <Video
             isHeader={true}
             title={'国产大剧'}
+            key={'国产大剧2'}
             num1={3}
             num2={2} />
           <View style={styles.line}></View>

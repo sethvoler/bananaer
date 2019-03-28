@@ -3,9 +3,11 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
+import actions from '../action';
 
 type Props = {};
-export default class SetUpPage extends Component<Props> {
+class SafePage extends Component<Props> {
   static navigationOptions = {
     //headerTitle: (<Text style={{ flex: 1, textAlign: 'center' }}>设置</Text>),
     headerBackTitle: null,
@@ -24,7 +26,7 @@ export default class SetUpPage extends Component<Props> {
           
             <View style={styles.item}>
               <Text style={styles.title}>账号</Text>
-              <Text style={styles.content}>17610268263</Text>
+              <Text style={styles.content}>{this.props.user.mobile}</Text>
             </View>  
           <TouchableOpacity onPress={() => {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'ChangePhonePage');
@@ -32,7 +34,7 @@ export default class SetUpPage extends Component<Props> {
             <View style={styles.item}>
               <Text style={styles.title}>手机号绑定</Text>
               <View style={styles.right}>
-                <Text style={styles.redContent}>17610268263</Text>
+                <Text style={styles.redContent}>{this.props.user.mobile}</Text>
                 <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
               </View>
             </View>
@@ -45,6 +47,14 @@ export default class SetUpPage extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+// const mapDispatchToProps = dispatch => ({
+//   getPhone: user => dispatch(actions.getPhone(user))
+// });
+export default connect(mapStateToProps)(SafePage);
 
 const styles = StyleSheet.create({
   wrap: {

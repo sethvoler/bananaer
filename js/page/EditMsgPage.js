@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import {TextInput, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
+import Api from '../expand/api';
 
 type Props = {};
-export default class EditMsgPage extends Component<Props> {
+class EditMsgPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,11 +20,14 @@ export default class EditMsgPage extends Component<Props> {
   static navigationOptions = {
     header: null,
   }
+  componentDidMount() {
+  }
   _select(sex) {
     this.setState({
       sex: sex
     })
   } 
+  
   render() {
     return (
       <View style={styles.wrap}>
@@ -64,6 +69,11 @@ export default class EditMsgPage extends Component<Props> {
     );
   }
 };
+
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+export default connect(mapStateToProps)(EditMsgPage);
 
 const styles = StyleSheet.create({
   wrap: {

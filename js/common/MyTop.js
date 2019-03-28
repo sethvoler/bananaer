@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
   },
   logSetIcon: {
     position: 'relative',
-    top: -40*unitWidth,
+    //top: -40*unitWidth,
+    top: -400*unitWidth,
     width: unitWidth*38,
     height: unitWidth*38,
   },

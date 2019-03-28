@@ -33,6 +33,9 @@ import ImgsPage from '../page/ImgsPage';
 import MorePage from '../page/MorePage';
 import PlayPage from '../page/PlayPage';
 import VipPage from '../page/VipPage';
+import FetchDemoPage from '../page/FetchDemoPage';
+import AsyncStoragePage from '../page/AsyncStoragePage';
+import DataStoreDemoPage from '../page/DataStoreDemoPage';
 
 import {connect} from 'react-redux';
 import {
@@ -67,6 +70,15 @@ const MainNavigator = createStackNavigator({
   },
   DetailPage: {
     screen: DetailPage
+  },
+  FetchDemoPage: {
+    screen: FetchDemoPage
+  },
+  AsyncStoragePage: {
+    screen: AsyncStoragePage
+  },
+  DataStoreDemoPage: {
+    screen: DataStoreDemoPage
   },
   SetUpPage: {
     screen: SetUpPage,
@@ -188,15 +200,6 @@ const MainNavigator = createStackNavigator({
     header: null
   }
 });
-
-// export default createAppContainer(createSwitchNavigator({
-//   Init: InitNavigator,
-//   Main: MainNavigator,
-// }, {
-//   navigationOptions: {
-//     header: null
-//   }
-// }));
 
 export const RootNavigator = createAppContainer(createSwitchNavigator({
   Init: InitNavigator,

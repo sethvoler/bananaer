@@ -2,79 +2,43 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Image, Alert} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
-import {
-  createStackNavigator, 
-  createMaterialTopTabNavigator, 
-  createBottomTabNavigator,
-  createSwitchNavigator,
-  createAppContainer
-} from 'react-navigation';
-// import HomePage from './HomePage';
-// import VideoPage from './VideoPage';
-// import ImagePage from './ImagePage';
-// import MyPage from './MyPage';
-// import AntDesign from 'react-native-vector-icons/AntDesign';
-// import Entypo from 'react-native-vector-icons/Entypo';
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
+import {BackHandler} from 'react-native';
+import {NavigationActions} from 'react-navigation';
+import {connect} from 'react-redux';
 
 
 type Props = {};
-export default class IndexPage extends Component<Props> {
+class IndexPage extends Component<Props> {
   static navigationOptions = {
     header: null,
   }
-  // _tabNavigator() {
-  //   return createAppContainer(createBottomTabNavigator({
-  //     HomePage: {
-  //       screen: HomePage,
-  //       navigationOptions: {
-  //         tabBarLabel: '首页',
-  //         lableStyle: {
-  //           color: '#182147',
-  //           fontSize: 10,
-  //         },
-  //         tabBarIcon: ({tintColor, focused}) => (
-  //           <Image source={require('../res/image/sy.png')} style={styles.sy}></Image>
-  //         )
-  //       }
-  //     },
-  //     VideoPage: {
-  //       screen: VideoPage,
-  //       navigationOptions: {
-  //         tabBarLabel: '视频',
-  //         tabBarIcon: ({tintColor, focused}) => (
-  //           <Image source={require('../res/image/sp.png')} style={styles.sy}></Image>
-  //         )
-  //       }
-  //     },
-  //     ImagePage: {
-  //       screen: ImagePage,
-  //       navigationOptions: {
-  //         tabBarLabel: '图窝',
-  //         tabBarIcon: ({tintColor, focused}) => (
-  //           <Image source={require('../res/image/tw.png')} style={styles.sy}></Image>
-  //         )
-  //       }
-  //     },
-  //     MyPage: {
-  //       screen: MyPage,
-  //       navigationOptions: {
-  //         tabBarLabel: '我的',
-  //         tabBarIcon: ({tintColor, focused}) => (
-  //           <Image source={require('../res/image/wd.png')} style={styles.sy}></Image>
-  //         )
-  //       }
-  //     }
-  //   }));
-  // }
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+  onBackPress = () => {
+    const {dispatch, nav} = this.props;
+    if (nav.routes[1].index === 0) {
+      return false;
+    }
+    dispatch(NavigationActions.back());
+    return true;
+  }
+ 
   render() {
     NavigationUtil.navigation = this.props.navigation;
-    //const Tab = this._tabNavigator();
-    //return <Tab/>;
     return <DynamicTabNavigator />
   }
 };
+
+const mapStateToProps = state => ({
+  nav: state.nav
+});
+export default connect(mapStateToProps)(IndexPage);
 
 const styles = StyleSheet.create({
   sy: {

@@ -6,3 +6,10 @@ export function logIn (status) {
     status: status,
   }
 }
+
+export function getPhone (user) {
+  return {
+    type: Types.GET_PHONE,
+    user: user,
+  }
+}

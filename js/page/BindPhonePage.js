@@ -1,11 +1,14 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
+import {Platform, TextInput, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
+import actions from '../action';
+import Api from '../expand/api';
 
 type Props = {};
-export default class BindPhonePage extends Component<Props> {
+class BindPhonePage extends Component<Props> {
   static navigationOptions = {
     //headerTitle: (<Text style={{ flex: 1, textAlign: 'center' }}>设置</Text>),
     headerBackTitle: null,
@@ -21,27 +24,62 @@ export default class BindPhonePage extends Component<Props> {
     super(props);
     this.state = {
       show: false,
-      sec: 6,
+      time: '获取验证码',
+      status: false,
+      user: {
+        mobile: '',
+        smsCode: '',
+      }
     };
   }
-  _done() {
-    this.setState({
-      show: true
+  getSmsApi (mobile) {
+    let _ = this;
+    Api.sms({
+      mobile: mobile,
+      type: 3
+    }, function(json) {
+      return;
     })
   }
-  componentDidMount () {
+  backTime () {
     let _ = this;
+    _.setState({
+      time: 5
+    });
     this.interTimer = setInterval(() => {
-      if (_.state.sec === 0) {
+      if (_.state.time === 0 || _.state.time === '重新获取') {
         _.setState({
-          sec: 0
+          time: '重新获取',
+          status: false
         });
+        clearInterval(_.interTimer);
       } else {
         _.setState({
-          sec: _.state.sec-1
+          time: _.state.time-1
         });
       }
     }, 1000);
+  }
+  getSms () {
+    if (this.state.user.mobile.length === 11) {
+      this.setState({
+        status: true
+      })
+      this.backTime();
+      this.getSmsApi(this.state.user.mobile);
+    } else {
+      alert('请输入手机号');
+    }
+  }
+  _done() {
+    if (this.state.user.mobile !== '' 
+    && this.state.user.smsCode !== '') {
+      this.setState({
+        show: true
+      })
+    }
+  }
+  componentDidMount () {
   }
   componentDidUpdate () {
     if (this.state.show) {
@@ -63,7 +101,7 @@ export default class BindPhonePage extends Component<Props> {
         <View style={styles.list}>
           <View style={styles.item}>
             <Text style={styles.title}>当前手机号</Text>
-            <Text style={styles.title}>18969063350</Text>
+            <Text style={styles.title}>{this.props.user.mobile}</Text>
           </View> 
         </View>
         <View style={styles.list}>
@@ -71,16 +109,38 @@ export default class BindPhonePage extends Component<Props> {
             <View style={styles.innerItem}>
               <Text style={styles.title}>+86</Text>
               <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
-              <Text style={styles.title}>17610268263</Text>
+              <TextInput 
+                placeholder={'请输入需要更换的手机号'} 
+                style={styles.title}
+                onChangeText={(text) => {
+                  let data = Object.assign({}, this.state.user, {mobile: text});
+                  this.setState({
+                    user: data
+                  });
+                }}/>
+              {/* <Text style={styles.title}>17610268263</Text> */}
             </View>      
           </View>
           <View style={styles.item}>
-            <Text style={styles.title}>1662</Text>
-            <Text style={styles.content}>{this.state.sec}</Text>
+          <TextInput 
+            placeholder={'请输入验证码'} 
+            style={styles.title} 
+            onChangeText={
+              text => {
+                let data = Object.assign({}, this.state.user, { smsCode: text })
+                this.setState({
+                  user: data,
+                })
+              }}/>
+            {/* <Text style={styles.title}>1662</Text> */}
+            <TouchableOpacity disabled={this.state.status} onPress={() => this.getSms()}>
+              <Text style={styles.content}>{this.state.status ? `${this.state.time}秒` : `${this.state.time}`} </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <TouchableOpacity onPress={() => {this._done()}}>
-          <View style={styles.btn}>
+          <View style={(this.state.user.mobile !== '' 
+          && this.state.user.smsCode !== '') ? styles.btn : styles.btn2}>
             <Text style={styles.quit}>确定</Text>
           </View>
         </TouchableOpacity>
@@ -96,6 +156,14 @@ export default class BindPhonePage extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+// const mapDispatchToProps = dispatch => ({
+//   getPhone: user => dispatch(actions.getPhone(user))
+// });
+export default connect(mapStateToProps)(BindPhonePage);
 
 const styles = StyleSheet.create({
   wrap: {
@@ -139,6 +207,14 @@ const styles = StyleSheet.create({
     marginTop: unitWidth*80,
     marginLeft: unitWidth*35,
     backgroundColor: 'rgba(237,96,89,1)',
+    borderRadius: unitWidth*39,
+  },
+  btn2: {
+    width: unitWidth*680,
+    height: unitWidth*78,
+    marginTop: unitWidth*80,
+    marginLeft: unitWidth*35,
+    backgroundColor: '#CECECE',
     borderRadius: unitWidth*39,
   },
   quit: {

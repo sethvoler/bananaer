@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {TextInput, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
 
 type Props = {};
-export default class NextQuickPage extends Component<Props> {
+class NextQuickPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +14,9 @@ export default class NextQuickPage extends Component<Props> {
   }
   static navigationOptions = {
     header: null,
+  }
+  componentDidMount() {
+    console.log(this.props.user);
   }
   render() {
     return (
@@ -37,6 +41,10 @@ export default class NextQuickPage extends Component<Props> {
     );
   }
 };
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+export default connect(mapStateToProps)(NextQuickPage);
 
 const styles = StyleSheet.create({
   wrap: {
