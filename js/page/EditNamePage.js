@@ -1,18 +1,28 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
+import {Platform, AsyncStorage, StyleSheet, Text, TextInput, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 
 type Props = {};
+let that;
 export default class EditSinePage extends Component<Props> {
+  constructor(props) {
+    super(props);
+    that = this;
+    this.state = {
+      length: 0,
+      name: ''
+    }
+  }
   static navigationOptions = ({navigation,screenProps}) =>{
     return({
       headerRight: (
-        <TouchableOpacity onPress={() => {Alert.alert('ok')}}>
+        <TouchableOpacity onPress={() => {
+          that._saveUser(that.state.name);
+        }}>
           <Text style={{color: '#FC604F', fontSize: 14, marginRight: unitWidth*37}}>保存</Text>
         </TouchableOpacity>
       ),
-      //headerTitle: (<Text style={{ flex: 1, textAlign: 'center' }}>设置</Text>),
       headerBackTitle: null,
       headerTintColor: '#7E7E7E',
       headerTitleStyle: {
@@ -23,14 +33,39 @@ export default class EditSinePage extends Component<Props> {
       }
     })
   }
+  _saveUser (item) {
+    AsyncStorage.setItem("USER", item, error => {});
+  }
+  componentDidMount () {
+    AsyncStorage.getItem('USER', (error, value) => {
+      this.setState({
+        name: value,
+        length: value.length
+      })
+    })
+  }
+  componentDidUpdate () {
+    
+  }
   render () {
     return (
       <View style={styles.wrap}>
-        <TextInput  multiline={true} style={styles.box}>
-          xxx
+        <TextInput 
+          multiline={true} 
+          style={styles.box}
+          autoCapitalize={'none'}
+          maxLength={7}
+          clearButtonMode = {'always'}
+          onChangeText={(text) => {
+            this.setState({
+              name: text,
+              length: text.length
+            })
+          }}>
+          {this.state.name}
         </TextInput>
         <View style={styles.count}>
-          <Text style={styles.inner}>4</Text>
+          <Text style={styles.inner}>{this.state.length}</Text>
           <Text style={styles.inner}>/7</Text>
         </View> 
       </View>

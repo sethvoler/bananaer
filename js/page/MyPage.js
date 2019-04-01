@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {Platform, AsyncStorage, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import MyTop from '../common/MyTop';

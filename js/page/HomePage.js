@@ -12,23 +12,13 @@ export default class HomePage extends Component<Props> {
   
   constructor(props) {
     super(props);
+    this.state = {
+      ads: false,
+    }
   }
   render () {
     return (
       <View style={styles.container}>
-      
-      {/* <Button title={'fetch'} style={{height: 600}} onPress={() => {
-          NavigationUtil.goToPage({
-            navigation: this.props.navigation
-          }, 'FetchDemoPage');}} />
-      <Button title={'AsyncStoragePage'} style={{height: 600}} onPress={() => {
-          NavigationUtil.goToPage({
-            navigation: this.props.navigation
-          }, 'AsyncStoragePage');}} />
-          <Button title={'离线缓存'} style={{height: 600}} onPress={() => {
-          NavigationUtil.goToPage({
-            navigation: this.props.navigation
-          }, 'DataStoreDemoPage');}} /> */}
         <ScrollView style={styles.wrap}>
           <View style={styles.box}>
             <MySwiper />
@@ -51,7 +41,7 @@ export default class HomePage extends Component<Props> {
             <Text style={styles.ct}>换一批</Text>
           </View>
           <View style={styles.line}></View>
-          <View style={styles.gg}>
+          <View style={this.state.ads ? styles.gg : {display: 'none'}}>
             <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
           </View>
           <Video
@@ -59,15 +49,15 @@ export default class HomePage extends Component<Props> {
             title={'国产大剧'}
             key={'国产大剧'}
             num1={3}
-            num2={2} />
+            num2={3} />
           <Video
             isHeader={true}
             title={'国产大剧'}
             key={'国产大剧2'}
             num1={3}
-            num2={2} />
+            num2={3} />
           <View style={styles.line}></View>
-          <View style={styles.gg}>
+          <View style={this.state.ads ? styles.gg : {display: 'none'}}>
             <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
           </View>
         </ScrollView>

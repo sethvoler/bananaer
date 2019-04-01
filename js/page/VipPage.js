@@ -174,6 +174,8 @@ const styles = StyleSheet.create({
   bci: {
     color: '#ADB2BB',
     fontSize: unitWidth*28,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     fontFamily: 'AdobeHeitiStd-Regular',
     letterSpacing: -0.9235*unitWidth,
     marginBottom: -20*unitWidth,

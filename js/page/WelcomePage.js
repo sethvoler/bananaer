@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, BVLinearGradient, Image, Button} from 'react-native';
+import {StyleSheet, Text, View, BVLinearGradient, Image, Button, TouchableOpacity} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
 import LinearGradient from 'react-native-linear-gradient';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
@@ -11,7 +11,8 @@ export default class WelcomePage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      sec: '跳过'
+      sec: 5,
+      disabled: false,
     }
   }
   componentDidMount () {
@@ -22,13 +23,12 @@ export default class WelcomePage extends Component<Props> {
       }, 'FetchDemoPage');
     }, 7000);
     this.timer1 = setTimeout(() => {
-      _.setState({
-        sec: 5
-      });
+      
       _.interTimer = setInterval(() => {
-        if (_.state.sec === 0) {
+        if (_.state.sec === 0 || _.state.sec === '跳过') {
           _.setState({
-            sec: 0
+            sec: '跳过',
+            disabled: true
           });
         } else {
           _.setState({
@@ -37,6 +37,13 @@ export default class WelcomePage extends Component<Props> {
         }
       }, 1000);
     }, 1000);
+  }
+  goHome () {
+    if (this.state.disabled) {
+      NavigationUtil.resetToHomePage({
+        navigation: this.props.navigation
+      });
+    }
   }
   componentWillUnmount () {
     this.timer && clearTimeout(this.timer);
@@ -49,23 +56,8 @@ export default class WelcomePage extends Component<Props> {
     return (
       <View style={{flex: 1}}>
         <Image source={require('../res/image/qdy.jpg')} style={styles.qdy}></Image>
-        <Text style={styles.jump} onPress={() => {
-          NavigationUtil.resetToHomePage({
-            navigation: this.props.navigation
-          });}}>{this.state.sec}</Text>
-
+          <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
       </View>
-      // <LinearGradient colors={['#FE77AB', '#FE7791']} style={styles.container}>
-      //   <View style={styles.out}>
-      //     <View style={styles.in}>
-      //       <Image source={require('../res/image/wt.png')} style={styles.wt}></Image>
-      //     </View>
-      //   </View>
-      //   <Text style={styles.welcome}>全球购</Text>
-      //   <Text style={styles.content}>汇聚了销售海外优质商品的卖家</Text>
-      //   <Text style={styles.content}>“淘遍全球”的心愿</Text>
-      //   <Image source={require('../res/image/wb.jpg')} style={styles.wb}></Image>
-      // </LinearGradient>
     );
   }
 }

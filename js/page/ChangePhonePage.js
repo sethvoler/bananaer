@@ -28,7 +28,7 @@ class ChangePhonePage extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require('../1.jpeg')} style={styles.top}></Image>
+        <Image source={require('../res/image/m.jpg')} style={styles.top}></Image>
           <Text style={styles.title1}>您已绑定手机号</Text>
           <Text style={styles.title2}>{this._hide (this.props.user.mobile)}</Text>
           <TouchableOpacity onPress={() => {

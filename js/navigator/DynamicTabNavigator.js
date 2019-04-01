@@ -37,13 +37,16 @@ const TABS = {
     screen: VideoPage,
     navigationOptions: {
       tabBarLabel: '视频',
-      showIcon: true,
+      lableStyle: {
+        color: '#182147',
+        fontSize: 10,
+      },
       tabBarIcon: ({tintColor, focused}) => 
       {
         if (focused) {
-          return (<Image source={require('../res/image/spc.png')} style={styles.sy}></Image>)
+          return (<Image source={require('../res/image/spc.png')} style={styles.sy2}></Image>)
         } else {
-          return (<Image source={require('../res/image/sp.png')} style={styles.sy}></Image>)
+          return (<Image source={require('../res/image/sp.png')} style={styles.sy2}></Image>)
         }
       }
     }
@@ -52,11 +55,15 @@ const TABS = {
     screen: ImagePage,
     navigationOptions: {
       tabBarLabel: '图窝',
+      lableStyle: {
+        color: '#182147',
+        fontSize: 10,
+      },
       tabBarIcon: ({tintColor, focused}) => {
         if (focused) {
-          return (<Image source={require('../res/image/twc.png')} style={styles.sy}></Image>)
+          return (<Image source={require('../res/image/twc.png')} style={styles.sy3}></Image>)
         } else {
-          return (<Image source={require('../res/image/tw.png')} style={styles.sy}></Image>)
+          return (<Image source={require('../res/image/tw.png')} style={styles.sy3}></Image>)
         }
       }
     }
@@ -65,11 +72,15 @@ const TABS = {
     screen: MyPage,
     navigationOptions: {
       tabBarLabel: '我的',
+      lableStyle: {
+        color: '#182147',
+        fontSize: 10,
+      },
       tabBarIcon: ({tintColor, focused}) => {
         if (focused) {
-          return (<Image source={require('../res/image/wdc.png')} style={styles.sy}></Image>)
+          return (<Image source={require('../res/image/wdc.png')} style={styles.sy4}></Image>)
         } else {
-          return (<Image source={require('../res/image/wd.png')} style={styles.sy}></Image>)
+          return (<Image source={require('../res/image/wd.png')} style={styles.sy4}></Image>)
         }
       }
     }
@@ -119,5 +130,17 @@ const styles = StyleSheet.create({
   sy: {
     width: unitWidth*48,
     height: unitWidth*48
+  },
+  sy2: {
+    width: unitWidth*50,
+    height: unitWidth*40
+  },
+  sy3: {
+    width: unitWidth*58,
+    height: unitWidth*40
+  },
+  sy4: {
+    width: unitWidth*52,
+    height: unitWidth*52
   },
 })

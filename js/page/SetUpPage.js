@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import ModalBox from '../common/ModalBox';
 
 type Props = {};
 export default class SetUpPage extends Component<Props> {
@@ -117,26 +118,13 @@ export default class SetUpPage extends Component<Props> {
             </View>
           </View>
         </Modal>
-        <Modal
-          transparent={true}             
-          visible={this.state.isModal}
-          // onRequestClose={() => {this.onRequestClose()}}  // android必须实现
-        >
-          <View style={styles.all}>
-            <View style={styles.alert}>
-              <Text style={styles.alertTitle} >提醒</Text>
-              <Text style={styles.alertContent}>确定清理？</Text>
-              <View style={styles.box}>
-                <TouchableOpacity onPress={() => this.noClear()}>
-                  <Text style={styles.lbtn}>手滑了</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.sure()}>
-                  <Text style={styles.rbtn}>确认</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
+        <ModalBox 
+          content={'确定清理？'} 
+          isModal={this.state.isModal}
+          noClear={() => {this.noClear()}}
+          sure={() => {this.sure()}}
+          status={1}
+          />
       </View>
     );
   }
@@ -203,51 +191,51 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
   },
-  all: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(39,39,39,.8)',
-  },
-  alert: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: unitWidth*464,
-    height: unitWidth*266,
-    backgroundColor: 'rgba(255,255,255,1)',
-    borderRadius: unitWidth*30,
-  },
-  alertTitle: {
-    marginTop: unitWidth*28,
-    marginBottom: unitWidth*24,
-    color: '#2a2a2a',
-    fontSize: 14,
-  },
-  alertContent: {
-    color: '#82828A',
-    fontSize: 14,
-  },
-  box: {
-    marginTop: unitWidth*58,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  lbtn: {
-    overflow: 'hidden',
-    borderRadius: unitWidth*31.5,
-    marginRight: unitWidth*109,
-    backgroundColor: '#ED6059',
-    textAlign: 'center',
-    width: unitWidth*182,
-    height: unitWidth*63,
-    lineHeight: unitWidth*63,
-    color: '#fff',
-    fontSize: 14,
-  },
-  rbtn: {
-    color: '#000',
-    fontSize: 14,
-  },
+  // all: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: 'rgba(39,39,39,.8)',
+  // },
+  // alert: {
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   width: unitWidth*464,
+  //   height: unitWidth*266,
+  //   backgroundColor: 'rgba(255,255,255,1)',
+  //   borderRadius: unitWidth*30,
+  // },
+  // alertTitle: {
+  //   marginTop: unitWidth*28,
+  //   marginBottom: unitWidth*24,
+  //   color: '#2a2a2a',
+  //   fontSize: 14,
+  // },
+  // alertContent: {
+  //   color: '#82828A',
+  //   fontSize: 14,
+  // },
+  // box: {
+  //   marginTop: unitWidth*58,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  // },
+  // lbtn: {
+  //   overflow: 'hidden',
+  //   borderRadius: unitWidth*31.5,
+  //   marginRight: unitWidth*109,
+  //   backgroundColor: '#ED6059',
+  //   textAlign: 'center',
+  //   width: unitWidth*182,
+  //   height: unitWidth*63,
+  //   lineHeight: unitWidth*63,
+  //   color: '#fff',
+  //   fontSize: 14,
+  // },
+  // rbtn: {
+  //   color: '#000',
+  //   fontSize: 14,
+  // },
   version: {
     flex: 1,
     justifyContent: 'center',

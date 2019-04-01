@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Picker, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
+import {Picker, AsyncStorage, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 
@@ -19,10 +19,25 @@ export default class EditPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
+        name: 'xxx',
         isModal: false,
         preSex: '男',
         sex: '男',
     };
+  }
+  componentDidMount () {
+    AsyncStorage.getItem("USER", (error, value) => {
+      this.setState({
+        name: value
+      })
+    })
+  }
+  componentDidUpdate () {
+    AsyncStorage.getItem("USER", (error, value) => {
+      this.setState({
+        name: value
+      })
+    })
   }
   _clear() {
     let _ = this;
@@ -49,7 +64,7 @@ export default class EditPage extends Component<Props> {
           <View style={styles.item}>
             <Text style={styles.title}>头像</Text>
             <View style={styles.right}>
-              <Image source={require('../1.jpeg')} style={styles.lArrow}></Image>
+              <Image source={require('../res/image/m.jpg')} style={styles.lArrow}></Image>
               <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
             </View> 
           </View>
@@ -59,7 +74,7 @@ export default class EditPage extends Component<Props> {
             <View style={styles.item}>
               <Text style={styles.title}>昵称</Text>
               <View style={styles.right}>
-                <Text style={styles.title}>嘿嘿三郎</Text>
+                <Text style={styles.title}>{this.state.name}</Text>
                 <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
               </View> 
             </View>

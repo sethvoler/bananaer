@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {Platform, AsyncStorage, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 
@@ -35,20 +35,48 @@ class Set extends Component<Props> {
 }
 
 export default class MyTop extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: ''
+    }
+  }
+  componentDidMount () {
+    AsyncStorage.getItem('USER', (error, value) => {
+      if (value) {
+        this.setState({
+          name: value
+        })
+        AsyncStorage.setItem('USER', value, error => {})
+      } else {
+        this.setState({
+          name: '默认的用户名'
+        })
+        AsyncStorage.setItem('USER', '默认的用户名', error => {})
+      }
+    }) 
+  }
+  componentDidUpdate () {
+    AsyncStorage.getItem("USER", (error, value) => {
+      this.setState({
+        name: value
+      })
+    })
+  }
   render () {
-    const {status} = this.props;
+    const {status, user} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.top}>
           <View style={styles.topLeft}>
-            <Image source={require('../1.jpeg')} style={styles.avatar}></Image>
+            <Image source={require('../res/image/m.jpg')} style={styles.avatar}></Image>
             <View>
               <View style={styles.box}>
-                <Text style={styles.name}>小包子-8fsjbs5</Text>
+                <Text style={styles.name}>{status === 0 ? '未登录' : this.state.name}</Text>
                 <TouchableOpacity onPress={() => {
                   NavigationUtil.goToPage({navigation: this.props.navigation}, 'EditPage');
                 }}>
-                  <Image source={require('../res/image/edit.png')} style={styles.edit}></Image>
+                  <Image source={require('../res/image/edit.png')} style={status === 0 ? {display: 'none'} : styles.edit}></Image>
                 </TouchableOpacity>
               </View>
               {
@@ -70,6 +98,7 @@ export default class MyTop extends Component<Props> {
         </View>
         <View style={styles.lists}>
           <TouchableOpacity onPress={() => {
+              status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'FollowPage');
             }}>
             <View style={styles.list}> 
@@ -78,6 +107,7 @@ export default class MyTop extends Component<Props> {
             </View>   
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {
+              status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'FansPage');
             }}>
             <View style={styles.list}> 
@@ -86,6 +116,7 @@ export default class MyTop extends Component<Props> {
             </View>  
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {
+              status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'ReleasePage');
             }}>
             <View style={styles.list}> 
@@ -94,6 +125,7 @@ export default class MyTop extends Component<Props> {
             </View> 
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {
+              status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'CollectionPage');
             }}>
             <View style={styles.list}> 
@@ -139,8 +171,9 @@ const styles = StyleSheet.create({
   vip: {
     color: '#fff',
     fontSize: unitWidth*24,
+    fontFamily: 'SourceHanSansCN-Medium',
     position: 'relative',
-    top: -34*unitWidth,
+    top: -32*unitWidth,
     left: 50*unitWidth,
   },
   container: {

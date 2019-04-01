@@ -59,7 +59,11 @@ class LogPage extends Component<Props> {
       <View style={styles.wrap}>
         <View style={styles.top}>
           <Image source={require('../res/image/logo.jpg')} style={styles.logo}></Image>
-          <Image source={require('../res/image/delete.png')} style={styles.delete}></Image>
+          <TouchableOpacity onPress={() => {
+            NavigationUtil.goToPage({navigation: this.props.navigation}, 'MyPage');
+          }}>
+            <Image source={require('../res/image/delete.png')} style={styles.delete}></Image>
+          </TouchableOpacity>
         </View>
         <Text style={styles.title}>欢迎登录</Text>
         <View style={styles.input}>
