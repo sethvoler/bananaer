@@ -64,17 +64,17 @@ export default class MySwiper extends Component {
     this.timer && this._startTimer();
   }
 
-  _renderAllImage() {
+  _renderAllImage(img) {
     let allImage = [];
     let j = imgArr.length;
     for (let i = 0; i < j; i++) {
-      let imgsItem = imgArr[i];
+      let imgsItem = imgArr[(i+img+j)%j];
       allImage.push(
         <Image key={i} source={imgsItem} style={styles.imageStyle}/>
       );
       if (i === j-1) {
         allImage.push(
-          <Image key={j} source={imgArr[0]} style={styles.imageStyle}/>
+          <Image key={j} source={imgArr[(img+j)%j]} style={styles.imageStyle}/>
         );
       }
     }
@@ -86,11 +86,9 @@ export default class MySwiper extends Component {
     let style;
     for (let i = 0; i < imgArr.length; i++) {
       //判断
-      style = (i == this.state.currentPage%imgArr.length) ? {color: '#000'} : {color: '#aaa'};
+      style = (i == this.state.currentPage%imgArr.length) ? {backgroundColor: '#555', width: 40*unitWidth} : {backgroundColor: '#aaa', width: 20*unitWidth};
       indicatorArr.push(
-        <Text key={i} style={[{fontSize: 30, bottom: 0*unitWidth,}, style]}>
-            •
-        </Text>
+        <View key={i} style={[{bottom: 20*unitWidth,height: 20*unitWidth, borderRadius: 10*unitWidth, marginLeft: 10*unitWidth, marginRight: 10*unitWidth,}, style]}></View>
       );
     }
     return indicatorArr;
@@ -104,9 +102,15 @@ export default class MySwiper extends Component {
   }
 
   render() {
+    const {img} = this.props;
     return (
-      <View style={styles.continer}>
+      <View style={img === -1 
+              ? styles.continer1
+              : img === 1 
+                ? styles.continer2 
+                : styles.continer}>
         <ScrollView
+          style={{borderRadius: unitWidth*10,}}
           ref='scrollView'
           //水平方向
           horizontal={true}
@@ -127,7 +131,7 @@ export default class MySwiper extends Component {
             this._onScrollEndDrag()
           }}
         >
-          {this._renderAllImage()}
+          {this._renderAllImage(img)}
         </ScrollView>
         <View style={styles.pageViewStyle}>
           {this._renderAllIndicator()}
@@ -141,10 +145,34 @@ const styles = StyleSheet.create({
   continer: {
       width: unitWidth*610,
       height: unitWidth*432,
+      borderRadius: unitWidth*10,
+  },
+  continer1: {
+    width: unitWidth*610,
+    height: unitWidth*432,
+    borderRadius: unitWidth*10,
+    transform: [{scaleY: .8}, 
+      {rotateY: '-70deg'}, 
+      {translateX: 600*unitWidth},
+      {perspective: 10000000},
+      {skewY: '-2deg'}, ]
+  },
+  continer2: {
+    width: unitWidth*610,
+    height: unitWidth*432,
+    borderRadius: unitWidth*10,
+    transform: [{scaleY: .8}, 
+      {rotateY: '-70deg'}, 
+      {translateX: -600*unitWidth},
+      {perspective: 10000000},
+      {skewY: '2deg'}, ]
   },
   imageStyle: {
       height: unitWidth*342,
       width: unitWidth*610,
+      borderRadius: unitWidth*10,
+      // borderColor: 'rgba(0,0,0,1)',
+      // borderBottomWidth: unitWidth*10,
   },
   pageViewStyle: {
       width: unitWidth*610,
@@ -153,6 +181,7 @@ const styles = StyleSheet.create({
       bottom: 0,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      borderRadius: unitWidth*10,
   }
 });

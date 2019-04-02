@@ -21,7 +21,9 @@ export default class HomePage extends Component<Props> {
       <View style={styles.container}>
         <ScrollView style={styles.wrap}>
           <View style={styles.box}>
-            <MySwiper />
+            <MySwiper img={-1}/>
+            <MySwiper img={0}/>
+            <MySwiper img={1}/>
           </View>
           <View style={styles.line}></View>
           <Video
@@ -79,8 +81,12 @@ const styles = StyleSheet.create({
     width: unitWidth*750,
   },
   box: {
-    paddingLeft: unitWidth*70,
-    paddingRight: unitWidth*70,
+    // paddingLeft: unitWidth*70,
+    // paddingRight: unitWidth*70,
+    marginLeft: -560*unitWidth,
+    width: unitWidth*1870,// 20
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   line: {
     height: unitWidth*20,
