@@ -6,16 +6,17 @@ import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 
 type Props = {};
+const imgs = ['', require('../res/image/s1.jpg'), require('../res/image/s2.jpg')]
 export default class Video extends Component<Props> {
   constructor(props) {
     super(props);
   }
   render () {
-    const {title, isHeader, num1, num2} = this.props;
+    const {title, isHeader, num1, num2, style} = this.props;
     let list1 = (length) => {
       var res = [];
       for(var i = 0; i < length; i++) {
-        res.push(<Image source={require('../1.jpeg')} style={num2 === 3 ? styles.img1 : styles.img2}></Image>)
+        res.push(<Image source={imgs[style]} style={num2 === 3 ? styles.img1 : styles.img2}></Image>)
       }
       return res
     }

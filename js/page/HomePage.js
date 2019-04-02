@@ -29,13 +29,15 @@ export default class HomePage extends Component<Props> {
             title={'最新片源'}
             key={'最新片源'}
             num1={3}
-            num2={2} />
+            num2={2} 
+            style={1}/>
           <Video
             isHeader={true}
             title={'重磅热播'}
             key={'重磅热播'}
             num1={2}
-            num2={2} />
+            num2={2} 
+            style={1} />
           <View style={styles.change}>
             <Image source={require('../res/image/refresh.png')} style={styles.refresh}></Image>
             <Text style={styles.ct}>换一批</Text>
@@ -49,13 +51,15 @@ export default class HomePage extends Component<Props> {
             title={'国产大剧'}
             key={'国产大剧'}
             num1={3}
-            num2={3} />
+            num2={3} 
+            style={2} />
           <Video
             isHeader={true}
             title={'国产大剧'}
             key={'国产大剧2'}
             num1={3}
-            num2={3} />
+            num2={3} 
+            style={2} />
           <View style={styles.line}></View>
           <View style={this.state.ads ? styles.gg : {display: 'none'}}>
             <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
