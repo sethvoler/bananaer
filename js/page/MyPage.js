@@ -24,17 +24,20 @@ class MyPage extends Component<Props> {
         <ScrollView style={styles.thisScroll} androidoverScrollMode={'always'}>
           <MyMiddle />
           <TouchableOpacity onPress={() => {
+              this.props.status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'VipPage');
             }}>
             <MyList title={'购买会员'} icon={require('../res/image/gm.png')}/>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {
+              this.props.status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'MMPage');
             }}>
             <MyList title={'消息通知'} icon={require('../res/image/xx.png')}/>
           </TouchableOpacity>
           <MyList title={'我的评论'} icon={require('../res/image/mpl.png')}/>
           <TouchableOpacity onPress={() => {
+              this.props.status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'LookedPage');
             }}>
             <MyList title={'浏览记录'} icon={require('../res/image/ll.png')}/>
