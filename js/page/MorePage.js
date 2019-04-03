@@ -11,7 +11,6 @@ export default class MorePage extends Component<Props> {
       headerRight: (
           <Image source={require('../res/image/search.png')} style={{marginRight:unitWidth*56,width:unitWidth*30,height:unitWidth*30}}></Image>
       ),
-      //headerTitle: (<Text style={{ flex: 1, textAlign: 'center' }}>设置</Text>),
       headerBackTitle: null,
       headerTintColor: '#7E7E7E',
       headerTitleStyle: {
@@ -43,7 +42,9 @@ export default class MorePage extends Component<Props> {
           isHeader={false}
           title={''}
           num1={3}
-          num2={2} />
+          num2={2} 
+          key={'qbgqdy'}
+          style={1}/>
       </View>
     );
     
