@@ -61,13 +61,17 @@ export default class EditPage extends Component<Props> {
       <View style={styles.wrap}>
         <View style={styles.line}></View>
         <View style={styles.list}>
-          <View style={styles.item}>
-            <Text style={styles.title}>头像</Text>
-            <View style={styles.right}>
-              <Image source={require('../res/image/m.jpg')} style={styles.lArrow}></Image>
-              <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
-            </View> 
-          </View>
+          <TouchableOpacity onPress={() => {
+              NavigationUtil.goToPage({navigation: this.props.navigation}, 'EditMsgPage');
+            }}>
+            <View style={styles.item}>
+              <Text style={styles.title}>头像</Text>
+              <View style={styles.right}>
+                <Image source={require('../res/image/m.jpg')} style={styles.lArrow}></Image>
+                <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
+              </View> 
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'EditNamePage');
             }}>

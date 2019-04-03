@@ -1,5 +1,4 @@
 import React,{Component} from 'react';   
-import {ToastAndroid} from 'react-native';
 
 /**
  * 网络请求的工具类
@@ -7,6 +6,10 @@ import {ToastAndroid} from 'react-native';
 export default class NetUtils extends Component{
   constructor(props){
     super(props); 
+    this.state = {
+      isModal: false,
+      msg: 'network error'
+    }
   }
   /**
    * 普通的get请求 
@@ -14,28 +17,29 @@ export default class NetUtils extends Component{
    * @param {*} params  参数
    * @param {*} callback  成功后的回调
    */
-  static get(url,params,callback){
+  static get(url,params,callback,errFn){
+    let _=this;
     fetch(url,{
       method:'GET',
       body:params
       })
       .then((response) => {
-        if(response.ok){
+        //if(response.ok){
           return response.json();
-        }
+        // } else {
+        //   errFn('输入错误')
+        // }
       })
       .then((json) => {
         //根据接口规范在此判断是否成功，成功后则回调
         if(json.code === 200){
             callback(json);
         }else{
-          //否则不正确，则进行消息提示
-          //ToastAndroid 只针对安卓平台，并不跨平台
-          ToastAndroid.show(json.msg,ToastAndroid.SHORT);
+          errFn(json.msg)
         }
       })
       .catch(error => {
-        ToastAndroid.show("network error",ToastAndroid.SHORT);
+        errFn('网络故障')
       });
   };
   /**
@@ -44,9 +48,10 @@ export default class NetUtils extends Component{
    * @param {*} params 
    * @param {*} callback 
    */
-    static post(url,params,callback){
+    static post(url,params,callback,errFn){
       //更改json为&连接字符串
       var newParams = this.toParams(params);
+      let _=this;
       fetch(url,{
         method:'POST',
         headers:{
@@ -55,20 +60,20 @@ export default class NetUtils extends Component{
         body:newParams
       })
       .then((response) => {
-        if(response.ok){
+        //if(response.ok){
           return response.json();
-        }
+        // } else {
+        //   errFn('输入错误')
+        // }
       })
       .then((json) => {
-        console.log(json)
         if(json.code === 200){
           callback(json);
         }else{
-          ToastAndroid.show(json.msg,ToastAndroid.SHORT);
+          errFn(json.msg)
         }
     }).catch(error => {
-        alert(error);
-        //ToastAndroid.show("network error",ToastAndroid.SHORT);
+      errFn('网络故障')
     });
   };
   /**
@@ -77,7 +82,7 @@ export default class NetUtils extends Component{
    * @param {*} jsonObj 
    * @param {*} callback 
    */
-  static postJson(url,jsonObj,callback){
+  static postJson(url,jsonObj,callback,errFn){
     fetch(url,{
       method:'POST',
       headers:{
@@ -86,19 +91,20 @@ export default class NetUtils extends Component{
       body:JSON.stringify(jsonObj),
     })
     .then((response) => {
-      if(response.ok){
+      //if(response.ok){
         return response.json();
-      }
+      // } else {
+      //   errFn('输入错误')
+      // }
     })
     .then((json) => {
         if(json.code === 200){
-            callback(json);
+          callback(json);
         }else{
-          alert(json.msg)
+          errFn(json.msg)
         }
     }).catch(error => {
-      console.log(error);
-        // ToastAndroid.show("network error",ToastAndroid.SHORT);
+      errFn('网络故障')
     });
   };
   /**

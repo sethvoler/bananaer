@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {TextInput, AsyncStorage, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
+import MB from '../common/ModalBox';
 import NavigationUtil from '../navigator/NavigationUtil';
 import Api from '../expand/api';
 import {connect} from 'react-redux';
@@ -14,6 +15,8 @@ class QuickPage extends Component<Props> {
     this.state = {
       time: '获取验证码',
       status: false,
+      isModal: false,
+      msg: '',
       user: {
         confirmPwd: '',
         inviteCode: '',
@@ -60,6 +63,7 @@ class QuickPage extends Component<Props> {
     })
   }
   registerApi (user) {
+    let _ = this;
     Api.register(user, function(json) {
       console.log('我是token:',json.data.token);
       AsyncStorage.setItem(TOKEN, json.data.token, error => {
@@ -70,6 +74,17 @@ class QuickPage extends Component<Props> {
         console.log('我是token:',value);
       })
       console.log('我的注册信息：',json);
+      _.goToNext();
+    },function(msg) {
+      _.setState({
+        isModal: true,
+        msg: msg
+      })
+    })
+  }
+  sure () {
+    this.setState({
+      isModal: false
     })
   }
   getSms () {
@@ -80,7 +95,10 @@ class QuickPage extends Component<Props> {
       this.backTime();
       this.getSmsApi(this.state.user.mobile);
     } else {
-      alert('请输入手机号');
+      this.setState({
+        isModal: true,
+        msg: '请输入手机号'
+      })
     }
   }
   _next (user) {
@@ -90,7 +108,6 @@ class QuickPage extends Component<Props> {
         && user.confirmPwd !== '') {
       this.props.getPhone(user);
       this.registerApi(user);
-      this.goToNext();
     }
   }
   goToNext () {
@@ -178,6 +195,10 @@ class QuickPage extends Component<Props> {
           && this.state.user.smsCode !== ''
           && this.state.user.pwd !== ''
           && this.state.user.confirmPwd !== '') ? styles.sure1 : styles.sure} onPress={() => {this._next(this.state.user)}}>确定</Text>
+        <MB 
+          content={this.state.msg} 
+          isModal={this.state.isModal}
+          sure={() => this.sure()}/>
       </View>
     );
   }

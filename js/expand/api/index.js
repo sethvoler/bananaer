@@ -13,16 +13,16 @@ const apis = {
 };
 
 export default api = {
-  sms: function(params,callback) {
-    Net.post(BASE+apis.post.sms,params,callback);
+  sms: function(params,callback,errFn) {
+    Net.post(BASE+apis.post.sms,params,callback,errFn);
   },
-  register: function (params,callback) {
-    Net.postJson(BASE+apis.post.register,params,callback);
+  register: function (params,callback,errFn) {
+    Net.postJson(BASE+apis.post.register,params,callback,errFn);
   },
-  login: function(params,callback) {
-    Net.post(BASE+apis.post.login,params,callback);
+  login: function(params,callback,errFn) {
+    Net.post(BASE+apis.post.login,params,callback,errFn);
   },
-  changemobile: function(params,callback) {
-    Net.post(BASE+apis.post.changemobile,params,callback);
+  changemobile: function(params,callback,errFn) {
+    Net.post(BASE+apis.post.changemobile,params,callback,errFn);
   },
 }

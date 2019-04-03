@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {TextInput, AsyncStorage, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
+import MB from '../common/ModalBox';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
 import actions from '../action';
@@ -14,6 +15,7 @@ class LogPage extends Component<Props> {
     this.state = {
       phone: '',
       psw: '',
+      isModal: false,
     }
   }
   static navigationOptions = {
@@ -34,6 +36,16 @@ class LogPage extends Component<Props> {
         console.log('我是token:',value);
       })
       console.log('我的登录信息：',json);
+    },function(msg) {
+      _.setState({
+        isModal: true,
+        msg: msg
+      })
+    })
+  }
+  sure () {
+    this.setState({
+      isModal: false
     })
   }
   _success () {
@@ -112,6 +124,10 @@ class LogPage extends Component<Props> {
             <Image source={require('../res/image/redr.png')} style={styles.redr}></Image>
           </View>
         </TouchableOpacity>
+        <MB 
+          content={this.state.msg} 
+          isModal={this.state.isModal}
+          sure={() => this.sure()}/>
       </View>
     );
   }
