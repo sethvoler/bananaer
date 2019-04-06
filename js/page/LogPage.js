@@ -27,7 +27,7 @@ class LogPage extends Component<Props> {
       NavigationUtil.goToPage({navigation: _.props.navigation}, 'IndexPage');
       _.props.logIn(1);
       _.props.getPhone(user);
-      console.log('我是token:',json.data.token);
+      //console.log('我是token:',json.data.token);
       AsyncStorage.setItem(TOKEN, json.data.token, error => {
         error && console.log(error.toString());
       })

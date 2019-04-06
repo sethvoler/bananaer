@@ -1,12 +1,15 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Image, TouchableOpacity, Modal, AsyncStorage} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import ModalBox from '../common/ModalBox';
+import {connect} from 'react-redux';
+import actions from '../action';
 
 type Props = {};
-export default class SetUpPage extends Component<Props> {
+const TOKEN = 'token';
+class SetUpPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,6 +53,15 @@ export default class SetUpPage extends Component<Props> {
       isVersion: false
     })
   }
+  quit () {
+    this.props.logIn(0);
+    this.props.getPhone({
+      mobile: '',
+      pwd: ''
+    });
+    AsyncStorage.removeItem(TOKEN);
+    NavigationUtil.goToPage({navigation: this.props.navigation}, 'IndexPage');
+  }
   render() {
     return (
       <View style={styles.wrap}>
@@ -85,7 +97,7 @@ export default class SetUpPage extends Component<Props> {
             </TouchableOpacity>
           </View>
         </View>
-        <TouchableOpacity onPress={() => {Alert.alert("quit");}}>
+        <TouchableOpacity onPress={() => {this.quit()}}>
           <View style={styles.btn}>
             <Text style={styles.quit}>退出登录</Text>
           </View>
@@ -129,6 +141,15 @@ export default class SetUpPage extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+const mapDispatchToProps = dispatch => ({
+  logIn: status => dispatch(actions.logIn(status)),
+  getPhone: user => dispatch(actions.getPhone(user))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SetUpPage);
 
 const styles = StyleSheet.create({
   wrap: {
