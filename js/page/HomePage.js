@@ -1,15 +1,12 @@
 
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, Alert, ScrollView, Button} from 'react-native';
-import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil'; 
+import {Image, StyleSheet, Text, View, ScrollView} from 'react-native';
+import {unitWidth}from '../util/AdapterUtil'; 
 import MySwiper from '../common/MySwiper';
 import Video from '../common/Video';
 
-import NavigationUtil from '../navigator/NavigationUtil';
-
 type Props = {};
 export default class HomePage extends Component<Props> {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -81,10 +78,8 @@ const styles = StyleSheet.create({
     width: unitWidth*750,
   },
   box: {
-    // paddingLeft: unitWidth*70,
-    // paddingRight: unitWidth*70,
     marginLeft: -560*unitWidth,
-    width: unitWidth*1870,// 20
+    width: unitWidth*1870,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -117,8 +112,6 @@ const styles = StyleSheet.create({
     height: unitWidth*340,
     width: unitWidth*713,
   },
-
-
   welcome: {
     fontSize: 20,
     textAlign: 'center',

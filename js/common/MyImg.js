@@ -3,12 +3,14 @@ import {Platform, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-n
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 
+const imgs = [require('../res/image/t1.jpg'), require('../res/image/t2.jpg'), require('../1.jpeg')];
 export default class MyImg extends Component<Props> {
   render () {
+    let {img} = this.props;
     return (
       <View style={styles.wrap}>
         <View style={styles.box}>
-          <Image style={styles.img} source={require('../1.jpeg')}></Image>
+          <Image style={styles.img} source={imgs[img]}></Image>
           <Text style={styles.inl}>
             [Lolita]漫展上的清纯少女Lolita!
           </Text>

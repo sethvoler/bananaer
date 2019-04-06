@@ -13,36 +13,22 @@ export default class ImgTop extends Component<Props> {
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.body}>
-          <TouchableOpacity onPress={() => {
-              NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
-            }}>
-            <View style={styles.item}>
-              <View style={{width: unitWidth*199, height: unitWidth*height, borderRadius: unitWidth*15, position: 'relative', backgroundColor: '#FAE04B'}}>
-                <Text style={styles.num}>{obj[0].num}个图集</Text>
-              </View>
-              <Text style={styles.name}>{obj[0].name}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-              NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
-            }}>
-            <View style={styles.item}>
-              <View style={{width: unitWidth*199, height: unitWidth*height, borderRadius: unitWidth*15, position: 'relative', backgroundColor: '#FAE04B'}}>
-                <Text style={styles.num}>{obj[1].num}个图集</Text>
-              </View>
-              <Text style={styles.name}>{obj[1].name}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-              NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
-            }}>
-            <View style={styles.item}>
-              <View style={{width: unitWidth*199, height: unitWidth*height, borderRadius: unitWidth*15, position: 'relative', backgroundColor: '#FAE04B'}}>
-                <Text style={styles.num}>{obj[2].num}个图集</Text>
-              </View>
-              <Text style={styles.name}>{obj[2].name}</Text>
-            </View>
-          </TouchableOpacity>
+          {
+            obj.map((item, index) => {
+              return (
+                <TouchableOpacity onPress={() => {
+                    NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
+                  }}>
+                  <View style={styles.item}>
+                    <View style={{width: unitWidth*199, height: unitWidth*height, borderRadius: unitWidth*15, position: 'relative', backgroundColor: '#FAE04B'}}>
+                      <Text style={styles.num}>{item.num}个图集</Text>
+                    </View>
+                    <Text style={styles.name}>{item.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              )
+            })
+          }
         </View>
       </View>
     );
@@ -73,14 +59,16 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   body: {
-    width: unitWidth*673,
+    width: unitWidth*723,
     paddingLeft: unitWidth*12,
-    paddingRight: unitWidth*12, 
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    display:'flex',
     marginTop: unitWidth*16,
   },
   item: {
+    marginRight: unitWidth*28,
+    marginBottom: unitWidth*32,
     flexDirection: 'column',
     alignItems: 'center',
   },

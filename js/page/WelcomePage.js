@@ -1,10 +1,10 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, BVLinearGradient, Image, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Image, AsyncStorage} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
-import LinearGradient from 'react-native-linear-gradient';
-import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
-
+import {unitWidth, unitHeight}from '../util/AdapterUtil';
+import Api from '../expand/api';
+import MB from '../common/ModalBox';
 
 type Props = {};
 export default class WelcomePage extends Component<Props> {
@@ -13,10 +13,37 @@ export default class WelcomePage extends Component<Props> {
     this.state = {
       sec: 5,
       disabled: false,
+      flag: false,
+      content: ''
     }
+  }
+  goHome () {
+    if (this.state.disabled) {
+      NavigationUtil.resetToHomePage({
+        navigation: this.props.navigation
+      });
+    }
+  }
+  settings () {
+    let _ = this;
+    Api.settings({}, function (data) {
+      _.img = data.launchImageUrl;
+      AsyncStorage.setItem('version', data.appVersion, error => {});
+    }, function (msg) {
+      _.setState({
+        flag: true,
+        content: msg
+      })
+    })
+  }
+  sure () {
+    this.setState({
+      flag: false
+    })
   }
   componentDidMount () {
     let _ = this;
+    this.settings();
     this.timer = setTimeout(() => {
       NavigationUtil.goToPage({
         navigation: this.props.navigation
@@ -38,13 +65,6 @@ export default class WelcomePage extends Component<Props> {
       }, 1000);
     }, 1000);
   }
-  goHome () {
-    if (this.state.disabled) {
-      NavigationUtil.resetToHomePage({
-        navigation: this.props.navigation
-      });
-    }
-  }
   componentWillUnmount () {
     this.timer && clearTimeout(this.timer);
     this.interTimer && clearInterval(this.interTimer);
@@ -55,8 +75,14 @@ export default class WelcomePage extends Component<Props> {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Image source={require('../res/image/qdy.jpg')} style={styles.qdy}></Image>
-          <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
+        <Image source={this.img === 'string' 
+          ? require('../res/image/qdy.jpg')
+          : {uri: this.img}} style={styles.qdy}></Image>
+        <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
+        <MB 
+          content={this.state.content} 
+          isModal={this.state.flag}
+          sure={() => this.sure()}/>
       </View>
     );
   }

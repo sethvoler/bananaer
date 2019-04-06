@@ -9,7 +9,12 @@ const apis = {
     login: '/user/login',
     changemobile: '/user/changemobile',
   },
-  get: {}
+  get: {
+    settings: '/common/settings',
+    mediaList: '/media/list',
+    albumList: '/album/list',
+    imgList: '/album/img/list'
+  }
 };
 
 export default api = {
@@ -24,5 +29,17 @@ export default api = {
   },
   changemobile: function(params,callback,errFn) {
     Net.post(BASE+apis.post.changemobile,params,callback,errFn);
+  },
+  settings: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.settings,params,callback,errFn);
+  },
+  mediaList: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.mediaList,params,callback,errFn);
+  },
+  albumList: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.albumList,params,callback,errFn);
+  },
+  imgList: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.imgList,params,callback,errFn);
   },
 }

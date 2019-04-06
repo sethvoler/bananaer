@@ -72,7 +72,7 @@ class LogPage extends Component<Props> {
         <View style={styles.top}>
           <Image source={require('../res/image/logo.jpg')} style={styles.logo}></Image>
           <TouchableOpacity onPress={() => {
-            NavigationUtil.goToPage({navigation: this.props.navigation}, 'MyPage');
+            NavigationUtil.goToPage({navigation: this.props.navigation}, 'IndexPage');
           }}>
             <Image source={require('../res/image/delete.png')} style={styles.delete}></Image>
           </TouchableOpacity>
@@ -205,13 +205,12 @@ const styles = StyleSheet.create({
     height: unitWidth*22,
   },
   tel: {
-    width: unitWidth*300,
-    height: unitWidth*30,
-    marginRight: unitWidth*200,
+    width: unitWidth*500,
+    height: unitWidth*80,
   },
   psw: {
-    width: unitWidth*300,
-    height: unitWidth*30,
+    width: unitWidth*600,
+    height: unitWidth*80,
   },
   sure: {
     overflow: 'hidden',

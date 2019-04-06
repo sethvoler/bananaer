@@ -37,6 +37,8 @@ import FetchDemoPage from '../page/FetchDemoPage';
 import AsyncStoragePage from '../page/AsyncStoragePage';
 import DataStoreDemoPage from '../page/DataStoreDemoPage';
 
+import Demo from '../page/Demo';
+
 import {connect} from 'react-redux';
 import {
   createReactNavigationReduxMiddleware,
@@ -67,6 +69,9 @@ const MainNavigator = createStackNavigator({
   },
   LogPage: {
     screen: LogPage,
+  },
+  Demo: {
+    screen: Demo,
   },
   DetailPage: {
     screen: DetailPage

@@ -18,27 +18,24 @@ export default class NetUtils extends Component{
    * @param {*} callback  成功后的回调
    */
   static get(url,params,callback,errFn){
+    var newParams = '?' + this.toParams(params);
     let _=this;
-    fetch(url,{
-      method:'GET',
-      body:params
+    fetch(url+newParams,{
+      method:'GET'
       })
       .then((response) => {
-        //if(response.ok){
           return response.json();
-        // } else {
-        //   errFn('输入错误')
-        // }
       })
       .then((json) => {
         //根据接口规范在此判断是否成功，成功后则回调
         if(json.code === 200){
-            callback(json);
+            callback(json.data);
         }else{
           errFn(json.msg)
         }
       })
       .catch(error => {
+        //errFn(error);
         errFn('网络故障')
       });
   };

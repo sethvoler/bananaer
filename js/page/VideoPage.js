@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Platform, ScrollView, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
+import {Platform, ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
-import Video from '../common/Video';
 import ImgTop from '../common/ImgTop';
+import Api from '../expand/api';
+import MB from '../common/ModalBox';
 
 type Props = {};
 export default class MorePage extends Component<Props> {
@@ -22,6 +23,35 @@ export default class MorePage extends Component<Props> {
         color: 'rgba(0,0,0,0)'
       }
     })
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      flag: false,
+      content: '',
+      list: [],
+    }
+  }
+  _getMediaList () {
+    let _ = this;
+    Api.mediaList({}, function (data) {
+      _.setState({
+        list: data
+      })
+    }, function (msg) {
+      _.setState({
+        flag: true,
+        content: msg
+      })
+    })
+  }
+  sure () {
+    this.setState({
+      flag: false,
+    })
+  }
+  componentDidMount () {
+    this._getMediaList()
   }
   render () {
     return (
@@ -66,8 +96,10 @@ export default class MorePage extends Component<Props> {
             </View>
           </TouchableOpacity>
         </ScrollView>
-
-        
+        <MB 
+          content={this.state.content} 
+          isModal={this.state.flag}
+          sure={() => this.sure()}/>
       </View>
     );
     
