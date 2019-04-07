@@ -14,7 +14,8 @@ export default class NavigationUtil {
     }
     return page
   }
-  static goBackPage(navigation) {
+  static goBackPage(params) {
+    const {navigation} = params;
     navigation.goBack();
   }
   static resetToHomePage(params) {

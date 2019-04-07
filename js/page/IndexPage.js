@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, Alert} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, AsyncStorage} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
@@ -16,6 +16,9 @@ class IndexPage extends Component<Props> {
   }
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+    // AsyncStorage.getItem('tabName', (error, value) => {
+    //   this.tabName = value;
+    // });
   }
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
@@ -31,7 +34,7 @@ class IndexPage extends Component<Props> {
  
   render() {
     NavigationUtil.navigation = this.props.navigation;
-    return <DynamicTabNavigator />
+    return <DynamicTabNavigator/>
   }
 };
 

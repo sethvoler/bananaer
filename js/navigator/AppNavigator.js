@@ -36,6 +36,7 @@ import VipPage from '../page/VipPage';
 import FetchDemoPage from '../page/FetchDemoPage';
 import AsyncStoragePage from '../page/AsyncStoragePage';
 import DataStoreDemoPage from '../page/DataStoreDemoPage';
+import VideoPage from '../page/VideoPage';
 
 import Demo from '../page/Demo';
 
@@ -69,9 +70,6 @@ const MainNavigator = createStackNavigator({
   },
   LogPage: {
     screen: LogPage,
-  },
-  Demo: {
-    screen: Demo,
   },
   DetailPage: {
     screen: DetailPage

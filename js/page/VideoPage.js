@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity} from 'react-native';
+import {Platform, ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity, AsyncStorage} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import ImgTop from '../common/ImgTop';
@@ -13,7 +13,6 @@ export default class MorePage extends Component<Props> {
       headerRight: (
           <Image source={require('../res/image/search.png')} style={{marginRight:unitWidth*56,width:unitWidth*30,height:unitWidth*30}}></Image>
       ),
-      //headerTitle: (<Text style={{ flex: 1, textAlign: 'center' }}>设置</Text>),
       headerBackTitle: null,
       headerTintColor: '#7E7E7E',
       headerTitleStyle: {

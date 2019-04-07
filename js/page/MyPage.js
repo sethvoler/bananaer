@@ -17,6 +17,16 @@ class MyPage extends Component<Props> {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    AsyncStorage.getItem('tabName', (error,value) => {
+      // store
+    });
+  }
+  componentDidUpdate () {
+    AsyncStorage.getItem('tabName', (error,value) => {
+      // store
+    });
+  }
   render () {
     return (
       <View style={styles.container}>

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {TextInput, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
+import {TextInput, StyleSheet, Text, View, Button, AsyncStorage, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import ImgTop from '../common/ImgTop';
 import Imgs from '../common/Imgs';
@@ -39,6 +39,14 @@ export default class ImagePage extends Component<Props> {
   }
   componentDidMount() {
     this.getAlbumList();
+    AsyncStorage.getItem('tabName', (error,value) => {
+      // store
+    });
+  }
+  componentDidUpdate () {
+    AsyncStorage.getItem('tabName', (error,value) => {
+      // store
+    });
   }
   render() {
     return (

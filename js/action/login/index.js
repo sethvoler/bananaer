@@ -13,3 +13,10 @@ export function getPhone (user) {
     user: user,
   }
 }
+
+export function curTab (tab) {
+  return {
+    type: Types.GET_TAB,
+    tab: tab,
+  }
+}

@@ -10,6 +10,7 @@ export default class PlayTop extends Component<Props> {
       <View style={styles.wrap}>
         <TouchableOpacity onPress={() => {
           NavigationUtil.goToPage({navigation: this.props.navigation}, 'IndexPage');
+          // NavigationUtil.goBackPage({navigation: this.props.navigation});
         }}>
           <Image source={logo} style={styles.logo}></Image>
         </TouchableOpacity>
@@ -23,14 +24,13 @@ export default class PlayTop extends Component<Props> {
 const styles = StyleSheet.create({
   wrap: {
     width: unitWidth*750,
-    height: unitHeight*124,
-
+    height: unitWidth*124,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingLeft: unitWidth*40, 
     paddingRight: unitWidth*68, 
-    paddingTop: unitHeight*70,
+    paddingTop: unitWidth*70,
   },
   logo: {
     width: unitWidth*52,

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, ScrollView} from 'react-native';
+import {Image, StyleSheet, Text, View, ScrollView, AsyncStorage} from 'react-native';
 import {unitWidth}from '../util/AdapterUtil'; 
 import MySwiper from '../common/MySwiper';
 import Video from '../common/Video';
@@ -12,6 +12,16 @@ export default class HomePage extends Component<Props> {
     this.state = {
       ads: false,
     }
+  }
+  componentDidMount() {
+    AsyncStorage.getItem('tabName', (error,value) => {
+      // store
+    });
+  }
+  componentDidUpdate () {
+    AsyncStorage.getItem('tabName', (error,value) => {
+      // store
+    });
   }
   render () {
     return (

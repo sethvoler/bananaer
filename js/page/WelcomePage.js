@@ -1,10 +1,12 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, Image, AsyncStorage, Dimensions} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {unitWidth, unitHeight}from '../util/AdapterUtil';
 import Api from '../expand/api';
 import MB from '../common/ModalBox';
+
+const {height, width} = Dimensions.get('window');
 
 type Props = {};
 export default class WelcomePage extends Component<Props> {
@@ -75,9 +77,14 @@ export default class WelcomePage extends Component<Props> {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Image source={this.img === 'string' 
-          ? require('../res/image/qdy.jpg')
-          : {uri: this.img}} style={styles.qdy}></Image>
+        <Image source={
+          // this.img === 'string' 
+          // ? 
+          require('../res/image/qdy.jpg')
+          // : {uri: this.img}
+          } style={styles.qdy}
+          resizeMode={'stretch'}
+          ></Image>
         <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
         <MB 
           content={this.state.content} 
@@ -100,15 +107,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    width: unitWidth*750,
-    height: unitHeight*1334,
-  },
-  wb: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: unitWidth*750,
-    height: unitWidth*306,
+    width: width,
+    height: height,
   },
   jump: {
     position: 'absolute',
@@ -123,41 +123,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 11,
     backgroundColor: '#494949',
-  },
-  out: {
-    width: unitWidth*598,
-    height: unitWidth*598,
-    backgroundColor: 'rgba(255,255,255,.1)',
-    borderRadius: unitWidth*299,
-    marginTop: unitHeight*114,
-    marginBottom: unitWidth*70,
-    position: 'relative',
-  },
-  in: {
-    width: unitWidth*450,
-    height: unitWidth*450,
-    backgroundColor: 'rgba(255,255,255,.3)',
-    borderRadius: unitWidth*225,
-    top: unitWidth*74,
-    left: unitWidth*74,
-    position: 'absolute',
-  },
-  wt: {
-    width: unitWidth*400,
-    height: unitWidth*400,
-    position: 'absolute',
-    top: unitWidth*10,
-    left: unitWidth*36,
-  },
-  welcome: {
-    fontSize: 25,
-    color: '#fff',
-    fontWeight: 'bold',
-    marginBottom: unitWidth*36,
-  },
-  content: {
-    fontSize: 12,
-    color: '#fff',
-    marginBottom: unitWidth*10,
+    opacity: .8,
   },
 });

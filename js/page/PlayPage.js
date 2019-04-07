@@ -6,22 +6,66 @@ import Title from '../common/Title';
 import Pl from '../common/Pl';
 import Bpl from '../common/Bpl';
 import PlayTop from '../common/PlayTop';
+import RVideo from 'react-native-video';
 
 type Props = {};
 export default class PlayPage extends Component<Props> {
   static navigationOptions = {
       header: null,
   }
+  constructor (props) {
+    super(props);
+    this.state = {
+      ads: false,
+      show: true,
+    }
+  }
+  componentDidMount () {
+    this.timer = setTimeout(() => {
+      this.setState({
+        show: false,
+      })
+    }, 2000)
+  }
   render () {
     return (
       <View style={styles.wrap}>
-        <Image source={require('../res/image/ksp.jpg')} style={styles.ksp}></Image>
-        <PlayTop 
-          title={'天空中有漂浮着您的梦想吗？'} 
-          logo={require('../res/image/logo.jpg')}
-          icon={require('../res/image/search.png')}
-          mid={false}/>
-        <View style={styles.gg}>
+        {/* <Image source={require('../res/image/ksp.jpg')} style={styles.ksp}></Image> */}
+        <View style={[styles.ksp, {zIndex: 1}]}>
+          <RVideo
+            ref={(ref) => this.videoPlayer = ref}
+            source={{uri: 'http://f.us.sinaimg.cn/001qf5Iglx07nVOIg23601040200gBap0k010.mp4?Expires=1554649920&ssig=NerKNiaW%2B4&KID=unistore,video'}}
+            rate={1.0}
+            volume={1.0}
+            muted={false}
+            resizeMode={'stretch'}
+            playWhenInactive={false}
+            playInBackground={false}
+            ignoreSilentSwitch={'ignore'}
+            progressUpdateInterval={250.0}
+            style={{width: unitWidth*750,height: unitWidth*608,}}
+            />
+        </View>
+        <TouchableOpacity style={[styles.ksp, {zIndex: 2}]} onPress={() => {
+          this.setState({
+            show: !this.state.show
+          })
+        }}>
+          <View style={[styles.ksp, {backgroundColor: 'rgba(0,0,0,0)'}]}>
+            <View style={this.state.show ? styles.vb : [styles.vb, {display: 'none'}]}>
+            
+            </View>
+          </View>
+        </TouchableOpacity>
+        <View style={{position:'relative', zIndex: 3}}>
+          <PlayTop 
+            title={'天空中有漂浮着您的梦想吗？'} 
+            logo={require('../res/image/logo.jpg')}
+            icon={require('../res/image/search.png')}
+            mid={false}/>
+        </View>
+        <View style={styles.block}></View>
+        <View style={this.state.ads ? styles.gg : [styles.gg, {display: 'none'}]}>
           <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
         </View>
         <Title 
@@ -41,26 +85,26 @@ export default class PlayPage extends Component<Props> {
           <Pl 
             name={'这一季雨落'}
             icon={false}
-            time={'1小时前'}
+            time={'10分钟前'}
             content={'白头发的不错哦'}
             num={4} />
           <Pl 
-            name={'丝丝狐'}
+            name={'墨明棋妙'}
             icon={true}
-            time={'6分钟前'}
-            content={'打字啊我们在一起'}
+            time={'33分钟前'}
+            content={'泰国妹子。。。漂亮！'}
             num={1} />
           <Pl 
-            name={'这一季雨落'}
+            name={'蝴蝶飞不过沧海'}
             icon={false}
             time={'1小时前'}
-            content={'白头发的不错哦'}
+            content={'被感动哭😢😢😢'}
             num={4} />
           <Pl 
-            name={'丝丝狐'}
+            name={'醉生梦死'}
             icon={true}
-            time={'6分钟前'}
-            content={'打字啊我们在一起'}
+            time={'1小时前'}
+            content={'一起去泰国啊。。。'}
             num={1} />
           <Pl 
             name={'这一季雨落'}
@@ -95,12 +139,11 @@ const styles = StyleSheet.create({
   },
   ksp: {
     width: unitWidth*750,
-    height: unitWidth*507,
+    height: unitWidth*608,
     position: 'absolute',
     top: 0,
   },
   gg: {
-    marginTop: unitWidth*380,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -121,8 +164,17 @@ const styles = StyleSheet.create({
     width: unitWidth*750,
     height: unitWidth*2,
   },
-
-
+  block: {
+    width: unitWidth*750,
+    height: unitWidth*504,
+  },
+  vb: {
+    position: 'absolute', 
+    width: unitWidth*750, 
+    height: unitWidth*100, 
+    backgroundColor: 'red',
+    bottom: 0,
+  },
 
 
 
