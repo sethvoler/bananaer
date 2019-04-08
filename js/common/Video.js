@@ -16,14 +16,14 @@ export default class Video extends Component<Props> {
     let list1 = (length) => {
       var res = [];
       for(var i = 0; i < length; i++) {
-        res.push(<Image source={imgs[style]} style={num2 === 3 ? styles.img1 : styles.img2}></Image>)
+        res.push(<Image key={i} source={imgs[style]} style={num2 === 3 ? styles.img1 : styles.img2}></Image>)
       }
       return res
     }
     let list2 = (length) => {
       var res = [];
       for(var i = 0; i < length; i++) {
-        res.push(<View style={styles.main}>{list1(num2)}</View>)
+        res.push(<View key={'0' + i} style={styles.main}>{list1(num2)}</View>)
       }
       return res
     }

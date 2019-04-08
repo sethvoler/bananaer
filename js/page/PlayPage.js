@@ -34,7 +34,7 @@ export default class PlayPage extends Component<Props> {
         <View style={[styles.ksp, {zIndex: 1}]}>
           <RVideo
             ref={(ref) => this.videoPlayer = ref}
-            source={{uri: 'http://f.us.sinaimg.cn/001qf5Iglx07nVOIg23601040200gBap0k010.mp4?Expires=1554649920&ssig=NerKNiaW%2B4&KID=unistore,video'}}
+            source={{uri: 'http://flv3.bn.netease.com/videolib1/1811/06/RdHLz616R/SD/RdHLz616R-mobile.mp4'}}
             rate={1.0}
             volume={1.0}
             muted={false}

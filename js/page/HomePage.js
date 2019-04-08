@@ -4,6 +4,7 @@ import {Image, StyleSheet, Text, View, ScrollView, AsyncStorage} from 'react-nat
 import {unitWidth}from '../util/AdapterUtil'; 
 import MySwiper from '../common/MySwiper';
 import Video from '../common/Video';
+import Api from '../expand/api';
 
 type Props = {};
 export default class HomePage extends Component<Props> {
@@ -11,17 +12,33 @@ export default class HomePage extends Component<Props> {
     super(props);
     this.state = {
       ads: false,
+      newMediaList: [],
+      mostLikeList: [],
     }
   }
-  componentDidMount() {
-    AsyncStorage.getItem('tabName', (error,value) => {
-      // store
-    });
+  getNewMediaList () {
+    let _ = this;
+    Api.mediaList({sort: 1}, function (res) {
+      AsyncStorage.setItem('newMediaList', JSON.stringify(res), error => {});
+      _.setState({
+        newMediaList: _.state.newMediaList.concat(res)
+      })
+      console.log(_.state.newMediaList);
+    }, function (err) {})
   }
-  componentDidUpdate () {
-    AsyncStorage.getItem('tabName', (error,value) => {
-      // store
-    });
+  getMostLikeList () {
+    let _ = this;
+    Api.mediaList({sort: 2}, function (res) {
+      AsyncStorage.setItem('mostLikeList', JSON.stringify(res), error => {});
+      _.setState({
+        mostLikeList: _.state.mostLikeList.concat(res)
+      })
+      console.log(_.state.mostLikeList);
+    }, function (err) {})
+  }
+  componentDidMount () {
+    this.getNewMediaList()
+    this.getMostLikeList()
   }
   render () {
     return (
@@ -36,14 +53,14 @@ export default class HomePage extends Component<Props> {
           <Video
             isHeader={true}
             title={'最新片源'}
-            key={'最新片源'}
+            key={1}
             num1={3}
             num2={2} 
             style={1}/>
           <Video
             isHeader={true}
             title={'重磅热播'}
-            key={'重磅热播'}
+            key={2}
             num1={2}
             num2={2} 
             style={1} />
@@ -58,14 +75,14 @@ export default class HomePage extends Component<Props> {
           <Video
             isHeader={true}
             title={'国产大剧'}
-            key={'国产大剧'}
+            key={3}
             num1={3}
             num2={3} 
             style={2} />
           <Video
             isHeader={true}
             title={'国产大剧'}
-            key={'国产大剧2'}
+            key={4}
             num1={3}
             num2={3} 
             style={2} />

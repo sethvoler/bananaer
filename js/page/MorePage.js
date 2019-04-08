@@ -21,20 +21,48 @@ export default class MorePage extends Component<Props> {
       }
     })
   }
+  constructor (props) {
+    super(props);
+    this.state = {
+      upIndex: 0,
+      bottomIndex: 0
+    }
+  }
   render () {
     return (
       <View style={styles.wrap}>
         <View style={styles.top}>
           <View style={styles.in}>
             <Text style={styles.nomal}>综合</Text>
-            <Text style={styles.active}>最多播放</Text>
-            <Text style={styles.nomal}>最近更新</Text>
-            <Text style={styles.nomal}>最多喜欢</Text>
+            {
+              ['最多播放','最近更新','最多喜欢'].map((item, index) => {
+                return (
+                  <Text style={this.state.upIndex === index 
+                    ? styles.active 
+                    : styles.nomal} key={item} onPress={() => {
+                      this.setState({
+                        upIndex: index
+                      })
+                  }}>{item}</Text>
+                );
+              })
+            }
           </View>
           <View style={styles.in}>
             <Text style={styles.nomal}>全部</Text>
-            <Text style={styles.active}>家庭</Text>
-            <Text style={styles.nomal}>搞笑</Text>
+            {
+              ['家庭','搞笑'].map((item, index) => {
+                return (
+                  <Text style={this.state.bottomIndex === index 
+                    ? styles.active 
+                    : styles.nomal} key={item} onPress={() => {
+                      this.setState({
+                        bottomIndex: index
+                      })
+                  }}>{item}</Text>
+                );
+              })
+            }
           </View>
         </View>
         <View style={styles.line}></View>

@@ -13,7 +13,8 @@ const apis = {
     settings: '/common/settings',
     mediaList: '/media/list',
     albumList: '/album/list',
-    imgList: '/album/img/list'
+    imgList: '/album/img/list',
+    mediaList: '/media/list',
   }
 };
 
@@ -41,5 +42,8 @@ export default api = {
   },
   imgList: function(params,callback,errFn) {
     Net.get(BASE+apis.get.imgList,params,callback,errFn);
+  },
+  mediaList: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.mediaList,params,callback,errFn);
   },
 }
