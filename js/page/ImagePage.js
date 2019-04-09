@@ -39,14 +39,6 @@ export default class ImagePage extends Component<Props> {
   }
   componentDidMount() {
     this.getAlbumList();
-    AsyncStorage.getItem('tabName', (error,value) => {
-      // store
-    });
-  }
-  componentDidUpdate () {
-    AsyncStorage.getItem('tabName', (error,value) => {
-      // store
-    });
   }
   render() {
     return (

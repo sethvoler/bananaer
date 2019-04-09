@@ -6,11 +6,12 @@ import NavigationUtil from '../navigator/NavigationUtil';
 const imgs = [require('../res/image/t1.jpg'), require('../res/image/t2.jpg'), require('../1.jpeg')];
 export default class MyImg extends Component<Props> {
   render () {
-    let {img} = this.props;
+    let {img, likeCount} = this.props;
     return (
       <View style={styles.wrap}>
         <View style={styles.box}>
-          <Image style={styles.img} source={imgs[img]}></Image>
+          {/* <Image style={styles.img} source={imgs[img]}></Image> */}
+          <Image style={styles.img} source={{uri: img}} resizeMode={'stretch'}></Image>
           <Text style={styles.inl}>
             [Lolita]漫展上的清纯少女Lolita!
           </Text>
@@ -18,7 +19,7 @@ export default class MyImg extends Component<Props> {
         </View>
         <View style={styles.b}>
           <Image style={styles.ii} source={require('../res/image/dz.png')}></Image>
-          <Text style={styles.tt}>111</Text>
+          <Text style={styles.tt}>{likeCount}</Text>
           <Image style={styles.ii} source={require('../res/image/pl.png')}></Image>
           <Text style={styles.tt}>28</Text>
           <Image style={styles.o} source={require('../res/image/fx.png')}></Image>

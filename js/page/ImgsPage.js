@@ -25,24 +25,41 @@ export default class ImagePage extends Component<Props> {
       flag: false,
     })
   }
-  getImgList () {
+  // getImgList () {
+  //   let _ = this;
+  //   let obj = {
+  //     albumId: 1 // id
+  //   }
+  //   Api.imgList(obj, function (data) {
+  //     console.log(data);
+  //   }, function (msg) {
+  //     console.log(msg);
+  //     _.setState({
+  //       flag: true,
+  //       content: msg,
+  //     })
+  //   })
+  // }
+  getAlbumList () {
     let _ = this;
-    let obj = {
-      albumId: 1 // id
-    }
-    Api.imgList(obj, function (data) {
+    Api.albumList({}, function (data) {
       console.log(data);
+      _.setState({
+        imgs: [].concat(data)
+      })
     }, function (msg) {
-      console.log(msg);
       _.setState({
         flag: true,
         content: msg,
       })
     })
   }
-  componentDidMount () {
-    this.getImgList();
+  componentDidMount() {
+    this.getAlbumList();
   }
+  // componentDidMount () {
+  //   this.getImgList();
+  // }
   render() {
     return (
       <View style={styles.wrap}>
@@ -53,11 +70,19 @@ export default class ImagePage extends Component<Props> {
           mid={false}/>
         <View style={styles.line}></View>
         <ScrollView refreshControl={true} style={{width: unitWidth*692}}>
+          {
+            this.state.imgs.map((item, index) => {
+              return (<MyImg 
+                img={item.lastPic} 
+                likeCount={item.likeCount}
+                key={index}/>)
+            })
+          }
+          {/* <MyImg img={Math.floor(Math.random()*3)}/>
           <MyImg img={Math.floor(Math.random()*3)}/>
           <MyImg img={Math.floor(Math.random()*3)}/>
           <MyImg img={Math.floor(Math.random()*3)}/>
-          <MyImg img={Math.floor(Math.random()*3)}/>
-          <MyImg img={Math.floor(Math.random()*3)}/>
+          <MyImg img={Math.floor(Math.random()*3)}/> */}
         </ScrollView>
         <MB 
           content={this.state.content} 

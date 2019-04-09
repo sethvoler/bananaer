@@ -19,6 +19,7 @@ const apis = {
     mediaList: '/media/list',
     media: '/media/single',
     commentList: '/media/comment/list',
+    albumList: '/album/list',
   }
 };
 
