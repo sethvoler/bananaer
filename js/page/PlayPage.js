@@ -7,9 +7,16 @@ import Pl from '../common/Pl';
 import Bpl from '../common/Bpl';
 import PlayTop from '../common/PlayTop';
 import RVideo from 'react-native-video';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Api from '../expand/api';
+import MB from '../common/ModalBox';
+import {connect} from 'react-redux';
+import actions from '../action';
 
 type Props = {};
-export default class PlayPage extends Component<Props> {
+class PlayPage extends Component<Props> {
   static navigationOptions = {
       header: null,
   }
@@ -18,31 +25,136 @@ export default class PlayPage extends Component<Props> {
     this.state = {
       ads: false,
       show: true,
+      muted: false,
+      duration: '',
+      play: true,
+      title: '',
+      time: '',
+      likeCount: 0,
+      commentList: [],
+      content: '',
+      flag: false,
     }
   }
-  componentDidMount () {
-    this.timer = setTimeout(() => {
-      this.setState({
-        show: false,
-      })
-    }, 2000)
+  _getMediaMsg (id) {
+    let _ = this;
+    Api.media({mediaId: id}, function (data) {
+      _.setState({
+        title: data.mediaName,
+        time: data.createTime.slice(0,10),
+        likeCount: data.likeCount,
+      });
+    }, function (msg) {}); 
   }
+  
+  _getCommentList (id) {
+    let _ = this;
+    Api.commentList({mediaId: id}, function (data) {
+      _.setState({
+        commentList: [].concat(data).reverse()
+      });
+      console.log(_.state.commentList);
+    }, function (msg) {}); 
+  }
+
+  timeFliter (str) {
+    let time1 = (new Date(str)).getTime();
+    let now = Date.now();
+    let time = (now-time1)/1000;
+    let out = ''
+    time < 1
+      ? out = '1秒前'
+      : time < 60
+        ? out = Math.floor(time) + '秒前'
+        : time < 60*60
+          ? out = Math.floor(time/60) + '分钟前'
+          : time < 60*60*24
+            ? out = Math.floor(time/(60*60)) + '小时前'
+            : out = Math.floor(time/(60*60*24)) + '天前'
+    return out;
+  }
+
+  like(id) {
+    let _ = this;
+    Api.like({commentId: id}, function (data) {
+      _._getCommentList(1)
+    }, function (msg) {}); 
+  }
+
+  isLike (id) {
+    if (!this.props.status) {
+      this.setState({
+        content: '请先登录',
+        flag: true,
+      })
+    } else {
+      this.like(id);
+    }
+  }
+
+  send (comment) {
+    let _ = this;
+    if (!this.props.status) {
+      _.setState({
+        content: '请先登录',
+        flag: true,
+      })
+    } else {
+      Api.createComment({mediaId: 1, comment: comment}, function (data) {
+        _._getCommentList(1)
+      }, function (msg) {});
+    }
+  }
+  sure () {
+    this.setState({
+      flag: false,
+    })
+  }
+
+  componentDidMount () {
+    this._getMediaMsg(1);
+    this._getCommentList(1);
+  }
+  
   render () {
     return (
       <View style={styles.wrap}>
-        {/* <Image source={require('../res/image/ksp.jpg')} style={styles.ksp}></Image> */}
         <View style={[styles.ksp, {zIndex: 1}]}>
           <RVideo
             ref={(ref) => this.videoPlayer = ref}
             source={{uri: 'http://flv3.bn.netease.com/videolib1/1811/06/RdHLz616R/SD/RdHLz616R-mobile.mp4'}}
-            rate={1.0}
+            rate={this.state.play ? 1.0 : 0.0}
             volume={1.0}
-            muted={false}
+            muted={this.state.muted}
             resizeMode={'stretch'}
             playWhenInactive={false}
             playInBackground={false}
             ignoreSilentSwitch={'ignore'}
             progressUpdateInterval={250.0}
+            onLoad={({duration}) => {
+              let t = '';
+              if (duration > 60) {
+                let min = Math.floor(duration/60);
+                if (min < 10) {
+                  min = '0' + min;
+                }
+                let sec = Math.floor(duration%60);
+                if (sec < 10) {
+                  sec = '0' + sec;
+                }
+                t = min + ':' + sec
+              } else {
+                if (duration > 10) {
+                  t = '00:'+Math.floor(duration)
+                } else {
+                  t = '00:0'+Math.floor(duration)
+                }
+              }
+              
+              this.setState({
+                duration: t
+              })
+            }}
             style={{width: unitWidth*750,height: unitWidth*608,}}
             />
         </View>
@@ -52,15 +164,46 @@ export default class PlayPage extends Component<Props> {
           })
         }}>
           <View style={[styles.ksp, {backgroundColor: 'rgba(0,0,0,0)'}]}>
+            <TouchableOpacity onPress={() => {
+              this.setState({
+                muted: !this.state.muted
+              })
+            }}>
+              <View style={this.state.show ? styles.vm : [styles.vm, {display: 'none'}]}>
+                {
+                  this.state.muted
+                  ? (<MaterialIcons name={'volume-off'} style={styles.vmIn}/>)
+                  : (<MaterialIcons name={'volume-up'} style={styles.vmIn}/>)
+                }
+              </View>
+            </TouchableOpacity>
             <View style={this.state.show ? styles.vb : [styles.vb, {display: 'none'}]}>
-            
+              <View style={styles.vbt}>
+                <Text style={styles.vbtf}>0:00</Text>
+                <Text style={styles.vbtf}>{this.state.duration}</Text>
+              </View>
+              <View style={styles.vbb}>
+                <TouchableOpacity onPress={() => {
+                  this.setState({
+                    play: !this.state.play
+                  })
+                }}>
+                  {
+                    this.state.play
+                    ? (<Feather name={'play'} style={{color: 'white', fontSize: unitWidth*30}}/>)
+                    : (<AntDesign name={'pause'} style={{color: 'white', fontSize: unitWidth*30}}/>)
+                  }
+                </TouchableOpacity>
+                <View style={styles.progress}></View>
+                  <Text style={styles.vbtf}></Text>
+                </View>
+              </View>
             </View>
-          </View>
         </TouchableOpacity>
         <View style={{position:'relative', zIndex: 3}}>
           <PlayTop 
-            title={'天空中有漂浮着您的梦想吗？'} 
-            logo={require('../res/image/logo.jpg')}
+            title={this.state.title} 
+            logo={'back'}
             icon={require('../res/image/search.png')}
             mid={false}/>
         </View>
@@ -69,68 +212,45 @@ export default class PlayPage extends Component<Props> {
           <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
         </View>
         <Title 
-          title={'天空中有漂浮着您的梦想吗？'} 
+          title={this.state.title} 
+          time={this.state.time} 
+          likeCount={this.state.likeCount} 
           icon1={require('../res/image/i1.png')}
           icon2={require('../res/image/i2.png')}
           icon3={require('../res/image/i3.png')} />
         <Text style={styles.title}>最新评论</Text>
         <View style={styles.line}></View>
         <ScrollView style={{width: unitWidth*750,}}>
-          <Pl 
-            name={'丝丝狐'}
-            icon={true}
-            time={'6分钟前'}
-            content={'打字啊我们在一起'}
-            num={1} />
-          <Pl 
-            name={'这一季雨落'}
-            icon={false}
-            time={'10分钟前'}
-            content={'白头发的不错哦'}
-            num={4} />
-          <Pl 
-            name={'墨明棋妙'}
-            icon={true}
-            time={'33分钟前'}
-            content={'泰国妹子。。。漂亮！'}
-            num={1} />
-          <Pl 
-            name={'蝴蝶飞不过沧海'}
-            icon={false}
-            time={'1小时前'}
-            content={'被感动哭😢😢😢'}
-            num={4} />
-          <Pl 
-            name={'醉生梦死'}
-            icon={true}
-            time={'1小时前'}
-            content={'一起去泰国啊。。。'}
-            num={1} />
-          <Pl 
-            name={'这一季雨落'}
-            icon={false}
-            time={'1小时前'}
-            content={'白头发的不错哦'}
-            num={4} />
-          <Pl 
-            name={'丝丝狐'}
-            icon={true}
-            time={'6分钟前'}
-            content={'打字啊我们在一起'}
-            num={1} />
-          <Pl 
-            name={'这一季雨落'}
-            icon={false}
-            time={'1小时前'}
-            content={'白头发的不错哦'}
-            num={4} />
+          {
+            this.state.commentList.map((item, index) => {
+              return (<Pl 
+                key={index}
+                name={item.userId}
+                icon={item.likeCount>0}
+                time={this.timeFliter(item.createTime)}
+                content={item.comment}
+                num={item.likeCount} 
+                id={item.id}
+                like={() => this.isLike(item.id)}/>)
+            })
+          }
         </ScrollView>
-        <Bpl />
+        <Bpl 
+          send={(comment) => this.send(comment)}/>
+        <MB 
+          content={this.state.content} 
+          isModal={this.state.flag}
+          sure={() => this.sure()}/>
       </View>
     );
     
   }
 }
+
+const mapStateToProps = state => ({
+  status: state.status.status,
+});
+export default connect(mapStateToProps)(PlayPage);
 
 const styles = StyleSheet.create({
   wrap: {
@@ -171,9 +291,45 @@ const styles = StyleSheet.create({
   vb: {
     position: 'absolute', 
     width: unitWidth*750, 
-    height: unitWidth*100, 
-    backgroundColor: 'red',
+    height: unitWidth*80, 
     bottom: 0,
+    paddingLeft: unitWidth*28, 
+    paddingRight: unitWidth*28, 
+  },
+  vm: {
+    position: 'absolute', 
+    width: unitWidth*80, 
+    height: unitWidth*80, 
+    backgroundColor: 'rgba(0,0,0,.6)',
+    left: unitWidth*28,
+    top: unitWidth*263,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: unitWidth*40, 
+  },
+  vmIn: {
+    fontSize: unitWidth*60,
+    color: 'white',
+  },
+  vbt: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  vbtf: {
+    fontSize: unitWidth*32,
+    color: '#EFF5F8',
+  },
+  vbb: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: unitWidth*40,
+  },
+  progress: {
+    width:unitWidth*578,
+    height:unitWidth*10,
+    backgroundColor:'rgba(255,255,255,0.5)',
+    borderRadius: unitWidth*5,
   },
 
 

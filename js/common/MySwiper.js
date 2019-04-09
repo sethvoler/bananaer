@@ -26,7 +26,7 @@ export default class MySwiper extends Component {
     }
   }
   static defaultProps = {
-    duration: 2000,
+    duration: 3000,
   }
   _startTimer() {
     let scrollView = this.refs.scrollView;
@@ -40,7 +40,7 @@ export default class MySwiper extends Component {
           activePage = this.state.currentPage + 1;
         }
         this.setState({currentPage: activePage});
-        let offsetX = activePage * unitWidth*610;
+        let offsetX = activePage * unitWidth*1830;
         scrollView.scrollResponderScrollTo({x: offsetX, y: 0, animated: true});
       },
       this.props.duration
@@ -51,7 +51,7 @@ export default class MySwiper extends Component {
     //求出偏移量
     let offsetX = e.nativeEvent.contentOffset.x;
     //求出当前页数
-    let pageIndex = Math.floor(offsetX / (unitWidth*610));
+    let pageIndex = Math.floor(offsetX / (unitWidth*1830));
     //更改状态机
     this.setState({currentPage: pageIndex});
   }
@@ -68,13 +68,23 @@ export default class MySwiper extends Component {
     let allImage = [];
     let j = imgArr.length;
     for (let i = 0; i < j; i++) {
+      let preItem = imgArr[(i-1+img+j)%j];
       let imgsItem = imgArr[(i+img+j)%j];
+      let nextItem = imgArr[(i+1+img+j)%j];
       allImage.push(
-        <Image key={i} source={imgsItem} style={styles.imageStyle}/>
+        <View style={styles.box}>
+          <Image key={i-1} source={preItem} style={styles.preStyle}/>
+          <Image key={i} source={imgsItem} style={styles.imageStyle}/>
+          <Image key={i+1} source={nextItem} style={styles.nextStyle}/>
+        </View>
       );
       if (i === j-1) {
         allImage.push(
-          <Image key={j} source={imgArr[(img+j)%j]} style={styles.imageStyle}/>
+          <View style={styles.box}>
+            <Image key={i-1} source={imgArr[(img+j-1)%j]} style={styles.preStyle}/>
+            <Image key={i} source={imgArr[(img+j)%j]} style={styles.imageStyle}/>
+            <Image key={i+1} source={imgArr[(img+j+1)%j]} style={styles.nextStyle}/>
+          </View>
         );
       }
     }
@@ -104,11 +114,7 @@ export default class MySwiper extends Component {
   render() {
     const {img} = this.props;
     return (
-      <View style={img === -1 
-              ? styles.continer1
-              : img === 1 
-                ? styles.continer2 
-                : styles.continer}>
+      <View style={styles.continer}>
         <ScrollView
           style={{borderRadius: unitWidth*10,}}
           ref='scrollView'
@@ -143,39 +149,38 @@ export default class MySwiper extends Component {
 
 const styles = StyleSheet.create({
   continer: {
-      width: unitWidth*610,
+      width: unitWidth*1830,
       height: unitWidth*432,
       borderRadius: unitWidth*10,
   },
-  continer1: {
+  preStyle: {
     width: unitWidth*610,
-    height: unitWidth*432,
+    position: 'relative',
+    left:  unitWidth*182,
+    height: unitWidth*337,
     borderRadius: unitWidth*10,
     transform: [{scaleY: .8}, 
       {rotateY: '-70deg'}, 
-      {translateX: 600*unitWidth},
-      {perspective: 10000000},
       {skewY: '-2deg'}, ]
   },
-  continer2: {
+  nextStyle: {
+    height: unitWidth*342,
     width: unitWidth*610,
-    height: unitWidth*432,
+    position: 'relative',
+    right:  unitWidth*182,
+    height: unitWidth*337,
     borderRadius: unitWidth*10,
     transform: [{scaleY: .8}, 
       {rotateY: '-70deg'}, 
-      {translateX: -600*unitWidth},
-      {perspective: 10000000},
       {skewY: '2deg'}, ]
   },
   imageStyle: {
       height: unitWidth*342,
       width: unitWidth*610,
       borderRadius: unitWidth*10,
-      // borderColor: 'rgba(0,0,0,1)',
-      // borderBottomWidth: unitWidth*10,
   },
   pageViewStyle: {
-      width: unitWidth*610,
+      width: unitWidth*1830,
       //backgroundColor: 'rgba(0,0,0,0.4)',
       position: 'absolute',
       bottom: 0,
@@ -183,5 +188,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: unitWidth*10,
+  },
+  box: {
+    flexDirection: 'row',
   }
 });

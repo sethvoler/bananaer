@@ -5,7 +5,7 @@ import NavigationUtil from '../navigator/NavigationUtil';
 
 export default class PlayTop extends Component<Props> {
   render () {
-    const {title, icon1, icon2, icon3,} = this.props;
+    const {title, icon1, icon2, icon3, time, likeCount } = this.props;
     return (
       <View style={styles.wrap}>
         <View style={styles.top}>
@@ -20,8 +20,8 @@ export default class PlayTop extends Component<Props> {
           </View>
         </View>
         <View style={styles.c}>
-          <Text style={styles.in}>2019-03-22</Text> 
-          <Text style={styles.in1}>0.2</Text>
+          <Text style={styles.in}>{time}</Text> 
+          <Text style={styles.in1}>{(likeCount/10000).toFixed(1)}</Text>
           <Text style={styles.in}>万次点赞</Text>
         </View>
       </View>

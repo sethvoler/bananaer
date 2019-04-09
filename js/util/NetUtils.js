@@ -1,4 +1,11 @@
-import React,{Component} from 'react';   
+import React,{Component} from 'react'; 
+import {AsyncStorage} from 'react-native';
+
+let token = '';
+
+AsyncStorage.getItem('token', (err, value) => {
+  token = value;
+})
 
 /**
  * 网络请求的工具类
@@ -21,7 +28,10 @@ export default class NetUtils extends Component{
     var newParams = '?' + this.toParams(params);
     let _=this;
     fetch(url+newParams,{
-      method:'GET'
+      method:'GET',
+      headers:{
+        'authorization': token
+      },
       })
       .then((response) => {
           return response.json();
@@ -52,7 +62,8 @@ export default class NetUtils extends Component{
       fetch(url,{
         method:'POST',
         headers:{
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'//key-value形式
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',//key-value形式
+          'authorization': token
         },
         body:newParams
       })
@@ -83,7 +94,8 @@ export default class NetUtils extends Component{
     fetch(url,{
       method:'POST',
       headers:{
-        'Content-Type': 'application/json;charset=UTF-8'
+        'Content-Type': 'application/json;charset=UTF-8',
+        'authorization': token
       },
       body:JSON.stringify(jsonObj),
     })

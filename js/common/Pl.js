@@ -5,7 +5,7 @@ import NavigationUtil from '../navigator/NavigationUtil';
 
 export default class Pl extends Component<Props> {
   render () {
-    const {name, icon, time, content, num} = this.props;
+    const {name, icon, time, content, num, id, like} = this.props;
     return (
       <View style={styles.wrap}>
         <View style={styles.left}>
@@ -17,7 +17,9 @@ export default class Pl extends Component<Props> {
           </View>
         </View>
         <View style={styles.right}>
-          <Image source={icon? require('../res/image/i1.png') : require('../res/image/i0.png')} style={styles.icon}></Image>
+          <TouchableOpacity onPress={() => {like(id)}}>
+            <Image source={icon? require('../res/image/i1.png') : require('../res/image/i0.png')} style={styles.icon}></Image>
+          </TouchableOpacity>
           <Text style={icon? styles.num1 : styles.num2}>{num}</Text>
         </View>
       </View>

@@ -4,9 +4,11 @@ import {Image, StyleSheet, Text, View, ScrollView, AsyncStorage} from 'react-nat
 import {unitWidth}from '../util/AdapterUtil'; 
 import MySwiper from '../common/MySwiper';
 import Video from '../common/Video';
+
 import Api from '../expand/api';
 
 type Props = {};
+
 export default class HomePage extends Component<Props> {
   constructor(props) {
     super(props);
@@ -45,9 +47,7 @@ export default class HomePage extends Component<Props> {
       <View style={styles.container}>
         <ScrollView style={styles.wrap}>
           <View style={styles.box}>
-            <MySwiper img={-1}/>
             <MySwiper img={0}/>
-            <MySwiper img={1}/>
           </View>
           <View style={styles.line}></View>
           <Video
@@ -101,14 +101,13 @@ const styles = StyleSheet.create({
     width: unitWidth*750,
     paddingTop: unitWidth*110,
   },
+  box: {
+    width: unitWidth*1830,
+    position: 'relative',
+    left: -540*unitWidth
+  },
   wrap: {
     width: unitWidth*750,
-  },
-  box: {
-    marginLeft: -560*unitWidth,
-    width: unitWidth*1870,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   line: {
     height: unitWidth*20,
