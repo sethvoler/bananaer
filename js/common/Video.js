@@ -16,7 +16,11 @@ export default class Video extends Component<Props> {
     let list1 = (length) => {
       var res = [];
       for(var i = 0; i < length; i++) {
-        res.push(<Image key={i} source={imgs[style]} style={num2 === 3 ? styles.img1 : styles.img2}></Image>)
+        res.push(<TouchableOpacity onPress={() => {
+          NavigationUtil.goToPage({navigation: this.props.navigation}, 'PlayPage');
+        }}>
+          <Image key={i} source={imgs[style]} style={num2 === 3 ? styles.img1 : styles.img2}></Image>
+        </TouchableOpacity>)
       }
       return res
     }
