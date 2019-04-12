@@ -4,8 +4,8 @@ import {Image, StyleSheet, Text, View, ScrollView, AsyncStorage} from 'react-nat
 import {unitWidth}from '../util/AdapterUtil'; 
 import MySwiper from '../common/MySwiper';
 import Video from '../common/Video';
-
 import Api from '../expand/api';
+
 
 type Props = {};
 

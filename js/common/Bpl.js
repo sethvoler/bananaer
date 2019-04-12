@@ -12,7 +12,7 @@ export default class PlayTop extends Component<Props> {
     }
   }
   render () {
-    const {title, icon, logo, mid, send} = this.props;
+    const {title, icon, logo, mid, send, id} = this.props;
     return (
       <View style={styles.wrap}>
         <View style={styles.left}>
@@ -23,7 +23,7 @@ export default class PlayTop extends Component<Props> {
                 comment: text
               })
             }}/>
-          <TouchableOpacity onPress={() => send(this.state.comment)} style={{position: 'absolute', right: unitWidth*28}}>
+          <TouchableOpacity onPress={() => send(id, this.state.comment)} style={{position: 'absolute', right: unitWidth*28}}>
             <Feather name="send" size={unitWidth*28} color="#fff"/>
           </TouchableOpacity>
         </View>

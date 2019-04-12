@@ -5,6 +5,7 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import ImgTop from '../common/ImgTop';
 import Api from '../expand/api';
 import MB from '../common/ModalBox';
+import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 
 type Props = {};
 export default class MorePage extends Component<Props> {
@@ -34,9 +35,11 @@ export default class MorePage extends Component<Props> {
   _getMediaList () {
     let _ = this;
     Api.mediaList({}, function (data) {
+      AsyncStorage.setItem('mediaList', JSON.stringify(data), error => {});
       _.setState({
-        list: data
+        list: _.state.list.concat(data)
       })
+      console.log(_.state.list);
     }, function (msg) {
       _.setState({
         flag: true,
@@ -60,40 +63,40 @@ export default class MorePage extends Component<Props> {
           logo={require('../res/image/logo.jpg')}
           icon={require('../res/image/search.png')}
           mid={true}/>
-        <ScrollView>
-          <TouchableOpacity onPress={() => {
-            NavigationUtil.goToPage({navigation: this.props.navigation}, 'PlayPage');
-          }}>
-            <View style={styles.item}>
-              <Image style={styles.spg} source={require('../res/image/spg.png')}></Image>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-            NavigationUtil.goToPage({navigation: this.props.navigation}, 'PlayPage');
-          }}>
-            <View style={styles.item}>
-              <Image style={styles.spg} source={require('../res/image/spg.png')}></Image>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-            NavigationUtil.goToPage({navigation: this.props.navigation}, 'PlayPage');
-          }}>
-            <View style={styles.item}>
-              <Image style={styles.spg} source={require('../res/image/spg.png')}></Image>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={styles.item}>
-              <Image style={styles.spg} source={require('../res/image/spg.png')}></Image>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-            NavigationUtil.goToPage({navigation: this.props.navigation}, 'PlayPage');
-          }}>
-            <View style={styles.item}>
-              <Image style={styles.spg} source={require('../res/image/spg.png')}></Image>
-            </View>
-          </TouchableOpacity>
+        <ScrollView sytle={{justifyContent: 'center',width: unitWidth*750,}}>
+          {
+            this.state.list.map((item, index) => {
+              const id = item.id;
+              return (
+                <TouchableOpacity key={index} style={styles.imgBox} onPress={() => {
+                  NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+                }}>
+                  <Image roundAsCircle={true} resizeMode={'stretch'} source={{uri: item.posterUrl}} style={styles.img}></Image>
+                  <View style={styles.bc}>
+                      <Text style={{
+                        marginLeft: unitWidth*20,  
+                        fontSize: unitWidth*27,  
+                        color:'#fff',
+                        //fontFamily: 'SourceHanSansCNM'
+                        } }>{item.mediaName}</Text>
+                      <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        } }>
+                        <AntDesign name={'caretright'} size={unitWidth*24} color={'#fff'}/>
+                        <Text style={{ 
+                          marginRight: unitWidth*20,
+                          marginLeft: unitWidth*8, 
+                          fontSize: unitWidth*23,  
+                          color:'#fff',
+                          //fontFamily: 'PingFang-SC-Medium'
+                          } }>{item.playTimes || 0}</Text>
+                      </View>
+                    </View>
+                </TouchableOpacity>
+              )
+            })
+          }
         </ScrollView>
         <MB 
           content={this.state.content} 
@@ -145,14 +148,40 @@ const styles = StyleSheet.create({
   item: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: unitWidth*40,
-    marginBottom: unitWidth*40,
+    marginLeft: unitWidth*40,
+    marginTop: unitWidth*24,
   },
   spg: {
     width: unitWidth*710,
     height: unitWidth*359,
   },
-  
+  imgBox: {
+    height: unitWidth*348,
+    width: unitWidth*750,
+    borderRadius: unitWidth*10,
+    paddingLeft:  unitWidth*30,
+    overflow:'hidden',
+  },
+  img: {
+    height: unitWidth*348,
+    width: unitWidth*690,
+    marginTop: unitWidth*24,
+    borderRadius: unitWidth*10,
+    overflow:'hidden',
+  },
+  bc: {
+    position: 'absolute', 
+    width: unitWidth*690, 
+    height: unitWidth*64, 
+    backgroundColor:'rgba(0,0,0,.4)',
+    top: unitWidth*284, 
+    left: unitWidth*30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: unitWidth*10,
+    overflow:'hidden',
+  },
   
   
   

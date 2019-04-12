@@ -13,7 +13,7 @@ export default class LookList extends Component<Props> {
             <Text style={styles.content}>{title}</Text>
             <Text style={styles.time}>{time}</Text>
           </View>
-          <Image source={require('../1.jpeg')} style={styles.img}></Image>
+          {/* <Image source={require('../1.jpeg')} style={styles.img}></Image> */}
         </View>
       </View>
     );

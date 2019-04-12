@@ -36,16 +36,6 @@ class PlayPage extends Component<Props> {
       videoMsg: {}
     }
   }
-  _getMediaMsg (id) {
-    let _ = this;
-    Api.media({mediaId: id}, function (data) {
-      _.setState({
-        title: data.mediaName,
-        time: data.createTime.slice(0,10),
-        likeCount: data.likeCount,
-      });
-    }, function (msg) {}); 
-  }
   
   _getCommentList (id) {
     let _ = this;
@@ -53,7 +43,7 @@ class PlayPage extends Component<Props> {
       _.setState({
         commentList: [].concat(data).reverse()
       });
-      //console.log(_.state.commentList);
+      console.log(_.state.commentList);
     }, function (msg) {}); 
   }
 
@@ -77,7 +67,7 @@ class PlayPage extends Component<Props> {
   like(id) {
     let _ = this;
     Api.like({commentId: id}, function (data) {
-      _._getCommentList(id)
+      _._getCommentList(_.props.navigation.state.params.id)
     }, function (msg) {}); 
   }
 
@@ -92,7 +82,7 @@ class PlayPage extends Component<Props> {
     }
   }
 
-  send (comment) {
+  send (id, comment) {
     let _ = this;
     if (!this.props.status) {
       _.setState({
@@ -100,9 +90,11 @@ class PlayPage extends Component<Props> {
         flag: true,
       })
     } else {
-      Api.createComment({mediaId: 1, comment: comment}, function (data) {
-        _._getCommentList(1)
-      }, function (msg) {});
+      Api.createComment({mediaId: id, comment: comment}, function (data) {
+        _._getCommentList(id)
+      }, function (msg) {
+        console.log(msg);
+      });
     }
   }
   sure () {
@@ -121,9 +113,6 @@ class PlayPage extends Component<Props> {
       })
     }, function (err) {
     })
-  }
-  onBuffer() {
-    alert(0)
   }
 
   componentDidMount () {
@@ -145,7 +134,7 @@ class PlayPage extends Component<Props> {
               console.log("onLoadStart: ", e);
             }}
             onError={() => {
-              alert("加载视频出错", 2);
+              console.log("加载视频出错", 2);
             }}
             rate={this.state.play ? 1.0 : 0.0}
             volume={1.0}
@@ -156,7 +145,7 @@ class PlayPage extends Component<Props> {
             ignoreSilentSwitch={'ignore'}
             progressUpdateInterval={250.0}
             onBuffer={(e) => {
-              console.log('onProgress: ', e);
+              console.log('缓冲中: ', e);
             }}
             onLoad={({duration}) => {
               let t = '';
@@ -182,7 +171,7 @@ class PlayPage extends Component<Props> {
                 duration: t
               })
             }}
-            style={{width: unitWidth*750,height: unitWidth*608,}}
+            style={{width: unitWidth*750,height: unitWidth*608,borderColor: 'rgba(0,0,0,.3)',borderWidth: unitWidth*1}}
             />
         </View>
         <TouchableOpacity style={[styles.ksp, {zIndex: 2}]} onPress={() => {
@@ -265,7 +254,8 @@ class PlayPage extends Component<Props> {
           }
         </ScrollView>
         <Bpl 
-          send={(comment) => this.send(comment)}/>
+          id={this.props.navigation.state.params.id}
+          send={(id, comment) => this.send(id, comment)}/>
         <MB 
           content={this.state.content} 
           isModal={this.state.flag}

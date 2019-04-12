@@ -6,7 +6,6 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 
 
-
 type Props = {};
 
 class Wrap extends Component<Props> {
