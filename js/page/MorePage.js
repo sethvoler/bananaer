@@ -66,13 +66,13 @@ export default class MorePage extends Component<Props> {
           </View>
         </View>
         <View style={styles.line}></View>
-        <Video
+        {/* <Video
           isHeader={false}
           title={''}
           num1={3}
           num2={2} 
           key={'qbgqdy'}
-          style={1}/>
+          style={1}/> */}
       </View>
     );
     

@@ -5,9 +5,12 @@ import {
   ScrollView,
   Image,
   Text,
-  View
+  View,
+  Dimensions
 } from 'react-native'
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
+
+const {width} = Dimensions.get('window');
 
 let imgArr=[
 	require('../res/image/b1.jpg'),
@@ -72,18 +75,18 @@ export default class MySwiper extends Component {
       let imgsItem = imgArr[(i+img+j)%j];
       let nextItem = imgArr[(i+1+img+j)%j];
       allImage.push(
-        <View style={styles.box}>
-          <Image key={i-1} source={preItem} style={styles.preStyle}/>
-          <Image key={i} source={imgsItem} style={styles.imageStyle}/>
-          <Image key={i+1} source={nextItem} style={styles.nextStyle}/>
+        <View style={styles.box} key={i}>
+          <Image source={preItem} style={styles.preStyle}/>
+          <Image source={imgsItem} style={styles.imageStyle}/>
+          <Image source={nextItem} style={styles.nextStyle}/>
         </View>
       );
       if (i === j-1) {
         allImage.push(
-          <View style={styles.box}>
-            <Image key={i-1} source={imgArr[(img+j-1)%j]} style={styles.preStyle}/>
-            <Image key={i} source={imgArr[(img+j)%j]} style={styles.imageStyle}/>
-            <Image key={i+1} source={imgArr[(img+j+1)%j]} style={styles.nextStyle}/>
+          <View style={styles.box} key={'1'+i}>
+            <Image source={imgArr[(img+j-1)%j]} style={styles.preStyle}/>
+            <Image source={imgArr[(img+j)%j]} style={styles.imageStyle}/>
+            <Image source={imgArr[(img+j+1)%j]} style={styles.nextStyle}/>
           </View>
         );
       }
@@ -98,7 +101,7 @@ export default class MySwiper extends Component {
       //判断
       style = (i == this.state.currentPage%imgArr.length) ? {backgroundColor: '#555', width: 40*unitWidth} : {backgroundColor: '#aaa', width: 20*unitWidth};
       indicatorArr.push(
-        <View key={i} style={[{bottom: 20*unitWidth,height: 20*unitWidth, borderRadius: 10*unitWidth, marginLeft: 10*unitWidth, marginRight: 10*unitWidth,}, style]}></View>
+        <View key={'2'+i} style={[{bottom: 20*unitWidth,height: 20*unitWidth, borderRadius: 10*unitWidth, marginLeft: 10*unitWidth, marginRight: 10*unitWidth,}, style]}></View>
       );
     }
     return indicatorArr;
@@ -155,24 +158,23 @@ const styles = StyleSheet.create({
   },
   preStyle: {
     width: unitWidth*610,
-    position: 'relative',
-    left:  unitWidth*182,
-    height: unitWidth*337,
+    height: unitWidth*342,
     borderRadius: unitWidth*10,
     transform: [{scaleY: .8}, 
       {rotateY: '-70deg'}, 
-      {skewY: '-2deg'}, ]
+      {skewY: '-2deg'}, 
+      {translateX: unitWidth*520},
+      {translateY: unitWidth*30}]
   },
   nextStyle: {
-    height: unitWidth*342,
     width: unitWidth*610,
-    position: 'relative',
-    right:  unitWidth*182,
-    height: unitWidth*337,
+    height: unitWidth*342,
     borderRadius: unitWidth*10,
     transform: [{scaleY: .8}, 
-      {rotateY: '-70deg'}, 
-      {skewY: '2deg'}, ]
+      {rotateY: '70deg'}, 
+      {skewY: '2deg'},
+      {translateX: unitWidth*(-520)},
+      {translateY: unitWidth*30} ]
   },
   imageStyle: {
       height: unitWidth*342,

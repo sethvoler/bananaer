@@ -17,9 +17,9 @@ const apis = {
     albumList: '/album/list',
     imgList: '/album/img/list',
     mediaList: '/media/list',
-    media: '/media/single',
     commentList: '/media/comment/list',
     albumList: '/album/list',
+    singleMedia: '/media/single',
   }
 };
 
@@ -42,6 +42,9 @@ export default api = {
   changemobile: function(params,callback,errFn) {
     Net.post(BASE+apis.post.changemobile,params,callback,errFn);
   },
+  singleMedia: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.singleMedia,params,callback,errFn);
+  },
   settings: function(params,callback,errFn) {
     Net.get(BASE+apis.get.settings,params,callback,errFn);
   },
@@ -56,9 +59,6 @@ export default api = {
   },
   mediaList: function(params,callback,errFn) {
     Net.get(BASE+apis.get.mediaList,params,callback,errFn);
-  },
-  media: function(params,callback,errFn) {
-    Net.get(BASE+apis.get.media,params,callback,errFn);
   },
   commentList: function(params,callback,errFn) {
     Net.get(BASE+apis.get.commentList,params,callback,errFn);

@@ -28,12 +28,12 @@ class PlayPage extends Component<Props> {
       muted: false,
       duration: '',
       play: true,
-      title: '',
       time: '',
       likeCount: 0,
       commentList: [],
       content: '',
       flag: false,
+      videoMsg: {}
     }
   }
   _getMediaMsg (id) {
@@ -53,7 +53,7 @@ class PlayPage extends Component<Props> {
       _.setState({
         commentList: [].concat(data).reverse()
       });
-      console.log(_.state.commentList);
+      //console.log(_.state.commentList);
     }, function (msg) {}); 
   }
 
@@ -77,7 +77,7 @@ class PlayPage extends Component<Props> {
   like(id) {
     let _ = this;
     Api.like({commentId: id}, function (data) {
-      _._getCommentList(1)
+      _._getCommentList(id)
     }, function (msg) {}); 
   }
 
@@ -110,10 +110,26 @@ class PlayPage extends Component<Props> {
       flag: false,
     })
   }
+  singleMedia (id) {
+    let _ = this;
+    Api.singleMedia({mediaId: id}, function (res) {
+      console.log(res)
+      _.setState({
+        videoMsg: Object.assign({}, res),
+        time: res.createTime.slice(0,10),
+        likeCount: res.likeCount,
+      })
+    }, function (err) {
+    })
+  }
+  onBuffer() {
+    alert(0)
+  }
 
   componentDidMount () {
-    this._getMediaMsg(1);
-    this._getCommentList(1);
+    let id = this.props.navigation.state.params.id;
+    this.singleMedia(id)
+    this._getCommentList(id);
   }
   
   render () {
@@ -122,7 +138,15 @@ class PlayPage extends Component<Props> {
         <View style={[styles.ksp, {zIndex: 1}]}>
           <RVideo
             ref={(ref) => this.videoPlayer = ref}
-            source={{uri: 'http://flv3.bn.netease.com/videolib1/1811/06/RdHLz616R/SD/RdHLz616R-mobile.mp4'}}
+            source={require('../res/image/1.mp4')}
+            //source={{uri: this.state.videoMsg.mediaUrl}}
+            //controls={true}
+            onLoadStart={(e) => {
+              console.log("onLoadStart: ", e);
+            }}
+            onError={() => {
+              alert("加载视频出错", 2);
+            }}
             rate={this.state.play ? 1.0 : 0.0}
             volume={1.0}
             muted={this.state.muted}
@@ -131,6 +155,9 @@ class PlayPage extends Component<Props> {
             playInBackground={false}
             ignoreSilentSwitch={'ignore'}
             progressUpdateInterval={250.0}
+            onBuffer={(e) => {
+              console.log('onProgress: ', e);
+            }}
             onLoad={({duration}) => {
               let t = '';
               if (duration > 60) {
@@ -164,10 +191,12 @@ class PlayPage extends Component<Props> {
           })
         }}>
           <View style={[styles.ksp, {backgroundColor: 'rgba(0,0,0,0)'}]}>
-            <TouchableOpacity onPress={() => {
-              this.setState({
-                muted: !this.state.muted
-              })
+            <TouchableOpacity
+              style={styles.vm1}
+              onPress={() => {
+                this.setState({
+                  muted: !this.state.muted
+                })
             }}>
               <View style={this.state.show ? styles.vm : [styles.vm, {display: 'none'}]}>
                 {
@@ -202,7 +231,7 @@ class PlayPage extends Component<Props> {
         </TouchableOpacity>
         <View style={{position:'relative', zIndex: 3}}>
           <PlayTop 
-            title={this.state.title} 
+            title={this.state.videoMsg.mediaName} 
             logo={'back'}
             icon={require('../res/image/search.png')}
             mid={false}/>
@@ -212,7 +241,7 @@ class PlayPage extends Component<Props> {
           <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
         </View>
         <Title 
-          title={this.state.title} 
+          title={this.state.videoMsg.mediaName} 
           time={this.state.time} 
           likeCount={this.state.likeCount} 
           icon1={require('../res/image/i1.png')}
@@ -296,11 +325,18 @@ const styles = StyleSheet.create({
     paddingLeft: unitWidth*28, 
     paddingRight: unitWidth*28, 
   },
-  vm: {
+  vm: { 
+    width: unitWidth*80, 
+    height: unitWidth*80, 
+    backgroundColor: 'rgba(0,0,0,6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: unitWidth*40, 
+  },
+  vm1: {
     position: 'absolute', 
     width: unitWidth*80, 
     height: unitWidth*80, 
-    backgroundColor: 'rgba(0,0,0,.6)',
     left: unitWidth*28,
     top: unitWidth*263,
     justifyContent: 'center',

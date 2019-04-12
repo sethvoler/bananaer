@@ -25,6 +25,7 @@ export default class HomePage extends Component<Props> {
       _.setState({
         newMediaList: _.state.newMediaList.concat(res)
       })
+
       console.log(_.state.newMediaList);
     }, function (err) {})
   }
@@ -53,17 +54,13 @@ export default class HomePage extends Component<Props> {
           <Video
             isHeader={true}
             title={'最新片源'}
-            key={1}
-            num1={3}
-            num2={2} 
-            style={1}/>
+            data={this.state.newMediaList.slice(0,6)} 
+            cstyle={1}/>
           <Video
             isHeader={true}
+            data={this.state.mostLikeList.slice(0,6)} 
             title={'重磅热播'}
-            key={2}
-            num1={2}
-            num2={2} 
-            style={1} />
+            cstyle={1} />
           <View style={styles.change}>
             <Image source={require('../res/image/refresh.png')} style={styles.refresh}></Image>
             <Text style={styles.ct}>换一批</Text>
@@ -72,20 +69,20 @@ export default class HomePage extends Component<Props> {
           <View style={this.state.ads ? styles.gg : {display: 'none'}}>
             <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
           </View>
-          <Video
+          {/* <Video
             isHeader={true}
             title={'国产大剧'}
             key={3}
             num1={3}
             num2={3} 
-            style={2} />
-          <Video
+            style={2} /> */}
+          {/* <Video
             isHeader={true}
             title={'国产大剧'}
             key={4}
             num1={3}
             num2={3} 
-            style={2} />
+            style={2} /> */}
           <View style={styles.line}></View>
           <View style={this.state.ads ? styles.gg : {display: 'none'}}>
             <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
