@@ -21,21 +21,25 @@ class LogPage extends Component<Props> {
   static navigationOptions = {
     header: null,
   }
+  getUserInfo () {
+    let _ = this;
+    Api.userInfo({}, (data) => {
+      AsyncStorage.setItem('qrimg', data.qrimg, error => {
+        error && console.log(error.toString());
+      })
+      _.props.getPhone(data.user);
+      console.log(_.props.user);
+    }, (err) => {})
+  }
   loginApi (user) {
     let _ = this;
     Api.login(user, function(json) {
       NavigationUtil.goToPage({navigation: _.props.navigation}, 'IndexPage');
       _.props.logIn(1);
-      _.props.getPhone(user);
-      //console.log('我是token:',json.data.token);
       AsyncStorage.setItem(TOKEN, json.data.token, error => {
         error && console.log(error.toString());
       })
-      AsyncStorage.getItem(TOKEN, (error, value) => {
-        error && console.log(error.toString());
-        console.log('我是token:',value);
-      })
-      console.log('我的登录信息：',json);
+      _.getUserInfo();
     },function(msg) {
       _.setState({
         isModal: true,

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Platform, AsyncStorage, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
+import actions from '../action';
 
 class Vip extends Component<Props> {
   render () {
@@ -34,45 +36,26 @@ class Set extends Component<Props> {
   }
 }
 
-export default class MyTop extends Component<Props> {
+class MyTop extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
       name: ''
     }
   }
-  componentDidMount () {
-    AsyncStorage.getItem('USER', (error, value) => {
-      if (value) {
-        this.setState({
-          name: value
-        })
-        AsyncStorage.setItem('USER', value, error => {})
-      } else {
-        this.setState({
-          name: '默认的用户名'
-        })
-        AsyncStorage.setItem('USER', '默认的用户名', error => {})
-      }
-    }) 
-  }
-  componentDidUpdate () {
-    AsyncStorage.getItem("USER", (error, value) => {
-      this.setState({
-        name: value
-      })
-    })
-  }
+  
   render () {
-    const {status, user} = this.props;
+    const {status, topMsg} = this.props;
+    const avatar = String(this.props.user.headPic) === 'null' ? require('../res/image/m.jpg') : {uri: this.props.user.headPic};
+    console.log(avatar)
     return (
       <View style={styles.container}>
         <View style={styles.top}>
           <View style={styles.topLeft}>
-            <Image source={require('../res/image/m.jpg')} style={styles.avatar}></Image>
+            <Image source={status === 0 ? require('../res/image/m.jpg') : avatar} style={styles.avatar}></Image>
             <View>
               <View style={styles.box}>
-                <Text style={styles.name}>{status === 0 ? '未登录' : this.state.name}</Text>
+                <Text style={styles.name}>{status === 0 ? '未登录' : String(this.props.user.nickName) !== 'null' ? this.props.user.nickName: this.props.user.userName}</Text>
                 <TouchableOpacity onPress={() => {
                   NavigationUtil.goToPage({navigation: this.props.navigation}, 'EditPage');
                 }}>
@@ -102,7 +85,7 @@ export default class MyTop extends Component<Props> {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'FollowPage');
             }}>
             <View style={styles.list}> 
-              <Text style={styles.item1}>12541</Text>
+              <Text style={styles.item1}>{topMsg[0]}</Text>
               <Text style={styles.item2}>关注</Text>
             </View>   
           </TouchableOpacity>
@@ -111,7 +94,7 @@ export default class MyTop extends Component<Props> {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'FansPage');
             }}>
             <View style={styles.list}> 
-              <Text style={styles.item1}>456</Text>
+              <Text style={styles.item1}>{topMsg[1]}</Text>
               <Text style={styles.item2}>粉丝</Text>
             </View>  
           </TouchableOpacity>
@@ -120,7 +103,7 @@ export default class MyTop extends Component<Props> {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'ReleasePage');
             }}>
             <View style={styles.list}> 
-              <Text style={styles.item1}>30</Text>
+              <Text style={styles.item1}>{topMsg[2]}</Text>
               <Text style={styles.item2}>发布</Text>
             </View> 
           </TouchableOpacity>
@@ -129,7 +112,7 @@ export default class MyTop extends Component<Props> {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'CollectionPage');
             }}>
             <View style={styles.list}> 
-              <Text style={styles.item1}>0</Text>
+              <Text style={styles.item1}>{topMsg[3]}</Text>
               <Text style={styles.item2}>收藏</Text>
             </View>  
           </TouchableOpacity>
@@ -138,6 +121,11 @@ export default class MyTop extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+export default connect(mapStateToProps)(MyTop);
 
 const styles = StyleSheet.create({
   logSet: {

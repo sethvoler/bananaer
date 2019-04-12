@@ -6,7 +6,20 @@ const defatultState = {
     inviteCode: '',
     mobile: '',
     pwd: '',
-    smsCode: ''
+    smsCode: '',
+    createTime: '',
+    headPic: null,
+    id: 0,
+    inviteCode: '',
+    isAdmin: null,
+    lastModifyTime: '',
+    memberExpireDate: null,
+    nickName: null,
+    password: '',
+    proxy_user_id: null,
+    sex: null,
+    shortDes: null,
+    userName: '',
   },
 }
 

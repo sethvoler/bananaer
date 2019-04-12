@@ -10,9 +10,11 @@ const apis = {
     changemobile: '/user/changemobile',
     like: '/media/comment/like',
     createComment: '/media/comment/create',
+    changeMsg: '/user/completeuserinfo',
   },
   get: {
     settings: '/common/settings',
+    userInfo: '/user/userinfo',
     mediaList: '/media/list',
     albumList: '/album/list',
     imgList: '/album/img/list',
@@ -20,12 +22,16 @@ const apis = {
     commentList: '/media/comment/list',
     albumList: '/album/list',
     singleMedia: '/media/single',
+    banner: '/banner/list',
   }
 };
 
 export default api = {
   sms: function(params,callback,errFn) {
     Net.post(BASE+apis.post.sms,params,callback,errFn);
+  },
+  changeMsg: function(params,callback,errFn) {
+    Net.post(BASE+apis.post.changeMsg,params,callback,errFn);
   },
   register: function (params,callback,errFn) {
     Net.postJson(BASE+apis.post.register,params,callback,errFn);
@@ -42,8 +48,15 @@ export default api = {
   changemobile: function(params,callback,errFn) {
     Net.post(BASE+apis.post.changemobile,params,callback,errFn);
   },
+  
+  userInfo: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.userInfo,params,callback,errFn);
+  },
   singleMedia: function(params,callback,errFn) {
     Net.get(BASE+apis.get.singleMedia,params,callback,errFn);
+  },
+  banner: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.banner,params,callback,errFn);
   },
   settings: function(params,callback,errFn) {
     Net.get(BASE+apis.get.settings,params,callback,errFn);

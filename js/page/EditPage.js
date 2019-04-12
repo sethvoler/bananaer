@@ -3,9 +3,12 @@ import React, {Component} from 'react';
 import {Picker, AsyncStorage, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
+import actions from '../action';
+import Api from '../expand/api';
 
 type Props = {};
-export default class EditPage extends Component<Props> {
+class EditPage extends Component<Props> {
   static navigationOptions = {
     headerBackTitle: null,
     headerTintColor: '#7E7E7E',
@@ -19,25 +22,8 @@ export default class EditPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-        name: 'xxx',
         isModal: false,
-        preSex: '男',
-        sex: '男',
     };
-  }
-  componentDidMount () {
-    AsyncStorage.getItem("USER", (error, value) => {
-      this.setState({
-        name: value
-      })
-    })
-  }
-  componentDidUpdate () {
-    AsyncStorage.getItem("USER", (error, value) => {
-      this.setState({
-        name: value
-      })
-    })
   }
   _clear() {
     let _ = this;
@@ -52,11 +38,31 @@ export default class EditPage extends Component<Props> {
   }
   sure() {
     this.setState({
-      sex: this.state.preSex,
       isModal: false,
     });
   }
+  getUserInfo () {
+    let _ = this;
+    Api.userInfo({}, (data) => {
+      AsyncStorage.setItem('qrimg', data.qrimg, error => {
+        error && console.log(error.toString());
+      })
+      _.props.getPhone(data.user);
+    }, (err) => {})
+  }
+  changeSex (sex) {
+    let _ = this;
+    Api.changeMsg({
+      nickName: _.props.user.nickName,
+      sex: sex,
+      shortDes: _.props.user.shortDes,
+      headPic: _.props.user.headPic,
+    }, data => {
+      _.getUserInfo();
+    }, err => {})
+  }
   render() {
+    const avatar = String(this.props.user.headPic) === 'null' ? require('../res/image/m.jpg') : {uri: this.props.user.headPic};
     return (
       <View style={styles.wrap}>
         <View style={styles.line}></View>
@@ -67,7 +73,7 @@ export default class EditPage extends Component<Props> {
             <View style={styles.item}>
               <Text style={styles.title}>头像</Text>
               <View style={styles.right}>
-                <Image source={require('../res/image/m.jpg')} style={styles.lArrow}></Image>
+                <Image source={avatar} style={styles.lArrow}></Image>
                 <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
               </View> 
             </View>
@@ -78,7 +84,7 @@ export default class EditPage extends Component<Props> {
             <View style={styles.item}>
               <Text style={styles.title}>昵称</Text>
               <View style={styles.right}>
-                <Text style={styles.title}>{this.state.name}</Text>
+                <Text style={styles.title}>{String(this.props.user.nickName) !== 'null' ? this.props.user.nickName: this.props.user.userName}</Text>
                 <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
               </View> 
             </View>
@@ -89,7 +95,7 @@ export default class EditPage extends Component<Props> {
             <View style={styles.item}>
               <Text style={styles.title}>个性签名</Text>
               <View style={styles.right}>
-                <Text style={styles.title}>这家伙很懒，什么都没留下。</Text>
+                <Text style={styles.title}>{String(this.props.user.shortDes) !== 'null' ? this.props.user.shortDes: '这家伙很懒，什么都没留下。'}</Text>
                 <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
               </View> 
             </View>
@@ -101,7 +107,11 @@ export default class EditPage extends Component<Props> {
             <View style={styles.item}>
               <Text style={styles.title}>性别</Text>
               <View style={styles.right}>
-                <Text style={styles.title}>{this.state.sex}</Text>
+                <Text style={styles.title}>{String(this.props.user.sex) === 'null'
+                                              ? '男'
+                                              : this.props.user.sex === 0 
+                                                ? '男' 
+                                                : '女' }</Text>
                 <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
               </View> 
             </View> 
@@ -135,10 +145,10 @@ export default class EditPage extends Component<Props> {
                 </TouchableOpacity>
               </View>
               <Picker style={styles.picker}
-                      selectedValue={this.state.preSex}
-                      onValueChange={(sex)=>this.setState({preSex: sex})}>
-                <Picker.Item label='男' value='男' />
-                <Picker.Item label='女' value='女' />
+                      selectedValue={this.props.user.sex ? this.props.user.sex: '男'}
+                      onValueChange={(sex)=>this.changeSex(sex)}>
+                <Picker.Item label='男' value={0} />
+                <Picker.Item label='女' value={1} />
               </Picker>
             </View>
           </View>
@@ -150,6 +160,14 @@ export default class EditPage extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.user,
+});
+const mapDispatchToProps = dispatch => ({
+  getPhone: user => dispatch(actions.getPhone(user))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(EditPage);
 
 const styles = StyleSheet.create({
   wrap: {

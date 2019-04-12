@@ -7,6 +7,7 @@ import MyTop from '../common/MyTop';
 import MyMiddle from '../common/MyMiddle';
 import MyList from '../common/MyList';
 import {connect} from 'react-redux';
+import Api from '../expand/api';
 
 type Props = {};
 class MyPage extends Component<Props> {
@@ -16,23 +17,33 @@ class MyPage extends Component<Props> {
   }
   constructor(props) {
     super(props);
+    this.state = {
+      topMsg: [0,0,0,0]
+    }
   }
   componentDidMount() {
-    AsyncStorage.getItem('tabName', (error,value) => {
-      // store
-    });
+    this._getBanner();
   }
   componentDidUpdate () {
-    AsyncStorage.getItem('tabName', (error,value) => {
-      // store
-    });
+    if (this.props.status !== 0) {
+
+    }
+  }
+  _getBanner () {
+    let _ = this;
+    Api.banner({}, (data) => {
+      _.banners = data;
+    }, (err) => {})
   }
   render () {
     return (
       <View style={styles.container}>
-        <MyTop status={this.props.status}/>
+        <MyTop 
+          status={this.props.status}
+          topMsg={this.state.topMsg}/>
         <ScrollView style={styles.thisScroll} androidoverScrollMode={'always'}>
-          <MyMiddle />
+          <MyMiddle 
+            banners={this.bannsrs}/>
           <TouchableOpacity onPress={() => {
               this.props.status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'VipPage');

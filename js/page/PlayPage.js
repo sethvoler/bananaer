@@ -160,7 +160,7 @@ class PlayPage extends Component<Props> {
                 }
                 t = min + ':' + sec
               } else {
-                if (duration > 10) {
+                if (duration >= 10) {
                   t = '00:'+Math.floor(duration)
                 } else {
                   t = '00:0'+Math.floor(duration)

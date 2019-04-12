@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image} from 'react-native';
-import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import {unitWidth, unitHeight,}from '../util/AdapterUtil';
 import {BoxShadow} from 'react-native-shadow';
 
-export default class MyTop extends Component<Props> {
+export default class MyMiddle extends Component<Props> {
   render () {
+    const {banners} = this.props;
     return (
       <BoxShadow setting={shadowOpt}>
         <View style={styles.wrap}>
@@ -14,6 +15,12 @@ export default class MyTop extends Component<Props> {
               今日免费观影次数<Text style={styles.inner}>30</Text>/30
             </Text>
           </View>
+          {/* 接口返回banner渲染 */}
+          {/* {
+            banners.map((item, index) => {
+              <Image key={index} source={{uri: item}} style={styles.banner}></Image>
+            })
+          } */}
           <Image source={require('../res/image/banner.jpg')} style={styles.banner}></Image>
         </View>
       </BoxShadow>
