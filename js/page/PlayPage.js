@@ -127,7 +127,6 @@ class PlayPage extends Component<Props> {
         <View style={[styles.ksp, {zIndex: 1}]}>
           <RVideo
             ref={(ref) => this.videoPlayer = ref}
-            //source={require('../res/image/1.mp4')}
             source={{uri: this.state.videoMsg.mediaUrl}}
             //controls={true}
             onLoadStart={(e) => {
