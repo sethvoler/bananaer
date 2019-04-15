@@ -30,8 +30,10 @@ export default class WelcomePage extends Component<Props> {
   settings () {
     let _ = this;
     Api.settings({}, function (data) {
+      console.log(data);
       _.img = data.launchImageUrl;
       AsyncStorage.setItem('version', data.appVersion, error => {});
+      AsyncStorage.setItem('dayWatchTimes', String(data.dayWatchTimes), error => {});
     }, function (msg) {
       _.setState({
         flag: true,
@@ -45,6 +47,7 @@ export default class WelcomePage extends Component<Props> {
     })
   }
   componentDidMount () {
+    AsyncStorage.setItem('times', '0', error => {});
     let _ = this;
     this.settings();
     this.timer = setTimeout(() => {
@@ -79,10 +82,10 @@ export default class WelcomePage extends Component<Props> {
     return (
       <View style={{flex: 1}}>
         <Image source={
-          // this.img === 'string' 
-          // ? 
+          this.img === 'string' 
+          ? 
           require('../res/image/qdy.jpg')
-          // : {uri: this.img}
+          : {uri: this.img}
           } style={styles.qdy}
           resizeMode={'stretch'}
           ></Image>

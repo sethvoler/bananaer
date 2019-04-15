@@ -29,6 +29,9 @@ class MyPage extends Component<Props> {
 
     }
   }
+  componentDidUpdate () {
+    console.log(this.props.plays);
+  }
   _getBanner () {
     let _ = this;
     Api.banner({}, (data) => {
@@ -36,6 +39,7 @@ class MyPage extends Component<Props> {
     }, (err) => {})
   }
   render () {
+    
     return (
       <View style={styles.container}>
         <MyTop 
@@ -43,7 +47,9 @@ class MyPage extends Component<Props> {
           topMsg={this.state.topMsg}/>
         <ScrollView style={styles.thisScroll} androidoverScrollMode={'always'}>
           <MyMiddle 
-            banners={this.bannsrs}/>
+            banners={this.bannsrs}
+            plays={this.props.plays}
+            status={this.props.status}/>
           <TouchableOpacity onPress={() => {
               this.props.status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'VipPage');
@@ -74,6 +80,7 @@ class MyPage extends Component<Props> {
 
 const mapStateToProps = state => ({
   status: state.status.status,
+  plays: state.plays.plays,
 });
 
 export default connect(mapStateToProps)(MyPage);

@@ -23,7 +23,7 @@ export default class HomePage extends Component<Props> {
     Api.mediaList({sort: 1}, function (res) {
       AsyncStorage.setItem('newMediaList', JSON.stringify(res), error => {});
       _.setState({
-        newMediaList: _.state.newMediaList.concat(res)
+        newMediaList: [].concat(res)
       })
 
       console.log(_.state.newMediaList);
@@ -34,7 +34,7 @@ export default class HomePage extends Component<Props> {
     Api.mediaList({sort: 2}, function (res) {
       AsyncStorage.setItem('mostLikeList', JSON.stringify(res), error => {});
       _.setState({
-        mostLikeList: _.state.mostLikeList.concat(res)
+        mostLikeList: [].concat(res)
       })
       console.log(_.state.mostLikeList);
     }, function (err) {})
@@ -42,6 +42,13 @@ export default class HomePage extends Component<Props> {
   componentDidMount () {
     this.getNewMediaList()
     this.getMostLikeList()
+    this.timer = setInterval(() => {
+      this.getNewMediaList()
+      this.getMostLikeList()
+    }, 1000*6)
+  }
+  componentWillUnmount () {
+    clearInterval(this.timer);
   }
   render () {
     return (
@@ -54,11 +61,11 @@ export default class HomePage extends Component<Props> {
           <Video
             isHeader={true}
             title={'最新片源'}
-            data={this.state.newMediaList.slice(0,6)} 
+            data={this.state.newMediaList.length > 4 ? this.state.newMediaList.slice(0,4) : this.state.newMediaList} 
             cstyle={1}/>
           <Video
             isHeader={true}
-            data={this.state.mostLikeList.slice(0,6)} 
+            data={this.state.mostLikeList.length > 4 ? this.state.mostLikeList.slice(0,4) : this.state.mostLikeList} 
             title={'重磅热播'}
             cstyle={1} />
           <View style={styles.change}>

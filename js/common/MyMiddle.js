@@ -1,19 +1,40 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, AsyncStorage} from 'react-native';
 import {unitWidth, unitHeight,}from '../util/AdapterUtil';
 import {BoxShadow} from 'react-native-shadow';
+import {connect} from 'react-redux';
 
 export default class MyMiddle extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dayWatchTimes: 0
+    }
+  }
+  componentDidMount () {
+    AsyncStorage.getItem('dayWatchTimes', (err, value) => {
+      this.setState({
+        dayWatchTimes: value
+      })
+    });
+  }
+
   render () {
-    const {banners} = this.props;
+    const {banners, status, plays} = this.props;
+    
     return (
       <BoxShadow setting={shadowOpt}>
         <View style={styles.wrap}>
           <View style={styles.header}>
             <Text style={styles.title}>观影权益</Text>
-            <Text style={styles.content}>
-              今日免费观影次数<Text style={styles.inner}>30</Text>/30
-            </Text>
+            {
+              status !== 0 ? (
+                <Text style={styles.content}>
+                  今日免费观影次数<Text style={styles.inner}>{this.state.dayWatchTimes}</Text>/{plays}
+                </Text>
+              ) : null
+            }
+            
           </View>
           {/* 接口返回banner渲染 */}
           {/* {

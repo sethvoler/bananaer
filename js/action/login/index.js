@@ -14,6 +14,13 @@ export function getPhone (user) {
   }
 }
 
+export function getPlays (plays) {
+  return {
+    type: Types.PLAYS,
+    plays: plays,
+  }
+}
+
 export function curTab (tab) {
   return {
     type: Types.GET_TAB,

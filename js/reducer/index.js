@@ -3,6 +3,7 @@ import theme from './theme';
 import status from './login';
 import user from './user';
 import tab from './tab';
+import plays from './plays';
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 
 const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
@@ -18,6 +19,7 @@ const index = combineReducers({
   status: status,
   user: user,
   tab: tab,
+  plays: plays,
 });
 
 export default index;

@@ -1,9 +1,12 @@
 
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, Alert, TouchableOpacity} from 'react-native'; 
+import {Image, StyleSheet, Text, View, AsyncStorage, TouchableOpacity} from 'react-native'; 
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
+import {connect} from 'react-redux';
+import actions from '../action';
+import MB from '../common/ModalBox';
 
 
 type Props = {};
@@ -11,15 +14,47 @@ type Props = {};
 class Wrap extends Component<Props> {
   constructor(props) {
     super(props);
+    this.state = {
+      dayWatchTimes: 0,
+      flag: false,
+      content: '',
+    }
+  }
+  componentDidMount () {
+    AsyncStorage.getItem('dayWatchTimes', (err, value) => {
+      this.setState({
+        dayWatchTimes: value
+      })
+    });
+  }
+  sure () {
+    this.setState({
+      flag: false
+    })
   }
   render () {
-    const {data, cstyle} = this.props;
+    const {data, cstyle, getPlays, plays} = this.props;
     let list = (data, cstyle) => {
       var res = [];
       for(var i = 0; i < data.length; i++) {
         let id = data[i].id;
         res.push(<TouchableOpacity key={i} onPress={() => {
-          NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+          let times = 0;
+          AsyncStorage.getItem('times', (err, value) => {
+            times = value
+          });
+          times=1+times;
+          if (plays < this.state.dayWatchTimes) {
+            getPlays(times);
+            AsyncStorage.setItem('times', String(times), error => {});
+            NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+          } else {
+            this.setState({
+              flag: true,
+              content: '今日免费观看次数已用完'
+            })
+          }
+          
         }}>
           <Image resizeMode={'stretch'} source={{uri: data[i].posterUrl}} style={cstyle == 1 ? styles.img1 : styles.img2}></Image>
           <View style={cstyle == 1 
@@ -53,6 +88,10 @@ class Wrap extends Component<Props> {
                   } }>{data[i].playTimes || 0}</Text>
               </View>
             </View>
+            <MB 
+              content={this.state.content} 
+              isModal={this.state.flag}
+              sure={() => this.sure()}/>
         </TouchableOpacity>)
       }
       return res
@@ -65,7 +104,7 @@ class Wrap extends Component<Props> {
   }
 }
 
-export default class Video extends Component<Props> {
+class Video extends Component<Props> {
   constructor(props) {
     super(props);
   }
@@ -91,11 +130,23 @@ export default class Video extends Component<Props> {
             </View>
           : null
         }
-        <Wrap data={data} cstyle={cstyle}/>
+        <Wrap 
+          data={data} 
+          getPlays={() => this.props.getPlays()} 
+          cstyle={cstyle}
+          plays={this.props.plays}/>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  plays: state.plays.plays,
+});
+const mapDispatchToProps = dispatch => ({
+  getPlays: times => dispatch(actions.getPlays(times)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Video);
 
 const styles = StyleSheet.create({
   container: {

@@ -5,10 +5,12 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import ImgTop from '../common/ImgTop';
 import Api from '../expand/api';
 import MB from '../common/ModalBox';
+import {connect} from 'react-redux';
+import actions from '../action';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 
 type Props = {};
-export default class MorePage extends Component<Props> {
+class MorePage extends Component<Props> {
   static navigationOptions = ({navigation,screenProps}) =>{
     return({
       headerRight: (
@@ -30,6 +32,7 @@ export default class MorePage extends Component<Props> {
       flag: false,
       content: '',
       list: [],
+      dayWatchTimes: 0,
     }
   }
   _getMediaList () {
@@ -37,7 +40,7 @@ export default class MorePage extends Component<Props> {
     Api.mediaList({}, function (data) {
       AsyncStorage.setItem('mediaList', JSON.stringify(data), error => {});
       _.setState({
-        list: _.state.list.concat(data)
+        list: [].concat(data)
       })
       console.log(_.state.list);
     }, function (msg) {
@@ -53,7 +56,18 @@ export default class MorePage extends Component<Props> {
     })
   }
   componentDidMount () {
+    AsyncStorage.getItem('dayWatchTimes', (err, value) => {
+      this.setState({
+        dayWatchTimes: value
+      })
+    });
     this._getMediaList()
+    this.timer = setInterval(() => {
+      this._getMediaList()
+    }, 1000*6);
+  }
+  componentWillUnmount () {
+    clearInterval(this.timer);
   }
   render () {
     return (
@@ -69,7 +83,21 @@ export default class MorePage extends Component<Props> {
               const id = item.id;
               return (
                 <TouchableOpacity key={index} style={styles.imgBox} onPress={() => {
-                  NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+                  let times=0;
+                  AsyncStorage.getItem('times', (err, value) => {
+                    times = value
+                  });
+                  times=1+Number(times);
+                  if (this.props.plays < this.state.dayWatchTimes) {
+                    this.props.getPlays(times);
+                    AsyncStorage.setItem('times', String(times), error => {});
+                    NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+                  } else {
+                    this.setState({
+                      flag: true,
+                      content: '今日免费观看次数已用完'
+                    })
+                  }
                 }}>
                   <Image roundAsCircle={true} resizeMode={'stretch'} source={{uri: item.posterUrl}} style={styles.img}></Image>
                   <View style={styles.bc}>
@@ -107,6 +135,14 @@ export default class MorePage extends Component<Props> {
     
   }
 }
+
+const mapStateToProps = state => ({
+  plays: state.plays.plays,
+});
+const mapDispatchToProps = dispatch => ({
+  getPlays: times => dispatch(actions.getPlays(times)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(MorePage);
 
 const styles = StyleSheet.create({
   wrap: {
