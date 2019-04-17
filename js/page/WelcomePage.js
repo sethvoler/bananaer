@@ -10,6 +10,7 @@ import MB from '../common/ModalBox';
 
 const {height, width} = Dimensions.get('window');
 
+
 type Props = {};
 export default class WelcomePage extends Component<Props> {
   constructor(props) {
@@ -80,16 +81,12 @@ export default class WelcomePage extends Component<Props> {
       header: null,
   }
 
-  // 定义 
-  last4RedAndClick (str) {
-    let s = str.slice()
-  }
-
   toRed () {
     return (
       <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
     )
   }
+
 
 
   render() {

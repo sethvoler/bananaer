@@ -47,7 +47,9 @@ class Wrap extends Component<Props> {
             });
             times=1+Number(times);
             if (plays < this.state.dayWatchTimes) {
+              console.log(times);
               getPlays(times);
+              console.log(plays);
               AsyncStorage.setItem('times', String(times), error => {});
               NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
             } else {
@@ -146,7 +148,7 @@ class Video extends Component<Props> {
         }
         <Wrap 
           data={data} 
-          getPlays={() => this.props.getPlays()} 
+          getPlays={(times) => this.props.getPlays(times)} 
           cstyle={cstyle}
           status={this.props.status}
           plays={this.props.plays}/>

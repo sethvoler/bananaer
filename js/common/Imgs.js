@@ -10,15 +10,20 @@ class Imgs extends Component<Props> {
     const {title, icon, obj, height} = this.props;
     return (
       <View style={styles.wrap}>
-        <View style={styles.header}>
-          <Image source={icon} style={styles.icon}></Image>
-          <Text style={styles.title}>{title}</Text>
-        </View>
+        {
+          obj.length !== 0 ?
+            (<View style={styles.header}>
+              <Image source={icon} style={styles.icon}></Image>
+              <Text style={styles.title}>{title}</Text>
+            </View>) : null
+        }
         <View style={styles.body}>
           {
             obj.map((item, index) => {
               return (
-                <TouchableOpacity onPress={() => {
+                <TouchableOpacity 
+                  key={index}
+                  onPress={() => {
                     if (this.props.status !== 0) {
                       NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
                     } else {
@@ -27,7 +32,7 @@ class Imgs extends Component<Props> {
                   }}>
                   <View style={styles.item}>
                     <View style={{width: unitWidth*199, height: unitWidth*height, borderRadius: unitWidth*15, position: 'relative', backgroundColor: '#FAE04B'}}>
-                      <Text style={styles.num}>{item.num}个图集</Text>
+                      <Text style={styles.num}>{item.data.length}个图集</Text>
                     </View>
                     <Text style={styles.name}>{item.name}</Text>
                   </View>

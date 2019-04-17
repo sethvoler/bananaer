@@ -4,11 +4,31 @@ import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {BoxShadow} from 'react-native-shadow';
 import Hy from '../common/Hy';
+import MB from '../common/ModalBox';
 
 type Props = {};
 export default class VipPage extends Component<Props> {
   static navigationOptions = {
       header: null,
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      flag: false,
+      content: ''
+    }
+  }
+  toSay () {
+    this.setState({
+      flag: true,
+      content: '分享码发送好友并注册，可开通此功能'
+    })
+  }
+  sure () {
+    this.setState({
+      flag: false,
+      content: ''
+    })
   }
   render () {
     //NavigationUtil.navigation = this.props.navigation;
@@ -25,20 +45,24 @@ export default class VipPage extends Component<Props> {
         <Text style={styles.title}>VIP 专属特权</Text>
         <BoxShadow setting={shadowOpt}>
           <View style={styles.twoBtn}>
-            <View style={styles.btn}>
-              <Image style={styles.icon1} source={require('../res/image/hy.png')}></Image>
-              <View style={styles.content}>
-                <Text style={styles.btnName}>普通会员</Text>
-                <Text style={styles.time}>有效期：永久</Text>
+            <TouchableOpacity onPress={() => this.toSay()}>
+              <View style={styles.btn}>
+                  <Image style={styles.icon1} source={require('../res/image/hy.png')}></Image>
+                  <View style={styles.content}>
+                    <Text style={styles.btnName}>普通会员</Text>
+                    <Text style={styles.time}>有效期：永久</Text>
+                  </View>
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toSay()}>
+              <View style={styles.btn}>
+                <Image style={styles.icon2} source={require('../res/image/q.png')}></Image>
+                <View style={styles.content}>
+                  <Text style={styles.btnName}>问题反馈</Text>
+                  <Text style={styles.time}>遇到问题来点我</Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.btn}>
-              <Image style={styles.icon2} source={require('../res/image/q.png')}></Image>
-              <View style={styles.content}>
-                <Text style={styles.btnName}>问题反馈</Text>
-                <Text style={styles.time}>遇到问题来点我</Text>
-              </View>
-            </View>
+            </TouchableOpacity>
           </View>
         </BoxShadow>
         <ScrollView style={styles.box}>
@@ -54,6 +78,10 @@ export default class VipPage extends Component<Props> {
             <Text style={styles.bc}>2.<Text style={styles.bci}>充值高峰期，匹配存在延时，请耐心等待；</Text></Text>
           </View>
         </ScrollView>
+        <MB 
+          content={this.state.content} 
+          isModal={this.state.flag}
+          sure={() => this.sure()}/>
       </View>
     );
     

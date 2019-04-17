@@ -55,6 +55,7 @@ class SetUpPage extends Component<Props> {
   }
   quit () {
     this.props.logIn(0);
+    this.props.getPlays(0);
     this.props.getPhone({
       mobile: '',
       pwd: ''
@@ -147,7 +148,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
   logIn: status => dispatch(actions.logIn(status)),
-  getPhone: user => dispatch(actions.getPhone(user))
+  getPhone: user => dispatch(actions.getPhone(user)),
+  getPlays: times => dispatch(actions.getPlays(times)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SetUpPage);
 

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {TextInput, StyleSheet, Text, View, Button, AsyncStorage, Image, TouchableOpacity} from 'react-native';
+import {TextInput, StyleSheet, Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import ImgTop from '../common/ImgTop';
 import Imgs from '../common/Imgs';
@@ -15,8 +15,8 @@ export default class ImagePage extends Component<Props> {
       flag: false,
       content: '',
       albumList: [],
-      obj1: [{name: '', num: 30},{name: '', num: 20},{name: '', num: 10}],
-      obj2: [{name: '漫画', num: 10},{name: '每日推荐', num: 20},{name: '专辑', num: 30}, {name: '漫画', num: 10},{name: '每日推荐', num: 20},],
+      obj1: [],
+      obj2: [],
     }
   }
   sure () {
@@ -24,12 +24,62 @@ export default class ImagePage extends Component<Props> {
       flag: false,
     })
   }
+
+  changeArr(arr) {
+    var map = {},
+    dest = [];
+    for(var i = 0; i < arr.length; i++){
+      var item = arr[i];
+      if(!map[item.categoryId]){
+        dest.push({
+          id: item.categoryId,
+          name: item.categoryName,
+          data: [item]
+        });
+        map[item.categoryId] = item;
+      }else{
+        for(var j = 0; j < dest.length; j++){
+          var dItem = dest[j];
+          if(dItem.categoryId == item.categoryId){
+            dItem.data.push(item);
+            break;
+          }
+        }
+      }
+    }
+    return dest;
+  }
+
+  // rev true表示升序排列，false降序排序
+  sortFun (attr,rev) {
+       //第二个参数没有传递 默认升序排列
+       if(rev ==  undefined){
+           rev = 1;
+       }else{
+           rev = (rev) ? 1 : -1;
+       }
+       return function(a,b){
+           a = a[attr].legnth;
+           b = b[attr].length;
+           if(a < b){
+               return rev * -1;
+           }
+           if(a > b){
+               return rev * 1;
+           }
+           return 0;
+       }
+   }
+
   getAlbumList () {
     let _ = this;
     Api.albumList({}, function (data) {
+      // console.log(data);
       _.setState({
-        albumList: data
+        obj2: _.changeArr(data),
+        obj1: _.changeArr(data).sort(_.sortFun(`data`, false))
       })
+
     }, function (msg) {
       _.setState({
         flag: true,
@@ -37,8 +87,16 @@ export default class ImagePage extends Component<Props> {
       })
     })
   }
+
   componentDidMount() {
+    let _ = this;
     this.getAlbumList();
+    this.timer = setInterval(function () {
+      _.getAlbumList();
+    }, 1000*10);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
   render() {
     return (
