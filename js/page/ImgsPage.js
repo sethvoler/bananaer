@@ -54,12 +54,29 @@ export default class ImagePage extends Component<Props> {
       })
     })
   }
-  componentDidMount() {
-    this.getAlbumList();
-  }
-  // componentDidMount () {
-  //   this.getImgList();
+  
+  // getImgList (item) {
+  //   let _ = this;
+  //   Api.imgList({albumId: item.id}, function (data) {
+  //     let obj = Object.assign(item, {data: data});
+  //     console.log(obj);
+  //     _.setState({
+  //       imgs: [].push(obj),
+  //     })
+  //   }, function (msg) {
+  //     _.setState({
+  //       flag: true,
+  //       content: msg,
+  //     })
+  //   })
   // }
+
+  componentDidMount() {
+    let data = this.props.navigation.state.params.data;
+    this.setState({
+      imgs: [].concat(data)
+    })
+  }
   render() {
     return (
       <View style={styles.wrap}>
@@ -73,16 +90,13 @@ export default class ImagePage extends Component<Props> {
           {
             this.state.imgs.map((item, index) => {
               return (<MyImg 
+                id={item.id}
                 img={item.lastPic} 
+                name={item.name}
                 likeCount={item.likeCount}
                 key={index}/>)
             })
           }
-          {/* <MyImg img={Math.floor(Math.random()*3)}/>
-          <MyImg img={Math.floor(Math.random()*3)}/>
-          <MyImg img={Math.floor(Math.random()*3)}/>
-          <MyImg img={Math.floor(Math.random()*3)}/>
-          <MyImg img={Math.floor(Math.random()*3)}/> */}
         </ScrollView>
         <MB 
           content={this.state.content} 

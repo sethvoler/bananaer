@@ -25,7 +25,7 @@ class Imgs extends Component<Props> {
                   key={index}
                   onPress={() => {
                     if (this.props.status !== 0) {
-                      NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
+                      NavigationUtil.goToPage({navigation: this.props.navigation, data: item.data}, 'ImgsPage');
                     } else {
                       NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage');
                     }          

@@ -40,44 +40,30 @@ export default class ImagePage extends Component<Props> {
       }else{
         for(var j = 0; j < dest.length; j++){
           var dItem = dest[j];
-          if(dItem.categoryId == item.categoryId){
+          if(dItem.id == item.categoryId){
             dItem.data.push(item);
             break;
           }
         }
       }
     }
+    console.log(dest);
     return dest;
   }
 
-  // rev true表示升序排列，false降序排序
-  sortFun (attr,rev) {
-       //第二个参数没有传递 默认升序排列
-       if(rev ==  undefined){
-           rev = 1;
-       }else{
-           rev = (rev) ? 1 : -1;
-       }
-       return function(a,b){
-           a = a[attr].legnth;
-           b = b[attr].length;
-           if(a < b){
-               return rev * -1;
-           }
-           if(a > b){
-               return rev * 1;
-           }
-           return 0;
-       }
-   }
+  sortId(a,b){  
+    return b.data.length-a.data.length  
+  }
 
   getAlbumList () {
     let _ = this;
     Api.albumList({}, function (data) {
-      // console.log(data);
+       let a = _.changeArr(data)
+       let b = _.changeArr(data)
+       b.sort(_.sortId)
       _.setState({
-        obj2: _.changeArr(data),
-        obj1: _.changeArr(data).sort(_.sortFun(`data`, false))
+        obj2: a,
+        obj1: b,
       })
 
     }, function (msg) {
@@ -91,7 +77,7 @@ export default class ImagePage extends Component<Props> {
   componentDidMount() {
     let _ = this;
     this.getAlbumList();
-    this.timer = setInterval(function () {
+    this.timer = setInterval(() => {
       _.getAlbumList();
     }, 1000*10);
   }

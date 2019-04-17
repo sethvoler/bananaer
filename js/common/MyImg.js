@@ -2,19 +2,40 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import Api from '../expand/api';
 
 export default class MyImg extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    }
+  }
+  getImgList (id) {
+    let _ = this;
+    Api.imgList({albumId: id}, function (data) {
+      _.setState({
+        data: [].concat(data),
+      })
+    }, function (msg) {
+      _.setState({
+        flag: true,
+        content: msg,
+      })
+    })
+  }
   render () {
-    let {img, likeCount} = this.props;
+    let {img, likeCount, name, id} = this.props;
+    this.getImgList(id);
     return (
       <View style={styles.wrap}>
         <View style={styles.box}>
           {/* <Image style={styles.img} source={imgs[img]}></Image> */}
           <Image style={styles.img} source={{uri: img}} resizeMode={'stretch'}></Image>
           <Text style={styles.inl}>
-            [Lolita]漫展上的清纯少女Lolita!
+            {name}
           </Text>
-          <Text style={styles.inr}>16张</Text>
+          <Text style={styles.inr}>{this.state.data.length}张</Text>
         </View>
         <View style={styles.b}>
           <Image style={styles.ii} source={require('../res/image/dz.png')}></Image>

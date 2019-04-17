@@ -6,6 +6,7 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import {unitWidth, unitHeight}from '../util/AdapterUtil';
 import Api from '../expand/api';
 import MB from '../common/ModalBox';
+import Loading from '../common/Loading';
 
 
 const {height, width} = Dimensions.get('window');
@@ -19,7 +20,8 @@ export default class WelcomePage extends Component<Props> {
       sec: 5,
       disabled: false,
       flag: false,
-      content: ''
+      content: '',
+      isLoading: true,
     }
   }
   goHome () {
@@ -49,42 +51,57 @@ export default class WelcomePage extends Component<Props> {
     })
   }
   componentDidMount () {
-    AsyncStorage.setItem('times', '0', error => {});
-    let _ = this;
     this.settings();
-    this.timer = setTimeout(() => {
-      NavigationUtil.goToPage({
-        navigation: this.props.navigation
-      }, 'FetchDemoPage');
-    }, 7000);
-    this.timer1 = setTimeout(() => {
-      
-      _.interTimer = setInterval(() => {
-        if (_.state.sec === 0 || _.state.sec === '跳过') {
-          _.setState({
-            sec: '跳过',
-            disabled: true
-          });
-        } else {
-          _.setState({
-            sec: _.state.sec-1
-          });
-        }
-      }, 1000);
-    }, 1000);
+    AsyncStorage.setItem('times', '0', error => {});
+    // this.timer = setTimeout(() => {
+    //   NavigationUtil.goToPage({
+    //     navigation: this.props.navigation
+    //   }, 'FetchDemoPage');
+    // }, 7000); 
+      // if (!this.state.isLoading) {
+        this.backTime();
+        
+
+
   }
   componentWillUnmount () {
-    this.timer && clearTimeout(this.timer);
+    // this.timer1 && clearTimeout(this.timer1);
     this.interTimer && clearInterval(this.interTimer);
   }
   static navigationOptions = {
       header: null,
   }
 
-  toRed () {
-    return (
-      <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
-    )
+  backTime () {
+    let _ = this;
+      this.interTimer = setInterval(() => {
+      if (_.state.sec === 0 || _.state.sec === '跳过') {
+        _.setState({
+          sec: '跳过',
+          disabled: true
+        });
+      } else {
+        _.setState({
+          sec: _.state.sec-1,
+        });
+      }
+    }, 1000);
+  }
+
+  toRed (isLoading) {
+    if (isLoading) {
+      return null;
+    } else {
+      return (
+        <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
+      )
+    }
+  }
+  suc () { 
+    this.setState({
+      isLoading: false,
+      sec: 5
+    })
   }
 
 
@@ -96,17 +113,20 @@ export default class WelcomePage extends Component<Props> {
           this.img === 'string' 
           ? 
           require('../res/image/qdy.jpg')
-          : {uri: this.img}
+          : 
+          {uri: this.img}
           } style={styles.qdy}
           resizeMode={'stretch'}
+          onLoad={() => {this.suc()}}
           ></Image>
           
 
-          {this.toRed()}
+          {this.toRed(this.state.isLoading)}
         <MB 
           content={this.state.content} 
           isModal={this.state.flag}
           sure={() => this.sure()}/>
+        <Loading isLoading={this.state.isLoading}/>
       </View>
     );
   }
