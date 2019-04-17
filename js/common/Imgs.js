@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
+import actions from '../action';
 
-export default class ImgTop extends Component<Props> {
+class Imgs extends Component<Props> {
   render () {
     const {title, icon, obj, height} = this.props;
     return (
@@ -17,7 +19,11 @@ export default class ImgTop extends Component<Props> {
             obj.map((item, index) => {
               return (
                 <TouchableOpacity onPress={() => {
-                    NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
+                    if (this.props.status !== 0) {
+                      NavigationUtil.goToPage({navigation: this.props.navigation}, 'ImgsPage');
+                    } else {
+                      NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage');
+                    }          
                   }}>
                   <View style={styles.item}>
                     <View style={{width: unitWidth*199, height: unitWidth*height, borderRadius: unitWidth*15, position: 'relative', backgroundColor: '#FAE04B'}}>
@@ -34,6 +40,11 @@ export default class ImgTop extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  status: state.status.status,
+});
+export default connect(mapStateToProps)(Imgs);
 
 const styles = StyleSheet.create({
   wrap: {

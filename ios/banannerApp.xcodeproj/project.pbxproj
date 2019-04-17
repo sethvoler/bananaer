@@ -45,6 +45,7 @@
 		3F7C82D97BB54B78B246740F /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A9F26987C064A0DA32B2A4C /* Entypo.ttf */; };
 		5000FABFEB854BF89E9FD1EF /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47FF7138ABD3434C9B40142F /* libRNGestureHandler-tvOS.a */; };
 		5519D606D798463EB6383F5A /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BB150C22BF54AD9BADE5382 /* FontAwesome5_Brands.ttf */; };
+		6D28E52476644F9AB65BD38A /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 984B1D4442B046F38A05238C /* libRNCAsyncStorage.a */; };
 		6D91D45EA54748AB910276EC /* libRNCSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3D11FF846A84E45A2D7650A /* libRNCSlider.a */; };
 		6DA2EB4D613D4BB0AB535419 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3C5616658B741FC837A1CDD /* EvilIcons.ttf */; };
 		7AAF4FA71D5D45E3A0CFAF18 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43BA74043BAD4A469B83AEB1 /* FontAwesome.ttf */; };
@@ -60,6 +61,7 @@
 		CAB043FD3D904B04988A5906 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 945CE40246A940EA8CE6DB6B /* FontAwesome5_Regular.ttf */; };
 		E31271422243307100CB6D34 /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = E31271412243307100CB6D34 /* bundle */; };
 		E32667D7224D11EF00B8E8FA /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = E32667D6224D11EF00B8E8FA /* bundle */; };
+		E342F8DA2267087A001F45B3 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E342F8D922670823001F45B3 /* libRCTCameraRoll.a */; };
 		E34D9CFA2246188800DDBF7A /* ArialMT 1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E34D9CCB2246188700DDBF7A /* ArialMT 1.ttf */; };
 		E34D9CFB2246188800DDBF7A /* Adobe Heiti Std R.otf in Resources */ = {isa = PBXBuildFile; fileRef = E34D9CCC2246188700DDBF7A /* Adobe Heiti Std R.otf */; };
 		E34D9CFC2246188800DDBF7A /* SourceHanSansCN-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E34D9CCD2246188700DDBF7A /* SourceHanSansCN-Medium.ttf */; };
@@ -402,6 +404,20 @@
 			remoteGlobalIDString = 28C79A09220DC4CC0061DE82;
 			remoteInfo = RNCSlider;
 		};
+		E342F8CC2267077F001F45B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6602B29FE76F491C86D4889D /* RNCAsyncStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCAsyncStorage;
+		};
+		E342F8D822670823001F45B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E342F8D422670823001F45B3 /* RCTCameraRoll.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RCTCameraRoll;
+		};
 		E34CE748225A2CC00065B92F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 76CC42AEBABF400B86D1F8D9 /* RCTVideo.xcodeproj */;
@@ -454,6 +470,7 @@
 		4CF6F89F153847ABBC14BADE /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		65BAF496ADA642D8B8EDDCCD /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
+		6602B29FE76F491C86D4889D /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCAsyncStorage.xcodeproj; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; };
 		6CA82C578A934359B2C492B5 /* RNCSlider.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCSlider.xcodeproj; path = "../node_modules/@react-native-community/slider/ios/RNCSlider.xcodeproj"; sourceTree = "<group>"; };
 		76CC42AEBABF400B86D1F8D9 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -462,6 +479,7 @@
 		88F31633C57F4BEDA69F7E10 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		91C4ED47C10041009FABB74A /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; };
 		945CE40246A940EA8CE6DB6B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		984B1D4442B046F38A05238C /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCAsyncStorage.a; sourceTree = "<group>"; };
 		9C0399EF485F4BA68E2A77F2 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		A3D11FF846A84E45A2D7650A /* libRNCSlider.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCSlider.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -475,6 +493,7 @@
 		DA11DE3BC20D4173A63209BA /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		E31271412243307100CB6D34 /* bundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundle; sourceTree = "<group>"; };
 		E32667D6224D11EF00B8E8FA /* bundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundle; sourceTree = "<group>"; };
+		E342F8D422670823001F45B3 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		E34D9C0E224503E200DDBF7A /* banannerApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = banannerApp.xcodeproj; sourceTree = "<group>"; };
 		E34D9CCB2246188700DDBF7A /* ArialMT 1.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ArialMT 1.ttf"; sourceTree = "<group>"; };
 		E34D9CCC2246188700DDBF7A /* Adobe Heiti Std R.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Adobe Heiti Std R.otf"; sourceTree = "<group>"; };
@@ -500,6 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
+				E342F8DA2267087A001F45B3 /* libRCTCameraRoll.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -518,6 +538,7 @@
 				2D389E7C3CF14BEE86DE68AD /* libBVLinearGradient.a in Frameworks */,
 				6D91D45EA54748AB910276EC /* libRNCSlider.a in Frameworks */,
 				B7FC0059F10042168603F69E /* libRCTVideo.a in Frameworks */,
+				6D28E52476644F9AB65BD38A /* libRNCAsyncStorage.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,6 +722,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E342F8D422670823001F45B3 /* RCTCameraRoll.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -719,6 +741,7 @@
 				848995D26DDA4115A169C173 /* BVLinearGradient.xcodeproj */,
 				6CA82C578A934359B2C492B5 /* RNCSlider.xcodeproj */,
 				76CC42AEBABF400B86D1F8D9 /* RCTVideo.xcodeproj */,
+				6602B29FE76F491C86D4889D /* RNCAsyncStorage.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -782,6 +805,7 @@
 				FCABA0B8A9824E63B01BF5AB /* libRNSVG-tvOS.a */,
 				A3D11FF846A84E45A2D7650A /* libRNCSlider.a */,
 				4CF6F89F153847ABBC14BADE /* libRCTVideo.a */,
+				984B1D4442B046F38A05238C /* libRNCAsyncStorage.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -825,6 +849,22 @@
 			isa = PBXGroup;
 			children = (
 				E32667D5224D11C800B8E8FA /* libRNCSlider.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E342F8C92267077F001F45B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E342F8CD2267077F001F45B3 /* libRNCAsyncStorage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E342F8D522670823001F45B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E342F8D922670823001F45B3 /* libRCTCameraRoll.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1020,6 +1060,10 @@
 					ProjectRef = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
 				},
 				{
+					ProductGroup = E342F8D522670823001F45B3 /* Products */;
+					ProjectRef = E342F8D422670823001F45B3 /* RCTCameraRoll.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
@@ -1058,6 +1102,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = E342F8C92267077F001F45B3 /* Products */;
+					ProjectRef = 6602B29FE76F491C86D4889D /* RNCAsyncStorage.xcodeproj */;
 				},
 				{
 					ProductGroup = E32667D1224D11C800B8E8FA /* Products */;
@@ -1402,6 +1450,20 @@
 			remoteRef = E32667D4224D11C800B8E8FA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		E342F8CD2267077F001F45B3 /* libRNCAsyncStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCAsyncStorage.a;
+			remoteRef = E342F8CC2267077F001F45B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E342F8D922670823001F45B3 /* libRCTCameraRoll.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCameraRoll.a;
+			remoteRef = E342F8D822670823001F45B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E34CE749225A2CC00065B92F /* libRCTVideo.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1583,12 +1645,14 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = banannerAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1622,12 +1686,14 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = banannerAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1665,6 +1731,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = banannerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1699,6 +1766,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = banannerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1735,11 +1803,13 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = "banannerApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1782,11 +1852,13 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = "banannerApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1828,11 +1900,13 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = "banannerApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1874,11 +1948,13 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 				);
 				INFOPLIST_FILE = "banannerApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, AsyncStorage, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Image,Dimensions} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {unitWidth, unitHeight}from '../util/AdapterUtil';
 import Api from '../expand/api';
@@ -78,6 +79,19 @@ export default class WelcomePage extends Component<Props> {
   static navigationOptions = {
       header: null,
   }
+
+  // 定义 
+  last4RedAndClick (str) {
+    let s = str.slice()
+  }
+
+  toRed () {
+    return (
+      <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
+    )
+  }
+
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -89,7 +103,9 @@ export default class WelcomePage extends Component<Props> {
           } style={styles.qdy}
           resizeMode={'stretch'}
           ></Image>
-        <Text style={styles.jump} onPress={() => {this.goHome()}}>{this.state.sec}</Text>
+          
+
+          {this.toRed()}
         <MB 
           content={this.state.content} 
           isModal={this.state.flag}

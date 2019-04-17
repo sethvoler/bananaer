@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {TextInput, AsyncStorage, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
+import {TextInput, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import MB from '../common/ModalBox';
 import NavigationUtil from '../navigator/NavigationUtil';

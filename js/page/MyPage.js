@@ -71,7 +71,12 @@ class MyPage extends Component<Props> {
           </TouchableOpacity>
           <View style={styles.line}></View>
           <MyList title={'关于香蕉巴巴'} icon={require('../res/image/gy.png')} big={false}/>
-          <MyList title={'分享给Ta'} icon={require('../res/image/fxx.png')} big={false}/>
+          <TouchableOpacity onPress={() => {
+              this.props.status === 0 ? NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage') :
+              NavigationUtil.goToPage({navigation: this.props.navigation}, 'FXPage');
+            }}>
+            <MyList title={'分享给Ta'} icon={require('../res/image/fxx.png')} big={false}/>
+          </TouchableOpacity> 
         </ScrollView>
       </View>
     );

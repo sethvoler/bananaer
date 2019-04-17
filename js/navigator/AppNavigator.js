@@ -36,7 +36,7 @@ import VipPage from '../page/VipPage';
 import FetchDemoPage from '../page/FetchDemoPage';
 import AsyncStoragePage from '../page/AsyncStoragePage';
 import DataStoreDemoPage from '../page/DataStoreDemoPage';
-import VideoPage from '../page/VideoPage';
+import FXPage from '../page/FXPage';
 
 import Demo from '../page/Demo';
 
@@ -93,6 +93,12 @@ const MainNavigator = createStackNavigator({
     screen: EditPage,
     navigationOptions: {
       headerTitle: '个人信息'
+    }
+  },
+  FXPage: {
+    screen: FXPage,
+    navigationOptions: {
+      headerTitle: '我的分享'
     }
   },
   MorePage: {

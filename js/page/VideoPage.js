@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Platform, ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity, AsyncStorage} from 'react-native';
+import {Platform, ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import ImgTop from '../common/ImgTop';
@@ -83,20 +84,24 @@ class MorePage extends Component<Props> {
               const id = item.id;
               return (
                 <TouchableOpacity key={index} style={styles.imgBox} onPress={() => {
-                  let times=0;
-                  AsyncStorage.getItem('times', (err, value) => {
-                    times = value
-                  });
-                  times=1+Number(times);
-                  if (this.props.plays < this.state.dayWatchTimes) {
-                    this.props.getPlays(times);
-                    AsyncStorage.setItem('times', String(times), error => {});
-                    NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+                  if (this.props.status !== 0) {
+                    let times=0;
+                    AsyncStorage.getItem('times', (err, value) => {
+                      times = value
+                    });
+                    times=1+Number(times);
+                    if (this.props.plays < this.state.dayWatchTimes) {
+                      this.props.getPlays(times);
+                      AsyncStorage.setItem('times', String(times), error => {});
+                      NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+                    } else {
+                      this.setState({
+                        flag: true,
+                        content: '今日免费观看次数已用完'
+                      })
+                    }
                   } else {
-                    this.setState({
-                      flag: true,
-                      content: '今日免费观看次数已用完'
-                    })
+                    NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage');
                   }
                 }}>
                   <Image roundAsCircle={true} resizeMode={'stretch'} source={{uri: item.posterUrl}} style={styles.img}></Image>
@@ -138,6 +143,7 @@ class MorePage extends Component<Props> {
 
 const mapStateToProps = state => ({
   plays: state.plays.plays,
+  status: state.status.status,
 });
 const mapDispatchToProps = dispatch => ({
   getPlays: times => dispatch(actions.getPlays(times)),

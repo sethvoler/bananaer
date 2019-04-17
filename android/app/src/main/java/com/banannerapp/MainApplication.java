@@ -3,6 +3,8 @@ package com.banannerapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.bamlab.rncameraroll.CameraRollPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CameraRollPackage(),
+            new AsyncStoragePackage(),
             new ReactVideoPackage(),
             new ReactSliderPackage(),
             new LinearGradientPackage(),

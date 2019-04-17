@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, AsyncStorage, TouchableOpacity} from 'react-native'; 
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native'; 
+import AsyncStorage from '@react-native-community/async-storage';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
@@ -33,29 +34,34 @@ class Wrap extends Component<Props> {
     })
   }
   render () {
-    const {data, cstyle, getPlays, plays} = this.props;
+    const {data, cstyle, getPlays, plays, status} = this.props;
     let list = (data, cstyle) => {
       var res = [];
       for(var i = 0; i < data.length; i++) {
         let id = data[i].id;
         res.push(<TouchableOpacity key={i} onPress={() => {
-          let times = 0;
-          AsyncStorage.getItem('times', (err, value) => {
-            times = value
-          });
-          times=1+times;
-          if (plays < this.state.dayWatchTimes) {
-            getPlays(times);
-            AsyncStorage.setItem('times', String(times), error => {});
-            NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+          if (status !== 0) {
+            let times = 0;
+            AsyncStorage.getItem('times', (err, value) => {
+              times = value
+            });
+            times=1+Number(times);
+            if (plays < this.state.dayWatchTimes) {
+              getPlays(times);
+              AsyncStorage.setItem('times', String(times), error => {});
+              NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'PlayPage');
+            } else {
+              this.setState({
+                flag: true,
+                content: '今日免费观看次数已用完'
+              })
+            }
           } else {
-            this.setState({
-              flag: true,
-              content: '今日免费观看次数已用完'
-            })
+            NavigationUtil.goToPage({
+              navigation: this.props.navigation
+            }, 'LogPage');}
           }
-          
-        }}>
+        }>
           <Image resizeMode={'stretch'} source={{uri: data[i].posterUrl}} style={cstyle == 1 ? styles.img1 : styles.img2}></Image>
           <View style={cstyle == 1 
             ? {position: 'absolute', 
@@ -119,9 +125,17 @@ class Video extends Component<Props> {
                 <Text style={styles.border}></Text>
                 <Text style={styles.title}>{title}</Text>
               </View>
-              <TouchableOpacity onPress={() => {NavigationUtil.goToPage({
-                  navigation: this.props.navigation
-                }, 'MorePage');}}>
+              <TouchableOpacity onPress={() => {
+                if (this.props.status !== 0) {
+                  NavigationUtil.goToPage({
+                    navigation: this.props.navigation
+                  }, 'MorePage');
+                } else {
+                  NavigationUtil.goToPage({
+                    navigation: this.props.navigation
+                  }, 'LogPage');}
+                }
+                }>
                 <View style={styles.moreBox}>
                   <Text style={styles.more}>更多</Text>
                   <Image style={styles.moreIcon} source={require('../res/image/ra.png')}></Image>
@@ -134,6 +148,7 @@ class Video extends Component<Props> {
           data={data} 
           getPlays={() => this.props.getPlays()} 
           cstyle={cstyle}
+          status={this.props.status}
           plays={this.props.plays}/>
       </View>
     );
@@ -142,6 +157,7 @@ class Video extends Component<Props> {
 
 const mapStateToProps = state => ({
   plays: state.plays.plays,
+  status: state.status.status,
 });
 const mapDispatchToProps = dispatch => ({
   getPlays: times => dispatch(actions.getPlays(times)),
