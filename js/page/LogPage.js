@@ -30,17 +30,17 @@ class LogPage extends Component<Props> {
       })
       _.props.getPhone(data.user);
       console.log(_.props.user);
+      _.props.logIn(1);
+      NavigationUtil.goToPage({navigation: _.props.navigation}, 'IndexPage');
     }, (err) => {})
   }
   loginApi (user) {
     let _ = this;
     Api.login(user, function(json) {
-      NavigationUtil.goToPage({navigation: _.props.navigation}, 'IndexPage');
-      _.props.logIn(1);
+      _.getUserInfo();
       AsyncStorage.setItem(TOKEN, json.data.token, error => {
         error && console.log(error.toString());
       })
-      _.getUserInfo();
     },function(msg) {
       _.setState({
         isModal: true,
