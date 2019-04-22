@@ -39,7 +39,7 @@ class PlayPage extends Component<Props> {
   
   _getCommentList (id) {
     let _ = this;
-    Api.commentList({mediaId: id}, function (data) {
+    Api.commentList({token: this.props.token,mediaId: id}, function (data) {
       _.setState({
         commentList: [].concat(data).reverse()
       });
@@ -66,7 +66,7 @@ class PlayPage extends Component<Props> {
 
   like(id) {
     let _ = this;
-    Api.like({commentId: id}, function (data) {
+    Api.like({token: this.props.token,commentId: id}, function (data) {
       _._getCommentList(_.props.navigation.state.params.id)
     }, function (msg) {}); 
   }
@@ -90,7 +90,7 @@ class PlayPage extends Component<Props> {
         flag: true,
       })
     } else {
-      Api.createComment({mediaId: id, comment: comment}, function (data) {
+      Api.createComment({token: this.props.token, mediaId: id, comment: comment}, function (data) {
         _._getCommentList(id)
       }, function (msg) {
         console.log(msg);
@@ -104,7 +104,7 @@ class PlayPage extends Component<Props> {
   }
   singleMedia (id) {
     let _ = this;
-    Api.singleMedia({mediaId: id}, function (res) {
+    Api.singleMedia({token: this.props.token,mediaId: id}, function (res) {
       console.log(res)
       _.setState({
         videoMsg: Object.assign({}, res),
@@ -267,6 +267,7 @@ class PlayPage extends Component<Props> {
 
 const mapStateToProps = state => ({
   status: state.status.status,
+  token: state.token.token,
 });
 export default connect(mapStateToProps)(PlayPage);
 

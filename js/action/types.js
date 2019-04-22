@@ -4,4 +4,5 @@ export default {
   GET_PHONE: 'GET_PHONE',
   GET_TAB: 'GET_TAB',
   PLAYS: 'PLAYS',
+  GET_TOKEN: 'GET_TOKEN',
 }

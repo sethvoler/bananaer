@@ -2,6 +2,7 @@
  * @format
  */
 
+
 import {AppRegistry} from 'react-native';
 import App from './js/App';
 // import AppNavigator from './js/navigator/AppNavigator';

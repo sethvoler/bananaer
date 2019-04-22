@@ -1,8 +1,9 @@
-import {logIn, getPhone, curTab, getPlays} from './login';
+import {logIn, getPhone, curTab, getPlays, getToken} from './login';
 
 export default {
   logIn,
   getPhone,
   curTab,
-  getPlays
+  getPlays,
+  getToken,
 }

@@ -75,12 +75,18 @@ class Wrap extends Component<Props> {
               justifyContent: 'space-between',
               alignItems: 'center',
               } 
-            : {}}>
+            : {position: 'absolute', 
+              width: unitWidth*242, 
+              height: unitWidth*40, 
+              backgroundColor:'rgba(0,0,0,.4)',
+              top: unitWidth*321, 
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',}}>
               <Text style={{
                 marginLeft: unitWidth*20,  
                 fontSize: unitWidth*20,  
                 color:'#fff',
-                //fontFamily: 'SourceHanSansCNM'
                 } }>{data[i].mediaName}</Text>
               <View style={{
                 flexDirection: 'row',
@@ -92,7 +98,6 @@ class Wrap extends Component<Props> {
                   marginLeft: unitWidth*8, 
                   fontSize: unitWidth*19,  
                   color:'#fff',
-                  //fontFamily: 'PingFang-SC-Medium'
                   } }>{data[i].playTimes || 0}</Text>
               </View>
             </View>
@@ -130,11 +135,11 @@ class Video extends Component<Props> {
               <TouchableOpacity onPress={() => {
                 if (this.props.status !== 0) {
                   NavigationUtil.goToPage({
-                    navigation: this.props.navigation
+                    navigation: this.props.navigation,
                   }, 'MorePage');
                 } else {
                   NavigationUtil.goToPage({
-                    navigation: this.props.navigation
+                    navigation: this.props.navigation,
                   }, 'LogPage');}
                 }
                 }>
@@ -230,6 +235,8 @@ const styles = StyleSheet.create({
     height: unitWidth*361,
     width: unitWidth*242,
     borderRadius: unitWidth*10,
+    marginRight: unitWidth*12,
+    marginBottom: unitWidth*10,
   },
 
   box: {

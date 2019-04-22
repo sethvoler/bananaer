@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TextInput, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity} from 'react-native';
+import {TextInput, StyleSheet, Text, View, Keyboard, Alert, Image, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import MB from '../common/ModalBox';
@@ -9,7 +9,6 @@ import actions from '../action';
 import Api from '../expand/api';
 
 type Props = {};
-const TOKEN = 'token';
 class LogPage extends Component<Props> {
   constructor(props) {
     super(props);
@@ -22,9 +21,9 @@ class LogPage extends Component<Props> {
   static navigationOptions = {
     header: null,
   }
-  getUserInfo () {
+  getUserInfo (token) {
     let _ = this;
-    Api.userInfo({}, (data) => {
+    Api.userInfo({token:token}, (data) => {
       AsyncStorage.setItem('qrimg', data.qrimg, error => {
         error && console.log(error.toString());
       })
@@ -37,10 +36,9 @@ class LogPage extends Component<Props> {
   loginApi (user) {
     let _ = this;
     Api.login(user, function(json) {
-      _.getUserInfo();
-      AsyncStorage.setItem(TOKEN, json.data.token, error => {
-        error && console.log(error.toString());
-      })
+      _.props.getToken(json.data.token);
+      _.getUserInfo(json.data.token); 
+      
     },function(msg) {
       _.setState({
         isModal: true,
@@ -63,8 +61,6 @@ class LogPage extends Component<Props> {
     this.setState({
       phone: data 
     })
-  }
-  componentDidUpdate () {
   }
   _pswChange (data) {
     this.setState({
@@ -95,6 +91,8 @@ class LogPage extends Component<Props> {
               placeholder={'请输入手机号'}
               onChangeText={(text) => {this._phoneChange(text)}}
               autoCapitalize="none"
+              onSubmitEditing={Keyboard.dismiss}
+              iosclearButtonMode="always"
               style={styles.tel}/>
             <Image source={require('../res/image/ld.png')} style={styles.ld}></Image>
           </View>
@@ -105,6 +103,9 @@ class LogPage extends Component<Props> {
             password={true}
             onChangeText={(text) => {this._pswChange(text)}}
             autoCapitalize="none"
+            iosclearButtonMode="always"
+ 
+            onSubmitEditing={Keyboard.dismiss}
             style={styles.psw}/>
           <Image source={require('../res/image/look.png')} style={styles.ldl}></Image>
         </View>
@@ -115,7 +116,7 @@ class LogPage extends Component<Props> {
           onPress={
             this.state.phone !== '' && this.state.psw !== ''
             ? () => {this._success()}
-            : () => {return false;}
+            : () => {return null}
           }
         >确定</Text>
         <Text style={styles.no}>忘记密码？</Text>
@@ -140,10 +141,12 @@ class LogPage extends Component<Props> {
 
 const mapStateToProps = state => ({
   user: state.user.user,
+  token: state.token.token,
 });
 const mapDispatchToProps = dispatch => ({
   logIn: status => dispatch(actions.logIn(status)),
-  getPhone: user => dispatch(actions.getPhone(user))
+  getPhone: user => dispatch(actions.getPhone(user)),
+  getToken: token => dispatch(actions.getToken(token))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(LogPage);
 

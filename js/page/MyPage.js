@@ -26,7 +26,6 @@ class MyPage extends Component<Props> {
   }
   componentDidUpdate () {
     if (this.props.status !== 0) {
-
     }
   }
   componentDidUpdate () {
@@ -39,7 +38,6 @@ class MyPage extends Component<Props> {
     }, (err) => {})
   }
   render () {
-    
     return (
       <View style={styles.container}>
         <MyTop 

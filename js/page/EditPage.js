@@ -1,11 +1,12 @@
 
 import React, {Component} from 'react';
-import {Picker, AsyncStorage, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity, Modal} from 'react-native';
+import {Picker, StyleSheet, Text, View, Button, Image, TouchableOpacity, Modal} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
 import actions from '../action';
 import Api from '../expand/api';
+import AsyncStorage from '@react-native-community/async-storage';
 
 type Props = {};
 class EditPage extends Component<Props> {
@@ -41,28 +42,33 @@ class EditPage extends Component<Props> {
       isModal: false,
     });
   }
+  changeMsg (sex) {
+    let _ = this;
+    let formData = new FormData();   
+    formData.append("nickName",_.props.user.nickName);
+    formData.append("sex",sex);
+    formData.append("shortDes",_.props.user.shortDes);
+    Api.changeMsg(
+      _.props.token,
+      formData,
+    data => {
+      _.getUserInfo();
+    }, err => {})
+  }
   getUserInfo () {
     let _ = this;
-    Api.userInfo({}, (data) => {
+    Api.userInfo({
+      token: _.props.token,
+    }, (data) => {
       AsyncStorage.setItem('qrimg', data.qrimg, error => {
         error && console.log(error.toString());
       })
       _.props.getPhone(data.user);
-    }, (err) => {})
-  }
-  changeSex (sex) {
-    let _ = this;
-    Api.changeMsg({
-      nickName: _.props.user.nickName,
-      sex: sex,
-      shortDes: _.props.user.shortDes,
-      headPic: _.props.user.headPic,
-    }, data => {
-      _.getUserInfo();
-    }, err => {})
+    }, (err) => {alert(err)})
   }
   render() {
-    const avatar = String(this.props.user.headPic) === 'null' ? require('../res/image/m.jpg') : {uri: this.props.user.headPic};
+    const avatar = this.props.user.headPic === null ? require('../res/image/m.jpg') : {uri: this.props.user.headPic};
+    console.log('个人信息页：',avatar)
     return (
       <View style={styles.wrap}>
         <View style={styles.line}></View>
@@ -78,28 +84,28 @@ class EditPage extends Component<Props> {
               </View> 
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
+          {/* <TouchableOpacity onPress={() => {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'EditNamePage');
-            }}>
+            }}> */}
             <View style={styles.item}>
               <Text style={styles.title}>昵称</Text>
               <View style={styles.right}>
                 <Text style={styles.title}>{String(this.props.user.nickName) !== 'null' ? this.props.user.nickName: this.props.user.userName}</Text>
-                <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
+                {/* <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image> */}
               </View> 
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
+          {/* </TouchableOpacity> */}
+          {/* <TouchableOpacity onPress={() => {
               NavigationUtil.goToPage({navigation: this.props.navigation}, 'EditSinePage');
-            }}>
+            }}> */}
             <View style={styles.item}>
               <Text style={styles.title}>个性签名</Text>
               <View style={styles.right}>
                 <Text style={styles.title}>{String(this.props.user.shortDes) !== 'null' ? this.props.user.shortDes: '这家伙很懒，什么都没留下。'}</Text>
-                <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
+                {/* <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image> */}
               </View> 
             </View>
-          </TouchableOpacity>
+          {/* </TouchableOpacity> */}
         </View>
         <View style={styles.line}></View>
         <View style={styles.list}>
@@ -112,7 +118,7 @@ class EditPage extends Component<Props> {
                                               : this.props.user.sex === 0 
                                                 ? '男' 
                                                 : '女' }</Text>
-                <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
+                {/* <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image> */}
               </View> 
             </View> 
           </TouchableOpacity>
@@ -120,14 +126,14 @@ class EditPage extends Component<Props> {
             <Text style={styles.title}>生日</Text>
             <View style={styles.right}>
               <Text style={styles.content}>待完善</Text>
-              <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
+              {/* <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image> */}
             </View> 
           </View>
           <View style={styles.item}>
             <Text style={styles.title}>地区</Text>
             <View style={styles.right}>
               <Text style={styles.content}>待完善</Text>
-              <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image>
+              {/* <Image source={require('../res/image/ra.png')} style={styles.arrow}></Image> */}
             </View> 
           </View>
         </View> 
@@ -145,8 +151,8 @@ class EditPage extends Component<Props> {
                 </TouchableOpacity>
               </View>
               <Picker style={styles.picker}
-                      selectedValue={this.props.user.sex ? this.props.user.sex: '男'}
-                      onValueChange={(sex)=>this.changeSex(sex)}>
+                      selectedValue={this.props.user.sex}
+                      onValueChange={(sex)=>this.changeMsg(sex)}>
                 <Picker.Item label='男' value={0} />
                 <Picker.Item label='女' value={1} />
               </Picker>
@@ -163,6 +169,7 @@ class EditPage extends Component<Props> {
 
 const mapStateToProps = state => ({
   user: state.user.user,
+  token: state.token.token,
 });
 const mapDispatchToProps = dispatch => ({
   getPhone: user => dispatch(actions.getPhone(user))

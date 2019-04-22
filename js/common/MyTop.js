@@ -46,7 +46,7 @@ class MyTop extends Component<Props> {
   
   render () {
     const {status, topMsg} = this.props;
-    const avatar = String(this.props.user.headPic) === 'null' ? require('../res/image/m.jpg') : {uri: this.props.user.headPic};
+    const avatar = this.props.user.headPic === null ? require('../res/image/m.jpg') : {uri: this.props.user.headPic};
     console.log(avatar)
     return (
       <View style={styles.container}>
@@ -55,7 +55,7 @@ class MyTop extends Component<Props> {
             <Image source={status === 0 ? require('../res/image/m.jpg') : avatar} style={styles.avatar}></Image>
             <View>
               <View style={styles.box}>
-                <Text style={styles.name}>{status === 0 ? '未登录' : String(this.props.user.nickName) !== 'null' ? this.props.user.nickName: this.props.user.userName}</Text>
+                <Text style={styles.name}>{status === 0 ? '未登录' : this.props.user.nickName }</Text>
                 <TouchableOpacity onPress={() => {
                   NavigationUtil.goToPage({navigation: this.props.navigation}, 'EditPage');
                 }}>

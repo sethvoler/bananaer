@@ -30,11 +30,6 @@ export default function onAction(state = defatultState, action) {
         ...state,
         user: action.user,
       };
-    // case Types.LOG_OUT:
-    //   return {
-    //     ...state,
-    //     status: action.status,
-    //   };
     default: 
       return state;
   }

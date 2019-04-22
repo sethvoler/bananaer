@@ -37,7 +37,7 @@ import FetchDemoPage from '../page/FetchDemoPage';
 import AsyncStoragePage from '../page/AsyncStoragePage';
 import DataStoreDemoPage from '../page/DataStoreDemoPage';
 import FXPage from '../page/FXPage';
-import MySwiperPage from '../page/MySwiperPage';
+import ImgListPage from '../page/ImgListPage';
 
 import Demo from '../page/Demo';
 
@@ -60,9 +60,6 @@ const InitNavigator = createStackNavigator({
 });
 
 const MainNavigator = createStackNavigator({
-  // MySwiperPage:{
-  //   screen: MySwiperPage,
-  // },
   IndexPage: {
     screen: IndexPage,
   },
@@ -86,6 +83,9 @@ const MainNavigator = createStackNavigator({
   },
   DataStoreDemoPage: {
     screen: DataStoreDemoPage
+  },
+  ImgListPage: {
+    screen: ImgListPage
   },
   SetUpPage: {
     screen: SetUpPage,

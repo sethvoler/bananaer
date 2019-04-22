@@ -9,7 +9,10 @@ const apis = {
     login: '/user/login',
     changemobile: '/user/changemobile',
     like: '/media/comment/like',
+    likes: '/album/comment/like',
+    imgsLike: '/album/like',
     createComment: '/media/comment/create',
+    createComments: '/album/comment/create',
     changeMsg: '/user/completeuserinfo',
   },
   get: {
@@ -17,12 +20,15 @@ const apis = {
     userInfo: '/user/userinfo',
     mediaList: '/media/list',
     albumList: '/album/list',
+    imgsMsg: '/album/single',
     imgList: '/album/img/list',
     mediaList: '/media/list',
     commentList: '/media/comment/list',
+    imgsCommentList: '/album/comment/list',
     albumList: '/album/list',
     singleMedia: '/media/single',
     banner: '/banner/list',
+    mediaSortList: '/media/homepage/video/list',
   }
 };
 
@@ -30,8 +36,11 @@ export default api = {
   sms: function(params,callback,errFn) {
     Net.post(BASE+apis.post.sms,params,callback,errFn);
   },
-  changeMsg: function(params,callback,errFn) {
-    Net.post(BASE+apis.post.changeMsg,params,callback,errFn);
+  imgsLike: function(params,callback,errFn) {
+    Net.post(BASE+apis.post.imgsLike,params,callback,errFn);
+  },
+  changeMsg: function(token,formData,callback,errFn) {
+    Net.postFormData(BASE+apis.post.changeMsg,token,formData,callback,errFn);
   },
   register: function (params,callback,errFn) {
     Net.postJson(BASE+apis.post.register,params,callback,errFn);
@@ -39,8 +48,14 @@ export default api = {
   like: function (params,callback,errFn) {
     Net.post(BASE+apis.post.like,params,callback,errFn);
   },
+  likes: function (params,callback,errFn) {
+    Net.post(BASE+apis.post.likes,params,callback,errFn);
+  },
   createComment: function (params,callback,errFn) {
     Net.post(BASE+apis.post.createComment,params,callback,errFn);
+  },
+  createComments: function (params,callback,errFn) {
+    Net.post(BASE+apis.post.createComments,params,callback,errFn);
   },
   login: function(params,callback,errFn) {
     Net.post(BASE+apis.post.login,params,callback,errFn);
@@ -48,7 +63,15 @@ export default api = {
   changemobile: function(params,callback,errFn) {
     Net.post(BASE+apis.post.changemobile,params,callback,errFn);
   },
-  
+  imgsMsg: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.imgsMsg,params,callback,errFn);
+  },
+  imgsCommentList: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.imgsCommentList,params,callback,errFn);
+  },
+  mediaSortList: function(params,callback,errFn) {
+    Net.get(BASE+apis.get.mediaSortList,params,callback,errFn);
+  },
   userInfo: function(params,callback,errFn) {
     Net.get(BASE+apis.get.userInfo,params,callback,errFn);
   },

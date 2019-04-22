@@ -3,6 +3,8 @@ import {Platform, StyleSheet, Text, View, Button, Alert, Image, TouchableOpacity
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import Video from '../common/Video';
+import {connect} from 'react-redux';
+import Api from '../expand/api';
 
 type Props = {};
 export default class MorePage extends Component<Props> {
@@ -24,18 +26,71 @@ export default class MorePage extends Component<Props> {
   constructor (props) {
     super(props);
     this.state = {
-      upIndex: 0,
-      bottomIndex: 0
+      upIndex: -1,
+      bottomIndex: -1,
+      all: [],
+      sortList: [],
     }
+  }
+  getSortList () {
+    let _ = this;
+    Api.mediaList({},function (res) {
+      let newRes = res.filter((item) => {
+        return item.categoryName !== null;
+      })
+      let toData = _.changeArr(newRes)
+      console.log('转化后的：you ',toData)
+      _.setState({
+        sortList: [].concat(toData),
+        all: [].concat(res)
+      })
+    }, function (err) {})
+  }
+  changeArr(arr) {
+    var map = {},
+    dest = [];
+    for(var i = 0; i < arr.length; i++){
+      var item = arr[i];
+      if(!map[item.categoryId]){
+        dest.push({
+          id: item.categoryId,
+          name: item.categoryName,
+          data: [item]
+        });
+        map[item.categoryId] = item;
+      }else{
+        for(var j = 0; j < dest.length; j++){
+          var dItem = dest[j];
+          if(dItem.id == item.categoryId){
+            dItem.data.push(item);
+            break;
+          }
+        }
+      }
+    }
+    return dest;
+  }
+  componentDidMount () {
+    // this.getNewMediaList()
+    // this.getMostLikeList()
+    this.getSortList()
+    
   }
   render () {
     return (
       <View style={styles.wrap}>
         <View style={styles.top}>
           <View style={styles.in}>
-            <Text style={styles.nomal}>综合</Text>
+            <Text style={this.state.upIndex < 0 ? styles.active : styles.nomal}
+               onPress={() => {
+                this.setState({
+                  upIndex: -1
+                })
+                this.getSortList();
+            }}>综合</Text>
             {
-              ['最多播放','最近更新','最多喜欢'].map((item, index) => {
+              // ['最多播放','最近更新','最多喜欢']
+              ['最多播放','最近更新'].map((item, index) => {
                 return (
                   <Text style={this.state.upIndex === index 
                     ? styles.active 
@@ -49,9 +104,15 @@ export default class MorePage extends Component<Props> {
             }
           </View>
           <View style={styles.in}>
-            <Text style={styles.nomal}>全部</Text>
+            <Text style={this.state.bottomIndex < 0 ? styles.active : styles.nomal}
+              onPress={() => {
+                this.setState({
+                  bottomIndex: -1,
+                })
+                this.getSortList();
+            }}>全部</Text>
             {
-              ['家庭','搞笑'].map((item, index) => {
+              this.state.sortList.map((item, index) => {
                 return (
                   <Text style={this.state.bottomIndex === index 
                     ? styles.active 
@@ -59,20 +120,20 @@ export default class MorePage extends Component<Props> {
                       this.setState({
                         bottomIndex: index
                       })
-                  }}>{item}</Text>
+                      this.setState({
+                        all: [].concat(item.data)
+                      })
+                  }}>{item.name}</Text>
                 );
               })
             }
           </View>
         </View>
         <View style={styles.line}></View>
-        {/* <Video
+        <Video
           isHeader={false}
-          title={''}
-          num1={3}
-          num2={2} 
-          key={'qbgqdy'}
-          style={1}/> */}
+          data={this.state.all} 
+          cstyle={2} />
       </View>
     );
     

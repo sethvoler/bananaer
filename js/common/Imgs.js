@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {unitWidth, unitHeight, fontscale}from '../util/AdapterUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
@@ -30,13 +30,21 @@ class Imgs extends Component<Props> {
                       NavigationUtil.goToPage({navigation: this.props.navigation}, 'LogPage');
                     }          
                   }}>
-                  <View style={styles.item}>
-                    <View style={{width: unitWidth*199, height: unitWidth*height, borderRadius: unitWidth*15, position: 'relative', backgroundColor: '#FAE04B'}}>
+                  <View style={styles.item}>            
+                    <ImageBackground 
+                      resizeMode="stretch"
+                      source={{uri: item.data[0].lastPic}} 
+                        style={{width: unitWidth*199, 
+                        height: unitWidth*height, 
+                        borderRadius: unitWidth*15, 
+                        overflow: 'hidden',
+                        position: 'relative'}}>
                       <Text style={styles.num}>{item.data.length}个图集</Text>
-                    </View>
+                    </ImageBackground>
                     <Text style={styles.name}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
+             
               )
             })
           }
@@ -45,6 +53,17 @@ class Imgs extends Component<Props> {
     );
   }
 }
+
+{/* <Image source={{uri: item.data[0].lastPic}} 
+                      resizeMode="stretch"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: unitWidth*199, 
+                        height: unitWidth*height, 
+                        borderRadius: unitWidth*15,
+                      }}></Image> */}
 
 const mapStateToProps = state => ({
   status: state.status.status,

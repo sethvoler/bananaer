@@ -8,7 +8,6 @@ import {connect} from 'react-redux';
 import actions from '../action';
 
 type Props = {};
-const TOKEN = 'token';
 class QuickPage extends Component<Props> {
   constructor(props) {
     super(props);
@@ -28,8 +27,6 @@ class QuickPage extends Component<Props> {
   }
   static navigationOptions = {
     header: null,
-  }
-  componentDidUpdate () {
   }
   componentWillUnmount () {
     clearInterval(this.interTimer);
@@ -62,19 +59,12 @@ class QuickPage extends Component<Props> {
       return;
     })
   }
+  
   registerApi (user) {
     let _ = this;
     Api.register(user, function(json) {
       console.log('我是token:',json.data.token);
-      AsyncStorage.setItem(TOKEN, json.data.token, error => {
-        error && console.log(error.toString());
-      })
-      AsyncStorage.getItem(TOKEN, (error, value) => {
-        error && console.log(error.toString());
-        console.log('我是token:',value);
-      })
-      console.log('我的注册信息：',json);
-      _.goToNext();
+      _.goToNext(json.data.token);
     },function(msg) {
       _.setState({
         isModal: true,
@@ -110,9 +100,11 @@ class QuickPage extends Component<Props> {
       this.registerApi(user);
     }
   }
-  goToNext () {
+  goToNext (token) {
+    this.props.TOKEN(token);
     NavigationUtil.goToPage({
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
+      token: token
     }, 'EditMsgPage');
   }
   render() {
@@ -210,9 +202,12 @@ class QuickPage extends Component<Props> {
 
 const mapStateToProps = state => ({
   user: state.user.user,
+  token: state.token.token,
 });
 const mapDispatchToProps = dispatch => ({
-  getPhone: user => dispatch(actions.getPhone(user))
+  logIn: status => dispatch(actions.logIn(status)),
+  getPhone: user => dispatch(actions.getPhone(user)),
+  TOKEN: token => dispatch(actions.getToken(token))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(QuickPage);
 

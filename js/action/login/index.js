@@ -27,3 +27,10 @@ export function curTab (tab) {
     tab: tab,
   }
 }
+
+export function getToken (token) {
+  return {
+    type: Types.GET_TOKEN,
+    token: token,
+  }
+}

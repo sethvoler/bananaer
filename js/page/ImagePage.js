@@ -61,6 +61,9 @@ export default class ImagePage extends Component<Props> {
        let a = _.changeArr(data)
        let b = _.changeArr(data)
        b.sort(_.sortId)
+
+       console.log('look see',a);
+
       _.setState({
         obj2: a,
         obj1: b,
@@ -77,9 +80,10 @@ export default class ImagePage extends Component<Props> {
   componentDidMount() {
     let _ = this;
     this.getAlbumList();
-    this.timer = setInterval(() => {
-      _.getAlbumList();
-    }, 1000*10);
+    // 测试关闭轮询
+    // this.timer = setInterval(() => {
+    //   _.getAlbumList();
+    // }, 1000*30);
   }
   componentWillUnmount() {
     clearInterval(this.timer);

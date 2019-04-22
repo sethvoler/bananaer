@@ -25,21 +25,7 @@ export default class ImagePage extends Component<Props> {
       flag: false,
     })
   }
-  // getImgList () {
-  //   let _ = this;
-  //   let obj = {
-  //     albumId: 1 // id
-  //   }
-  //   Api.imgList(obj, function (data) {
-  //     console.log(data);
-  //   }, function (msg) {
-  //     console.log(msg);
-  //     _.setState({
-  //       flag: true,
-  //       content: msg,
-  //     })
-  //   })
-  // }
+  
   getAlbumList () {
     let _ = this;
     Api.albumList({}, function (data) {
@@ -54,22 +40,6 @@ export default class ImagePage extends Component<Props> {
       })
     })
   }
-  
-  // getImgList (item) {
-  //   let _ = this;
-  //   Api.imgList({albumId: item.id}, function (data) {
-  //     let obj = Object.assign(item, {data: data});
-  //     console.log(obj);
-  //     _.setState({
-  //       imgs: [].push(obj),
-  //     })
-  //   }, function (msg) {
-  //     _.setState({
-  //       flag: true,
-  //       content: msg,
-  //     })
-  //   })
-  // }
 
   componentDidMount() {
     let data = this.props.navigation.state.params.data;
@@ -86,7 +56,7 @@ export default class ImagePage extends Component<Props> {
           icon={require('../res/image/search.png')}
           mid={false}/>
         <View style={styles.line}></View>
-        <ScrollView refreshControl={true} style={{width: unitWidth*692}}>
+        <ScrollView refreshControl={true} style={{width: unitWidth*692, marginBottom: unitWidth*280}}>
           {
             this.state.imgs.map((item, index) => {
               return (<MyImg 

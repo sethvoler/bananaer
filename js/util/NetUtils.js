@@ -1,11 +1,4 @@
 import React,{Component} from 'react'; 
-import {AsyncStorage} from 'react-native';
-
-let token = '';
-
-AsyncStorage.getItem('token', (err, value) => {
-  token = value;
-})
 
 /**
  * 网络请求的工具类
@@ -30,7 +23,7 @@ export default class NetUtils extends Component{
     fetch(url+newParams,{
       method:'GET',
       headers:{
-        'authorization': token
+        'authorization': params.token
       },
       })
       .then((response) => {
@@ -45,8 +38,8 @@ export default class NetUtils extends Component{
         }
       })
       .catch(error => {
-        //errFn(error);
-        errFn('网络故障')
+        errFn(error);
+        //errFn('网络故障')
       });
   };
   /**
@@ -63,7 +56,7 @@ export default class NetUtils extends Component{
         method:'POST',
         headers:{
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',//key-value形式
-          'authorization': token
+          'authorization': params.token
         },
         body:newParams
       })
@@ -95,7 +88,7 @@ export default class NetUtils extends Component{
       method:'POST',
       headers:{
         'Content-Type': 'application/json;charset=UTF-8',
-        'authorization': token
+        'authorization': jsonObj.token
       },
       body:JSON.stringify(jsonObj),
     })
@@ -114,6 +107,39 @@ export default class NetUtils extends Component{
         }
     }).catch(error => {
       errFn('网络故障')
+    });
+  };
+  /**
+   * post formData形式  header为'Content-Type': 'application/json'
+   * @param {*} url 
+   * @param {*} token 
+   * @param {*} formData 
+   * @param {*} callback 
+   */
+  static postFormData(url,token,formData,callback,errFn){
+    fetch(url,{
+      method:'POST',
+      headers:{
+        'Content-Type':'multipart/form-data;multipart/form-data; boundary=----WebKitFormBoundaryhHNW3xfNyXedFQdy',
+        'authorization': token
+      },
+      body:formData,
+    })
+    .then((response) => {
+      //if(response.ok){
+        return response.json();
+      // } else {
+      //   errFn('输入错误')
+      // }
+    })
+    .then((json) => {
+        if(json.code === 200){
+          callback(json);
+        }else{
+          errFn(json.msg)
+        }
+    }).catch(error => {
+      errFn(error)
     });
   };
   /**

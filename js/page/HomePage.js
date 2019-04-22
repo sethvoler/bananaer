@@ -1,11 +1,11 @@
 
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, ScrollView, AsyncStorage} from 'react-native';
+import {Image, StyleSheet, Text, View, ScrollView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {unitWidth}from '../util/AdapterUtil'; 
 import MySwiper from '../common/MySwiper';
 import Video from '../common/Video';
 import Api from '../expand/api';
-
 
 type Props = {};
 
@@ -16,6 +16,7 @@ export default class HomePage extends Component<Props> {
       ads: false,
       newMediaList: [],
       mostLikeList: [],
+      sortList: [],
     }
   }
   getNewMediaList () {
@@ -39,13 +40,53 @@ export default class HomePage extends Component<Props> {
       console.log(_.state.mostLikeList);
     }, function (err) {})
   }
+  getSortList () {
+    let _ = this;
+    Api.mediaList({},function (res) {
+      let newRes = res.filter((item) => {
+        return item.categoryName !== null;
+      })
+      let toData = _.changeArr(newRes)
+      _.setState({
+        sortList: [].concat(toData)
+      })
+    }, function (err) {})
+  }
+  changeArr(arr) {
+    var map = {},
+    dest = [];
+    for(var i = 0; i < arr.length; i++){
+      var item = arr[i];
+      if(!map[item.categoryId]){
+        dest.push({
+          id: item.categoryId,
+          name: item.categoryName,
+          data: [item]
+        });
+        map[item.categoryId] = item;
+      }else{
+        for(var j = 0; j < dest.length; j++){
+          var dItem = dest[j];
+          if(dItem.id == item.categoryId){
+            dItem.data.push(item);
+            break;
+          }
+        }
+      }
+    }
+    return dest;
+  }
   componentDidMount () {
     this.getNewMediaList()
     this.getMostLikeList()
-    this.timer = setInterval(() => {
-      this.getNewMediaList()
-      this.getMostLikeList()
-    }, 1000*6)
+    this.getSortList()
+
+    // 轮询生产环境打开
+    // this.timer = setInterval(() => {
+    //   this.getNewMediaList()
+    //   this.getMostLikeList()
+    //   this.getSortList()
+    // }, 1000*30)
   }
   componentWillUnmount () {
     clearInterval(this.timer);
@@ -76,20 +117,18 @@ export default class HomePage extends Component<Props> {
           <View style={this.state.ads ? styles.gg : {display: 'none'}}>
             <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>
           </View>
-          {/* <Video
-            isHeader={true}
-            title={'国产大剧'}
-            key={3}
-            num1={3}
-            num2={3} 
-            style={2} /> */}
-          {/* <Video
-            isHeader={true}
-            title={'国产大剧'}
-            key={4}
-            num1={3}
-            num2={3} 
-            style={2} /> */}
+          {
+            this.state.sortList.map((item, index) => {
+              return (
+                <Video
+                  isHeader={true}
+                  key={index}
+                  data={item.data.length > 4 ? item.data.slice(0,4) : item.data} 
+                  title={item.name}
+                  cstyle={2} />
+              );
+            })
+          }
           <View style={styles.line}></View>
           <View style={this.state.ads ? styles.gg : {display: 'none'}}>
             <Image source={require('../res/image/gg.jpg')} style={styles.ggi}></Image>

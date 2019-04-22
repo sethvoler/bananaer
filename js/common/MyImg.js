@@ -8,8 +8,24 @@ export default class MyImg extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      commentsData: [],
+      count: 0,
     }
+  }
+  getImgCommentList (id) {
+    let _ = this;
+    Api.imgsCommentList({albumId: id}, function (data) {
+      _.setState({
+        commentsData: [].concat(data),
+      })
+      console.log('I want know:',_.state.commentsData);
+    }, function (msg) {
+      _.setState({
+        flag: true,
+        content: msg,
+      })
+    })
   }
   getImgList (id) {
     let _ = this;
@@ -24,27 +40,66 @@ export default class MyImg extends Component<Props> {
       })
     })
   }
+  dz (id) {
+    let _ = this;
+    Api.imgsLike({albumId: id}, function (data) {
+      _.getImgsMsg(id);
+    }, function (msg) {
+      _.setState({
+        flag: true,
+        content: msg,
+      })
+    })
+  }
+  getImgsMsg (id) {
+    let _ = this;
+    Api.imgsMsg({albumId: id}, function (data) {
+      _.setState({
+        count: data.likeCount
+      })
+    }, function (msg) {
+      _.setState({
+        flag: true,
+        content: msg,
+      })
+    })
+  }
+  componentDidMount () {
+    this.getImgsMsg(this.props.id);
+    this.getImgList (this.props.id);
+    this.getImgCommentList (this.props.id);
+  }
   render () {
-    let {img, likeCount, name, id} = this.props;
-    this.getImgList(id);
+    let {img, name, id} = this.props;
     return (
-      <View style={styles.wrap}>
-        <View style={styles.box}>
-          {/* <Image style={styles.img} source={imgs[img]}></Image> */}
-          <Image style={styles.img} source={{uri: img}} resizeMode={'stretch'}></Image>
-          <Text style={styles.inl}>
-            {name}
-          </Text>
-          <Text style={styles.inr}>{this.state.data.length}张</Text>
+        <View style={styles.wrap}>
+          <TouchableOpacity onPress={() => {
+            NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'ImgListPage');
+          }}>
+            <View style={styles.box}>
+              <Image style={styles.img} source={{uri: img}} resizeMode={'stretch'}></Image>
+              <Text style={styles.inl}>
+                {name}
+              </Text>
+              <Text style={styles.inr}>{this.state.data.length}张</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.b}>
+            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => {
+                  this.dz(id);
+                }}>
+              <Image style={styles.ii} source={require('../res/image/dz.png')}></Image>
+              <Text style={styles.tt}>{this.state.count}</Text>
+            </TouchableOpacity>
+            <Image style={styles.ii} source={require('../res/image/pl.png')}></Image>
+            <TouchableOpacity onPress={() => {
+                NavigationUtil.goToPage({navigation: this.props.navigation, id: id}, 'ImgListPage');
+              }}>
+              <Text style={styles.tt}>{this.state.commentsData.length}</Text>
+            </TouchableOpacity>
+            <Image style={styles.o} source={require('../res/image/fx.png')}></Image>
+          </View>
         </View>
-        <View style={styles.b}>
-          <Image style={styles.ii} source={require('../res/image/dz.png')}></Image>
-          <Text style={styles.tt}>{likeCount}</Text>
-          <Image style={styles.ii} source={require('../res/image/pl.png')}></Image>
-          <Text style={styles.tt}>28</Text>
-          <Image style={styles.o} source={require('../res/image/fx.png')}></Image>
-        </View>
-      </View>
     );
   }
 }

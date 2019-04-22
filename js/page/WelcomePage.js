@@ -53,19 +53,9 @@ export default class WelcomePage extends Component<Props> {
   componentDidMount () {
     this.settings();
     AsyncStorage.setItem('times', '0', error => {});
-    // this.timer = setTimeout(() => {
-    //   NavigationUtil.goToPage({
-    //     navigation: this.props.navigation
-    //   }, 'FetchDemoPage');
-    // }, 7000); 
-      // if (!this.state.isLoading) {
-        this.backTime();
-        
-
-
+    this.backTime();
   }
   componentWillUnmount () {
-    // this.timer1 && clearTimeout(this.timer1);
     this.interTimer && clearInterval(this.interTimer);
   }
   static navigationOptions = {
@@ -105,7 +95,6 @@ export default class WelcomePage extends Component<Props> {
   }
 
 
-
   render() {
     return (
       <View style={{flex: 1}}>
@@ -119,8 +108,6 @@ export default class WelcomePage extends Component<Props> {
           resizeMode={'stretch'}
           onLoad={() => {this.suc()}}
           ></Image>
-          
-
           {this.toRed(this.state.isLoading)}
         <MB 
           content={this.state.content} 
